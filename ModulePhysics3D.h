@@ -26,12 +26,14 @@ public:
 	bool CleanUp();
 
 	PhysBody3D* AddBody(const Sphere& sphere, float mass = 1.0f);
+	PhysBody3D* AddBox(const Cube& cube, float mass = 1.0f);
 
 	// TODO 1: Code a method that adds a point 2 point constraint between two bodies
 	btPoint2PointConstraint* CreateP2PConstraint(PhysBody3D* rbA, PhysBody3D* rbB, const btVector3& posA, const btVector3& posB);
 
 	// TODO 3: Code a method that adds a hinge constraint between two bodies
-	btHingeConstraint* CreateHingeConstraint(PhysBody3D* rbA, PhysBody3D* rbB, const btVector3& posA, const btVector3& posB, btVector3& axisInA, btVector3& axisInB);
+	btHingeConstraint* CreateHingeConstraint(PhysBody3D* rbA, PhysBody3D* rbB, const btVector3& posA, const btVector3& posB, btVector3& axisInA, btVector3& axisInB);
+
 
 private:
 

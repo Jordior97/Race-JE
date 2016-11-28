@@ -27,9 +27,6 @@ public:
 	PhysBody3D* pb_snake2[MAX_SNAKE];
 	Sphere s_snake2[MAX_SNAKE];
 
-
-	PhysBody3D* b1;
-	Sphere sphere1;
-	PhysBody3D* b2;
-	Sphere sphere2;
+	PhysBody3D* box;
+	Cube boxShape;
 };

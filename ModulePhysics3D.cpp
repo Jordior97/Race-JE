@@ -205,6 +205,35 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
 	return pbody;
 }
 
+PhysBody3D * ModulePhysics3D::AddBox(const Cube& cube, float mass)
+{
+	const btVector3 vec(cube.size.x*0.5, cube.size.y*0.5, cube.size.z*0.5);
+
+	btCollisionShape* colShape = new btBoxShape(vec);
+	shapes.add(colShape);
+
+	btTransform startTransform;
+	startTransform.setFromOpenGLMatrix(&cube.transform);
+
+	btVector3 localInertia(0, 0, 0);
+	if (mass != 0.f)
+		colShape->calculateLocalInertia(mass, localInertia);
+
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	motions.add(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody3D* pbody = new PhysBody3D(body);
+
+	body->setUserPointer(pbody);
+	world->addRigidBody(body);
+	bodies.add(pbody);
+
+	return pbody;
+}
+
+
 btPoint2PointConstraint* ModulePhysics3D::CreateP2PConstraint(PhysBody3D* rbA, PhysBody3D* rbB, const btVector3& posA, const btVector3& posB)
 {
 	btVector3 med_distance = (posA + posB)*0.5;

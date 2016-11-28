@@ -59,6 +59,10 @@ bool ModuleSceneIntro::Start()
 
 	}
 
+	boxShape.SetPos(4, 4, 4);
+	boxShape.size = (2, 2, 2);
+	box = App->physics->AddBox(boxShape, 0);
+
 	return ret;
 }
 
@@ -76,6 +80,9 @@ update_status ModuleSceneIntro::Update(float dt)
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
+
+	box->GetTransform(&boxShape.transform);
+	boxShape.Render();
 
 	//Uncomment when ready
 	for(int i = 0; i < MAX_SNAKE; ++i)
