@@ -9,6 +9,13 @@
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
+enum Direction
+{
+	FRONT,
+	LEFT,
+	RIGHT
+};
+
 class DebugDrawer;
 struct PhysBody3D;
 
@@ -34,6 +41,8 @@ public:
 	// TODO 3: Code a method that adds a hinge constraint between two bodies
 	btHingeConstraint* CreateHingeConstraint(PhysBody3D* rbA, PhysBody3D* rbB, const btVector3& posA, const btVector3& posB, btVector3& axisInA, btVector3& axisInB);
 
+	//Functionts for Create Map
+	PhysBody3D* CreateStraight(Cube& cube, int lenght, Direction type, bool isRotation, int angle);
 
 private:
 

@@ -3,6 +3,7 @@
 #include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
 #include "Primitive.h"
+#include "ModuleSceneIntro.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -250,6 +251,41 @@ btHingeConstraint * ModulePhysics3D::CreateHingeConstraint(PhysBody3D *rbA, Phys
 	world->addConstraint(constraint);
 
 	return constraint;
+}
+
+PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, int lenght, Direction type, bool isRotation, int angle)
+{
+	PhysBody3D* tm;
+
+	/*if (type == FRONT)
+	{
+		cube.size.Set(2 + lenght, 2, 2);
+	}
+	else if (type == LEFT)
+	{
+		cube.size.Set(2, 2, 2 + lenght);
+	}
+	else
+	{
+		cube.size.Set(2, 2, 2 + lenght);
+	}*/
+	cube.size.Set(6, 1, 3);
+	if (isRotation)
+	{
+		App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x + cube.size.x, 0, 0);
+	}
+	else
+	{
+		App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x + cube.size.x, 0, 0);
+	}
+
+
+	cube.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
+	tm = AddBox(cube, 0);
+
+
+
+	return tm;
 }
 
 // ---------------------------------------------------------
