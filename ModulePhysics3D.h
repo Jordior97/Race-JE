@@ -45,6 +45,7 @@ public:
 	//Functionts for Create Map
 	PhysBody3D* CreateStraight(Cube& cube, int lenght, Direction type, bool isRotation, int angle);
 	void CreateUPER(Cube& cube, Cube& cube_1, Cube& cube_2, int lenght, int altura, Direction type);
+	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, int lenght, Direction type, Direction type_of_come);
 
 private:
 
