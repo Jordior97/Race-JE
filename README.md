@@ -8,9 +8,9 @@ Our goal is to make a map, where you drive a car and you have to overcome a numb
 
 ###Release 0.1
 In this release we implemented 3 functions:
-	- PhysBody3D* CreateStraight(), This function creates a straight road.
-	- void CreateUPER(), This function creates a uphill road. ("need some adjustments.")
-	- void CreateCurve(), This function creates a curve.
+- PhysBody3D* CreateStraight(), This function creates a straight road.
+- void CreateUPER(), This function creates a uphill road. ("need some adjustments.")
+- void CreateCurve(), This function creates a curve.
 
 	In order to see what each function does, we have created a mini map with each function.
 
