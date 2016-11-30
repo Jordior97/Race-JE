@@ -11,9 +11,10 @@
 
 enum Direction
 {
-	FRONT,
-	LEFT,
-	RIGHT
+	NORTH,
+	EAST,
+	SOUTH,
+	WEST
 };
 
 class DebugDrawer;
@@ -43,6 +44,7 @@ public:
 
 	//Functionts for Create Map
 	PhysBody3D* CreateStraight(Cube& cube, int lenght, Direction type, bool isRotation, int angle);
+	void CreateUPER(Cube& cube, Cube& cube_1, Cube& cube_2, int lenght, int altura, Direction type);
 
 private:
 
@@ -58,6 +60,7 @@ private:
 	p2List<btCollisionShape*> shapes;
 	p2List<PhysBody3D*> bodies;
 	p2List<btDefaultMotionState*> motions;
+
 };
 
 class DebugDrawer : public btIDebugDraw

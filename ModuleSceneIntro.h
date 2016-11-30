@@ -4,7 +4,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#define MAX_OBJECTS 5
+#define MAX_OBJECTS 12
 
 struct PhysBody3D;
 
@@ -24,6 +24,6 @@ public:
 
 	PhysBody3D* Map[MAX_OBJECTS];
 	Cube Cubes[MAX_OBJECTS];
-
+	p2List<PhysBody3D*> ob;
 	vec3 ActualPos;
 };
