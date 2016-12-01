@@ -41,9 +41,9 @@ bool ModuleSceneIntro::Start()
 	ActualPos.z = 20;
 	Map[8] = App->physics->CreateStraight(Cubes[8], 6, NORTH, false, 0);
 	App->physics->CreateUPER(Cubes[9], Cubes[10], Cubes[11], 8, 10, EAST);
-	Map[9] = ob.getFirst()->data;
-	Map[10] = ob.getFirst()->next->data;
-	Map[11] = ob.getFirst()->next->next->data;
+	Map[9] = upper.getFirst()->data;
+	Map[10] = upper.getFirst()->next->data;
+	Map[11] = upper.getFirst()->next->next->data;
 
 	//MAP3
 	ActualPos.x = 30;
@@ -66,9 +66,9 @@ bool ModuleSceneIntro::Start()
 	Map[19] = curve.getFirst()->next->data;
 	Map[20] = curve.getFirst()->next->next->data;
 	App->physics->CreateUPER(Cubes[21], Cubes[22], Cubes[23], 8, 10, EAST);
-	Map[21] = ob.getFirst()->data;
-	Map[22] = ob.getFirst()->next->data;
-	Map[23] = ob.getFirst()->next->next->data;
+	Map[21] = upper.getFirst()->data;
+	Map[22] = upper.getFirst()->next->data;
+	Map[23] = upper.getFirst()->next->next->data;
 
 	Map[24] = App->physics->CreateStraight(Cubes[24], 5, EAST, false, 0);
 
@@ -102,9 +102,32 @@ bool ModuleSceneIntro::Start()
 	Map[45] = curve.getFirst()->next->next->data;
 	Map[46] = App->physics->CreateStraight(Cubes[46], 8, EAST, false, 0);
 
+	App->physics->CreateDOWNER(Cubes[47], Cubes[48], Cubes[49], 6, 5, EAST);
+	Map[47] = downer.getFirst()->data;
+	Map[48] = downer.getFirst()->next->data;
+	Map[49] = downer.getFirst()->next->next->data;
 
+	App->physics->CreateCurve(Cubes[50], Cubes[51], Cubes[52], 6, EAST, SOUTH);
+	Map[50] = curve.getFirst()->data;
+	Map[51] = curve.getFirst()->next->data;
+	Map[52] = curve.getFirst()->next->next->data;
 
+	App->physics->CreateCurve(Cubes[53], Cubes[54], Cubes[55], 6, SOUTH, WEST);
+	Map[53] = curve.getFirst()->data;
+	Map[54] = curve.getFirst()->next->data;
+	Map[55] = curve.getFirst()->next->next->data;
 
+	App->physics->CreateDOWNER(Cubes[56], Cubes[57], Cubes[58], 6, 5, WEST);
+	Map[56] = downer.getFirst()->data;
+	Map[57] = downer.getFirst()->next->data;
+	Map[58] = downer.getFirst()->next->next->data;
+
+	Map[59] = App->physics->CreateStraight(Cubes[59], 10, WEST, false, 0);
+	App->physics->CreateCurve(Cubes[60], Cubes[61], Cubes[62], 9.5, WEST, NORTH);
+	Map[60] = curve.getFirst()->data;
+	Map[61] = curve.getFirst()->next->data;
+	Map[62] = curve.getFirst()->next->next->data;
+	Map[63] = App->physics->CreateStraight(Cubes[63], 9, NORTH, false, 0);
 
 
 

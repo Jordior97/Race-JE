@@ -43,9 +43,10 @@ public:
 	btHingeConstraint* CreateHingeConstraint(PhysBody3D* rbA, PhysBody3D* rbB, const btVector3& posA, const btVector3& posB, btVector3& axisInA, btVector3& axisInB);
 
 	//Functionts for Create Map
-	PhysBody3D* CreateStraight(Cube& cube, int lenght, Direction type, bool isRotation, int angle);
-	void CreateUPER(Cube& cube, Cube& cube_1, Cube& cube_2, int lenght, int altura, Direction type);
-	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, int lenght, Direction type, Direction type_of_come);
+	PhysBody3D* CreateStraight(Cube& cube, float lenght, Direction type, bool isRotation, float angle);
+	void CreateUPER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float altura, Direction type);
+	void CreateDOWNER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float altura, Direction type);
+	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, Direction type, Direction type_of_come);
 
 private:
 
