@@ -40,27 +40,70 @@ bool ModuleSceneIntro::Start()
 	ActualPos.y = 0;
 	ActualPos.z = 20;
 	Map[8] = App->physics->CreateStraight(Cubes[8], 6, NORTH, false, 0);
-	App->physics->CreateUPER(Cubes[9], Cubes[10], Cubes[11], 10, 10, NORTH);
+	App->physics->CreateUPER(Cubes[9], Cubes[10], Cubes[11], 8, 10, EAST);
 	Map[9] = ob.getFirst()->data;
 	Map[10] = ob.getFirst()->next->data;
 	Map[11] = ob.getFirst()->next->next->data;
 
 	//MAP3
-	ActualPos.x = 0;
+	ActualPos.x = 30;
 	ActualPos.y = 0;
-	ActualPos.z = 0;
 	ActualPos.z = 40;
 	Map[12] = App->physics->CreateStraight(Cubes[12], 6, NORTH, false, 0);
-	App->physics->CreateCurve(Cubes[13], Cubes[14], Cubes[15], 5, EAST, NORTH);
+	App->physics->CreateCurve(Cubes[13], Cubes[14], Cubes[15], 6, SOUTH, EAST);
 	Map[13] = curve.getFirst()->data;
 	Map[14] = curve.getFirst()->next->data;
 	Map[15] = curve.getFirst()->next->next->data;
 	Map[16] = App->physics->CreateStraight(Cubes[16], 6, EAST, true, 0);
 
-
-	ActualPos.x = 30;
+	//MAP 4 - TEST
+	ActualPos.x = -50;
 	ActualPos.y = 0;
 	ActualPos.z = 0;
+	Map[17] = App->physics->CreateStraight(Cubes[17], 10, NORTH, false, 0);
+	App->physics->CreateCurve(Cubes[18], Cubes[19], Cubes[20], 5, NORTH, EAST);
+	Map[18] = curve.getFirst()->data;
+	Map[19] = curve.getFirst()->next->data;
+	Map[20] = curve.getFirst()->next->next->data;
+	App->physics->CreateUPER(Cubes[21], Cubes[22], Cubes[23], 8, 10, EAST);
+	Map[21] = ob.getFirst()->data;
+	Map[22] = ob.getFirst()->next->data;
+	Map[23] = ob.getFirst()->next->next->data;
+
+	Map[24] = App->physics->CreateStraight(Cubes[24], 5, EAST, false, 0);
+
+	App->physics->CreateCurve(Cubes[25], Cubes[26], Cubes[27], 5, EAST, SOUTH);
+	Map[25] = curve.getFirst()->data;
+	Map[26] = curve.getFirst()->next->data;
+	Map[27] = curve.getFirst()->next->next->data;
+
+	App->physics->CreateCurve(Cubes[28], Cubes[29], Cubes[30], 5, SOUTH, WEST);
+	Map[28] = curve.getFirst()->data;
+	Map[29] = curve.getFirst()->next->data;
+	Map[30] = curve.getFirst()->next->next->data;
+	Map[31] = App->physics->CreateStraight(Cubes[31], 10, WEST, false, 0);
+	App->physics->CreateCurve(Cubes[32], Cubes[33], Cubes[34], 5, WEST, NORTH);
+	Map[32] = curve.getFirst()->data;
+	Map[33] = curve.getFirst()->next->data;
+	Map[34] = curve.getFirst()->next->next->data;
+	Map[35] = App->physics->CreateStraight(Cubes[35], 15, NORTH, false, 0);
+	App->physics->CreateCurve(Cubes[36], Cubes[37], Cubes[38], 4, NORTH, WEST);
+	Map[36] = curve.getFirst()->data;
+	Map[37] = curve.getFirst()->next->data;
+	Map[38] = curve.getFirst()->next->next->data;
+	App->physics->CreateCurve(Cubes[39], Cubes[40], Cubes[41], 4, WEST, SOUTH);
+	Map[39] = curve.getFirst()->data;
+	Map[40] = curve.getFirst()->next->data;
+	Map[41] = curve.getFirst()->next->next->data;
+	Map[42] = App->physics->CreateStraight(Cubes[42], 20, SOUTH, false, 0);
+	App->physics->CreateCurve(Cubes[43], Cubes[44], Cubes[45], 6, SOUTH, EAST);
+	Map[43] = curve.getFirst()->data;
+	Map[44] = curve.getFirst()->next->data;
+	Map[45] = curve.getFirst()->next->next->data;
+	Map[46] = App->physics->CreateStraight(Cubes[46], 8, EAST, false, 0);
+
+
+
 
 
 
@@ -97,5 +140,6 @@ update_status ModuleSceneIntro::Update(float dt)
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
+
 }
 

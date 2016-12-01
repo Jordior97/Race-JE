@@ -4,7 +4,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#define MAX_OBJECTS 17
+#define MAX_OBJECTS 47
 
 struct PhysBody3D;
 
