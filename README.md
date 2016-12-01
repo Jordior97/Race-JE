@@ -6,11 +6,19 @@ Welcome to our game, it made with Bullet Physics.
 
 Our goal is to make a map, where you drive a car and you have to overcome a number of obstacles.
 
+###Release 0.2
+In this release we implemented 1 function, but now you can see a map complet with curves,uphill road, etc... 
+- void CreateDOWNER(), This fucntion creates a road to go down. ("need some adjustments.")
+
+Corrections of Release 0.1:
+- Fixed error with function CreateCurves, now create curves correctly.
+
 ###Release 0.1
 In this release we implemented 3 functions:
 - PhysBody3D* CreateStraight(), This function creates a straight road.
 - void CreateUPER(), This function creates a uphill road. ("need some adjustments.")
 - void CreateCurve(), This function creates a curve.
+
 
 	In order to see what each function does, we have created a mini map with each function.
 
