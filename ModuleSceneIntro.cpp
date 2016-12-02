@@ -2,10 +2,13 @@
 #include "Application.h"
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
+#include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	new_object = 1;
+	objects = OBJECTS + new_object;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -129,7 +132,13 @@ bool ModuleSceneIntro::Start()
 	Map[62] = curve.getFirst()->next->next->data;
 	Map[63] = App->physics->CreateStraight(Cubes[63], 9, NORTH, false, 0);
 
-
+	//MAP CUSTOM
+	ActualPos.x = -50;
+	ActualPos.y = 0;
+	ActualPos.z = -50;
+	new_object = 1;
+	Map[64] = App->physics->CreateStraight(Cubes[64], 6, NORTH, false, 0);
+	Save_dir = NORTH;
 
 	return ret;
 }
@@ -148,13 +157,89 @@ update_status ModuleSceneIntro::Update(float dt)
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
 	p.Render();
-	ActualPos;
-	for (int i = 0; i < MAX_OBJECTS; i++)
+
+	for (int i = 0; i < objects; i++)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		objects += 1;
+		Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	{
+		key_2 = true;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+	{
+		objects += 1;
+		objects += 1;
+		objects += 1;
+		App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 8, 10, Save_dir);
+		Map[objects - 3] = upper.getFirst()->data;
+		Map[objects - 2] = upper.getFirst()->next->data;
+		Map[objects - 1] = upper.getFirst()->next->next->data;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+	{
+		objects += 1;
+		objects += 1;
+		objects += 1;
+		App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 6, 10, Save_dir);
+		Map[objects - 3] = downer.getFirst()->data;
+		Map[objects - 2] = downer.getFirst()->next->data;
+		Map[objects - 1] = downer.getFirst()->next->next->data;
+	}
+	if (key_2)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		{
+			if (Save_dir == NORTH)
+			{
+				Save_dir = WEST;
+			}
+			else if (Save_dir == WEST)
+			{
+				Save_dir = SOUTH;
+			}
+			else if (Save_dir == SOUTH)
+			{
+				Save_dir = EAST;
+			}
+			else if (Save_dir == EAST)
+			{
+				Save_dir = NORTH;
+			}
+			objects += 1;
+			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0);
+			key_2 = false;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		{
+			if (Save_dir == NORTH)
+			{
+				Save_dir = EAST;
+			}
+			else if (Save_dir == EAST)
+			{
+				Save_dir = SOUTH;
+			}
+			else if (Save_dir == SOUTH)
+			{
+				Save_dir = WEST;
+			}
+			else if (Save_dir == WEST)
+			{
+				Save_dir = NORTH;
+			}
+			objects += 1;
+			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0);
+			key_2 = false;
+		}
+	}
 
 
 

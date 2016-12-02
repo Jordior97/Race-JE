@@ -4,9 +4,11 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#define MAX_OBJECTS 64
+#define OBJECTS 64
+#define MAX_OBJECTS 100
 
 struct PhysBody3D;
+enum Direction;
 
 class ModuleSceneIntro : public Module
 {
@@ -22,10 +24,14 @@ public:
 
 public:
 
+	uint objects;
 	PhysBody3D* Map[MAX_OBJECTS];
 	Cube Cubes[MAX_OBJECTS];
 	p2List<PhysBody3D*> upper;	
 	p2List<PhysBody3D*> downer;
 	p2List<PhysBody3D*> curve;
 	vec3 ActualPos;
+	uint new_object = 1;
+	Direction Save_dir;
+	bool key_2 = false;
 };
