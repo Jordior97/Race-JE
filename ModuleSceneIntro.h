@@ -36,15 +36,17 @@ public:
 	Direction Save_dir;
 	bool key_2 = false;
 
-	PhysBody3D* pb_chassis;
-	Cube p_chassis;
+	PhysBody3D* Stick;
+	Cube StickShape;
 
-	PhysBody3D* pb_wheel;
-	Cylinder p_wheel;
+	PhysBody3D* Ball;
+	Sphere Ballshape;
 
-	PhysBody3D* pb_wheel2;
-	Cylinder p_wheel2;
+	PhysBody3D* Up;
+	Cube UpShape;
 
-	PhysMotor3D* left_wheel;
-	PhysMotor3D* right_wheel;
+	PhysBody3D* Down;
+	Cube DownShape;
+
+
 };

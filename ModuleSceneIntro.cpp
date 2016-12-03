@@ -26,7 +26,36 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	btVector3 pos[8];
+	StickShape.SetPos(0, 2.5, 0);
+	StickShape.size.Set(2, 5, 2);
+	Stick = App->physics->AddBox(StickShape, 0);
+
+	Ballshape.SetPos(4, 5, 3);
+	Ballshape.radius = 1;
+	Ball = App->physics->AddBody(Ballshape, 1);
+
+	UpShape.SetPos(4, 7.5, 0);
+	UpShape.size.Set(1, 2, 1);
+	Up = App->physics->AddBox(UpShape, 1);
+
+	DownShape.SetPos(4, 2.5, 0);
+	DownShape.size.Set(1, 2, 1);
+	Down = App->physics->AddBox(DownShape, 1);
+
+	vec3 vec1(4, 2.5, 0);
+	vec3 vec2(0, 0, 0);
+	vec3 vecUp(0, 2.25, 0);
+	vec3 vecDown(0, -2.25, 0);
+
+	vec3 axis(1, 0, 0);
+	vec3 axis1(0, 1, 0);
+	vec3 axis2(0, 0, 1);
+
+	App->physics->AddConstraintHinge(Stick, Ball, vec1, vec2, axis, axis);
+	App->physics->AddConstraintHinge(Ball, Up, vecUp, vec2, axis1, axis1);
+	App->physics->AddConstraintHinge(Ball, Down, vecDown, vec2, axis1, axis1);
+
+	/*
 	//MAP 1
 	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0);
 	Map[1] = App->physics->CreateStraight(Cubes[1], 6, EAST, true, 0);
@@ -137,7 +166,7 @@ bool ModuleSceneIntro::Start()
 	ActualPos.z = -50;
 	new_object = 1;
 	Map[64] = App->physics->CreateStraight(Cubes[64], 6, NORTH, false, 0);
-	Save_dir = NORTH;
+	Save_dir = NORTH;*/
 
 	return ret;
 }
@@ -157,11 +186,23 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-	for (int i = 0; i < objects; i++)
+	Stick->GetTransform(&StickShape.transform);
+	StickShape.Render();
+
+	Ball->GetTransform(&Ballshape.transform);
+	Ballshape.Render();
+
+	Up->GetTransform(&UpShape.transform);
+	UpShape.Render();
+
+	Down->GetTransform(&DownShape.transform);
+	DownShape.Render();
+
+	/*for (int i = 0; i < objects; i++)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
-	}
+	}*/
 
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
