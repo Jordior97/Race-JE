@@ -19,7 +19,7 @@ public:
 	void SetPos(float x, float y, float z);
 
 private:
-	btRigidBody* body;
+	btRigidBody* body = nullptr;
 
 public:
 	p2List<Module*> collision_listeners;

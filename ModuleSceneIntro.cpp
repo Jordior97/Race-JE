@@ -7,8 +7,7 @@
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	new_object = 1;
-	objects = OBJECTS + new_object;
+	objects = 64;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
