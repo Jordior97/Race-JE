@@ -19,6 +19,12 @@ void PhysBody3D::Push(float x, float y, float z)
 }
 
 // ---------------------------------------------------------
+void PhysBody3D::Torque(float x, float y, float z)
+{
+	body->applyTorqueImpulse(btVector3(x, y, z));
+}
+
+// ---------------------------------------------------------
 void PhysBody3D::GetTransform(float* matrix) const
 {
 	if(body != NULL && matrix != NULL)

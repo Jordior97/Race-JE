@@ -48,5 +48,11 @@ public:
 	PhysBody3D* Down;
 	Cube DownShape;
 
+	PhysBody3D* Left;
+	Cube LeftShape;
+
+	PhysBody3D* Right;
+	Cube RightShape;
+
 
 };

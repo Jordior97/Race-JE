@@ -30,22 +30,37 @@ bool ModuleSceneIntro::Start()
 	StickShape.size.Set(2, 5, 2);
 	Stick = App->physics->AddBox(StickShape, 0);
 
-	Ballshape.SetPos(4, 5, 3);
+	Ballshape.SetPos(4, 5, 0);
 	Ballshape.radius = 1;
+	Ballshape.color = Red;
 	Ball = App->physics->AddBody(Ballshape, 1);
 
 	UpShape.SetPos(4, 7.5, 0);
 	UpShape.size.Set(1, 2, 1);
+	UpShape.color = Blue;
 	Up = App->physics->AddBox(UpShape, 1);
-
+	
 	DownShape.SetPos(4, 2.5, 0);
 	DownShape.size.Set(1, 2, 1);
+	DownShape.color = Blue;
 	Down = App->physics->AddBox(DownShape, 1);
+
+	RightShape.SetPos(4, 5, 2.5);
+	RightShape.size.Set(1, 1, 2);
+	RightShape.color = Blue;
+	Right = App->physics->AddBox(RightShape, 1);
+
+	LeftShape.SetPos(4, 5, 2.5);
+	LeftShape.size.Set(1, 1, 2);
+	LeftShape.color = Blue;
+	Left = App->physics->AddBox(LeftShape, 1);
 
 	vec3 vec1(4, 2.5, 0);
 	vec3 vec2(0, 0, 0);
 	vec3 vecUp(0, 2.25, 0);
 	vec3 vecDown(0, -2.25, 0);
+	vec3 vecLeft(0, 0, -2.25);
+	vec3 vecRight(0, 0, 2.25);
 
 	vec3 axis(1, 0, 0);
 	vec3 axis1(0, 1, 0);
@@ -54,6 +69,9 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddConstraintHinge(Stick, Ball, vec1, vec2, axis, axis);
 	App->physics->AddConstraintHinge(Ball, Up, vecUp, vec2, axis1, axis1);
 	App->physics->AddConstraintHinge(Ball, Down, vecDown, vec2, axis1, axis1);
+	App->physics->AddConstraintHinge(Ball, Right, vecRight, vec2, axis2, axis2);
+	App->physics->AddConstraintHinge(Ball, Left, vecLeft, vec2, axis2, axis2);
+
 
 	/*
 	//MAP 1
@@ -191,12 +209,19 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	Ball->GetTransform(&Ballshape.transform);
 	Ballshape.Render();
+	Ball->Torque(0.5, 0, 0);
 
 	Up->GetTransform(&UpShape.transform);
 	UpShape.Render();
 
 	Down->GetTransform(&DownShape.transform);
 	DownShape.Render();
+
+	Right->GetTransform(&RightShape.transform);
+	RightShape.Render();
+
+	Left->GetTransform(&LeftShape.transform);
+	LeftShape.Render();
 
 	/*for (int i = 0; i < objects; i++)
 	{
