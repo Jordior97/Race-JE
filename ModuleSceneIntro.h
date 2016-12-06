@@ -53,6 +53,4 @@ public:
 
 	PhysBody3D* Right;
 	Cube RightShape;
-
-
 };

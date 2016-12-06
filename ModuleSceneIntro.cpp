@@ -4,6 +4,8 @@
 #include "Primitive.h"
 #include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
+#include "ModulePlayer.h"
+#include "PhysVehicle3D.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -23,7 +25,7 @@ bool ModuleSceneIntro::Start()
 	ActualPos.y = 0;
 	ActualPos.z = 0;
 
-	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
+	App->camera->Move(vec3(0.0f, 30.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	StickShape.SetPos(0, 2.5, 0);
@@ -204,6 +206,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
+	// WINDMILL ---------------------------
+
 	Stick->GetTransform(&StickShape.transform);
 	StickShape.Render();
 
@@ -222,6 +226,9 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	Left->GetTransform(&LeftShape.transform);
 	LeftShape.Render();
+
+	//---------------------------
+
 
 	/*for (int i = 0; i < objects; i++)
 	{

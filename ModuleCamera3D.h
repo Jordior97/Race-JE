@@ -2,6 +2,9 @@
 #include "Module.h"
 #include "Globals.h"
 #include "glmath.h"
+#include "Bullet/include/btBulletDynamicsCommon.h"
+
+enum CameraPos { THIRD_PERSON, SKY };
 
 class ModuleCamera3D : public Module
 {
@@ -25,6 +28,9 @@ private:
 public:
 	
 	vec3 X, Y, Z, Position, Reference;
+	CameraPos state = SKY;
+	btVector3 temp;
+	vec3 player_pos;
 
 private:
 

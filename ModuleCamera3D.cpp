@@ -1,6 +1,9 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleCamera3D.h"
+#include "ModulePlayer.h"
+#include "PhysVehicle3D.h"
+#include "PhysBody3D.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -40,7 +43,7 @@ update_status ModuleCamera3D::Update(float dt)
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
 
-	vec3 newPos(0,0,0);
+	/*vec3 newPos(0,0,0);
 	float speed = 3.0f * dt;
 	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 28.0f * dt;
@@ -51,16 +54,15 @@ update_status ModuleCamera3D::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
 
-
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
 
 	Position += newPos;
-	Reference += newPos;
+	Reference += newPos;*/
 
 	// Mouse motion ----------------
 
-	if(App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	/*if(App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
@@ -93,7 +95,52 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 
 		Position = Reference + Z * length(Position);
+	}*/
+
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN)
+	{
+		state = SKY;
 	}
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		state = THIRD_PERSON;
+	}
+
+	temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
+	player_pos.Set(temp.getX(), temp.getY(), temp.getZ());
+
+	switch (state)
+	{
+	case THIRD_PERSON:
+		{
+			Position.x = player_pos.x;
+			Reference.x = player_pos.x;
+			Position.y = (player_pos.y + 5);
+			Reference.y = (player_pos.y + 5);
+			Position.z = (player_pos.z - 5);
+			Reference.z = (player_pos.z - 5);
+			break;
+		}
+
+	case SKY:
+		{
+			Position.x = 0;
+			Reference.x = 0;
+			Position.y = 20;
+			Reference.y = 20;
+			Position.z = 0;
+			Reference.z = 0;
+			break;
+		}
+	default:
+	{
+		break;
+	}
+	}
+
+	LookAt(player_pos);
+
+
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
