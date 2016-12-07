@@ -126,8 +126,8 @@ update_status ModuleCamera3D::Update(float dt)
 		{
 			Position.x = 0;
 			Reference.x = 0;
-			Position.y = 20;
-			Reference.y = 20;
+			Position.y = 50;
+			Reference.y = 50;
 			Position.z = 0;
 			Reference.z = 0;
 			break;

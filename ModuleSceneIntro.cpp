@@ -27,8 +27,9 @@ bool ModuleSceneIntro::Start()
 
 	App->camera->Move(vec3(0.0f, 30.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+	CreateMap(10, 10);
 
-	StickShape.SetPos(0, 2.5, 0);
+	/*StickShape.SetPos(0, 2.5, 0);
 	StickShape.size.Set(2, 5, 2);
 	Stick = App->physics->AddBox(StickShape, 0);
 
@@ -72,7 +73,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddConstraintHinge(Ball, Up, vecUp, vec2, axis1, axis1);
 	App->physics->AddConstraintHinge(Ball, Down, vecDown, vec2, axis1, axis1);
 	App->physics->AddConstraintHinge(Ball, Right, vecRight, vec2, axis2, axis2);
-	App->physics->AddConstraintHinge(Ball, Left, vecLeft, vec2, axis2, axis2);
+	App->physics->AddConstraintHinge(Ball, Left, vecLeft, vec2, axis2, axis2);*/
 
 
 	/*
@@ -208,7 +209,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	// WINDMILL ---------------------------
 
-	Stick->GetTransform(&StickShape.transform);
+	/*Stick->GetTransform(&StickShape.transform);
 	StickShape.Render();
 
 	Ball->GetTransform(&Ballshape.transform);
@@ -225,7 +226,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	RightShape.Render();
 
 	Left->GetTransform(&LeftShape.transform);
-	LeftShape.Render();
+	LeftShape.Render();*/
 
 	//---------------------------
 
@@ -235,6 +236,12 @@ update_status ModuleSceneIntro::Update(float dt)
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
 	}*/
+
+	for (int i = 0; i < MAX_OBJECTS; i++)
+	{
+		SplatoonMap[i]->GetTransform(&(SplatoonShapes[i].transform));
+		SplatoonShapes[i].Render();
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
@@ -312,14 +319,31 @@ update_status ModuleSceneIntro::Update(float dt)
 			key_2 = false;
 		}
 	}
-
-
-
 	return UPDATE_CONTINUE;
 }
 
-void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+/*void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 
+}*/
+
+void ModuleSceneIntro::CreateMap(int num_rows, int num_columns)
+{
+	vec3 size(5, 5, 5);
+	ActualPos.Set(-num_rows*0.5*size.x, 0, -num_columns*0.5*size.z);
+	int k = 0;
+	for (int i = 1; i <= num_columns; i++)
+	{
+		for (int j = 1; j <= num_rows; j++)
+		{
+			SplatoonShapes[k].size = size;
+			SplatoonShapes[k].SetPos(ActualPos.x + j*size.x, ActualPos.y, ActualPos.z + i*size.z);
+			SplatoonShapes[k].color = White;
+			SplatoonMap[k] = App->physics->AddBox(SplatoonShapes[k], 0);
+			k++;
+		}
+	}
 }
+
+
 

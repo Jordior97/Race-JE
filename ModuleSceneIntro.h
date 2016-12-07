@@ -21,13 +21,18 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	//void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	void CreateMap(int num_rows,int num_columns);
 
 public:
 
 	uint objects = 0;
 	PhysBody3D* Map[MAX_OBJECTS];
 	Cube Cubes[MAX_OBJECTS];
+
+	PhysBody3D* SplatoonMap[MAX_OBJECTS];
+	Cube SplatoonShapes[MAX_OBJECTS];
+
 	p2List<PhysBody3D*> upper;	
 	p2List<PhysBody3D*> downer;
 	p2List<PhysBody3D*> curve;
