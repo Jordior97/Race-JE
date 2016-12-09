@@ -113,19 +113,19 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 
 	temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
-	player_pos.Set(temp.getX(), temp.getY(), temp.getZ());
-	
-	mat4x4 vehicle_info;
+	player_pos.Set(temp.getX(), temp.getY(), temp.getZ()); //position of the car respect to the world.
 	App->player->vehicle->GetTransform(&vehicle_info);
 
 	switch (state)
 	{
 	case THIRD_PERSON:
 		{
-
+			//From the transform matrix of the car, we extract the rotation matrix of it.
 			X = vec3(vehicle_info[0], vehicle_info[1], vehicle_info[2]);
 			Y = vec3(vehicle_info[4], vehicle_info[5], vehicle_info[6]);
 			Z = vec3(vehicle_info[8], vehicle_info[9], vehicle_info[10]);
+
+			//Then we look at the player pos from behind.
 			Look((camera_pos + player_pos) - Z * 10, vec_view + player_pos, true);
 
 			break;
@@ -170,6 +170,8 @@ void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool Rota
 		this->Reference = this->Position;
 		this->Position += Z * 0.05f;
 	}
+
+	//CalculateViewMatrix();
 }
 
 // -----------------------------------------------------------------

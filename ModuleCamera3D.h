@@ -29,6 +29,9 @@ public:
 	
 	vec3 X, Y, Z, Position, Reference;
 	CameraPos state = SKY;
+
+	mat4x4 vehicle_info;
+
 	btVector3 temp;
 	vec3 player_pos;
 	vec3 camera_pos;
