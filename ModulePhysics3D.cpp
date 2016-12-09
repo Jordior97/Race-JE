@@ -415,8 +415,8 @@ void ModulePhysics3D::CreateUPER(Cube &cube_down, Cube &cube_upper, Cube &cube_u
 		App->scene_intro->ActualPos.y += 0.41f;
 		if (altura > 2)
 		{
-			App->scene_intro->ActualPos.x += ((altura / 2.0f) - 1)*0.71f;
-			App->scene_intro->ActualPos.y += ((altura / 2.0f) - 1)*0.71f;
+			App->scene_intro->ActualPos.x += ((altura / 2.0f) - 1) * 0.71f;
+			App->scene_intro->ActualPos.y += ((altura / 2.0f) - 1) * 0.71f;
 		}
 		cube_upper.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 		cube_upper.SetRotation(45, { 0, 0, 1 });

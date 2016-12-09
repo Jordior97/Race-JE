@@ -15,6 +15,9 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	Position = vec3(0.0f, 0.0f, 5.0f);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
+
+	camera_pos = vec3(0.0f, 0.0f, 0.0f);
+	vec_view = vec3(0.0f, 0.0f, 0.0f);
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -25,6 +28,9 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
+
+	camera_pos = vec3(0, 7.0f, 0);
+	vec_view = vec3(0, 5.00f, 0);
 
 	return ret;
 }
@@ -108,17 +114,20 @@ update_status ModuleCamera3D::Update(float dt)
 
 	temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
 	player_pos.Set(temp.getX(), temp.getY(), temp.getZ());
+	
+	mat4x4 vehicle_info;
+	App->player->vehicle->GetTransform(&vehicle_info);
 
 	switch (state)
 	{
 	case THIRD_PERSON:
 		{
-			Position.x = player_pos.x;
-			Reference.x = player_pos.x;
-			Position.y = (player_pos.y + 5);
-			Reference.y = (player_pos.y + 5);
-			Position.z = (player_pos.z - 5);
-			Reference.z = (player_pos.z - 5);
+
+			X = vec3(vehicle_info[0], vehicle_info[1], vehicle_info[2]);
+			Y = vec3(vehicle_info[4], vehicle_info[5], vehicle_info[6]);
+			Z = vec3(vehicle_info[8], vehicle_info[9], vehicle_info[10]);
+			Look((camera_pos + player_pos) - Z * 10, vec_view + player_pos, true);
+
 			break;
 		}
 
@@ -130,6 +139,8 @@ update_status ModuleCamera3D::Update(float dt)
 			Reference.y = 50;
 			Position.z = 0;
 			Reference.z = 0;
+			LookAt(player_pos);
+
 			break;
 		}
 	default:
@@ -137,10 +148,6 @@ update_status ModuleCamera3D::Update(float dt)
 		break;
 	}
 	}
-
-	LookAt(player_pos);
-
-
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
@@ -163,8 +170,6 @@ void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool Rota
 		this->Reference = this->Position;
 		this->Position += Z * 0.05f;
 	}
-
-	CalculateViewMatrix();
 }
 
 // -----------------------------------------------------------------
@@ -176,7 +181,7 @@ void ModuleCamera3D::LookAt( const vec3 &Spot)
 	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
 	Y = cross(Z, X);
 
-	CalculateViewMatrix();
+	//CalculateViewMatrix();
 }
 
 

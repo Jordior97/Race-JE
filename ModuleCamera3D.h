@@ -31,6 +31,9 @@ public:
 	CameraPos state = SKY;
 	btVector3 temp;
 	vec3 player_pos;
+	vec3 camera_pos;
+	vec3 vec_view;
+
 
 private:
 
