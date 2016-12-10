@@ -21,6 +21,8 @@ public:
 	void SetPos(float x, float y, float z);
 	vec3 GetPos() const;
 
+	void SetAngVel(float x, float y, float z);
+
 private:
 	btRigidBody* body = nullptr;
 

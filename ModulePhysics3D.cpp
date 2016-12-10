@@ -220,7 +220,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
 	return pbody;
 }
 
-PhysBody3D * ModulePhysics3D::AddBox(const Cube& cube, float mass)
+PhysBody3D* ModulePhysics3D::AddBox(const Cube& cube, float mass)
 {
 	const btVector3 vec(cube.size.x*.5, cube.size.y*0.5, cube.size.z*0.5);
 
@@ -393,8 +393,6 @@ PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, float lenght, Direction 
 	}
 
 	tm = AddBox(cube, 0);
-
-
 
 	return tm;
 }
@@ -870,6 +868,53 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 	App->scene_intro->curve.add(AddBox(cube, 0));
 	App->scene_intro->curve.add(AddBox(cube_1, 0));
 	App->scene_intro->curve.add(AddBox(cube_2, 0));
+}
+
+
+PhysBody3D* ModulePhysics3D::AddBlow(int x, int y, int z)
+{
+	btTransform t;  //position and rotation
+	t.setIdentity();
+	t.setOrigin(btVector3(0, 0, 0));
+	btCompoundShape* windmill = new btCompoundShape();
+
+	btSphereShape* ball = new btSphereShape(1);
+	btBoxShape* up = new btBoxShape(btVector3(0.5, 1, 0.5));
+	btBoxShape* down = new btBoxShape(btVector3(0.5, 1, 0.5));
+	btBoxShape* left = new btBoxShape(btVector3(0.5, 0.5, 1));
+	btBoxShape* right = new btBoxShape(btVector3(0.5, 0.5, 1));
+
+	windmill->addChildShape(t, ball);
+	t.setIdentity();
+
+	t.setOrigin(btVector3(0, 2, 0));
+	windmill->addChildShape(t, up);
+
+	t.setOrigin(btVector3(0, -2, 0));
+	windmill->addChildShape(t, down);
+
+	t.setOrigin(btVector3(0, 0, -2));
+	windmill->addChildShape(t, left);
+
+	t.setOrigin(btVector3(0, 0, 2));
+	windmill->addChildShape(t, right);
+
+	btVector3 inertia(0, 0, 0);
+	btScalar masses[5] = { 1, 0.5, 0.5, 0.5, 0.5 };
+	windmill->calculatePrincipalAxisTransform(masses, t, inertia);
+
+	t.setIdentity();
+	t.setOrigin(btVector3(x, y, z));  //put it to x,y,z coordinates
+
+	btMotionState* motion = new btDefaultMotionState(t);  //set the position (and motion)
+	btRigidBody::btRigidBodyConstructionInfo info(1 * 2, motion, windmill, inertia);  //create the constructioninfo, you can create multiple bodies with the same info
+	
+	btRigidBody* body = new btRigidBody(info);
+	PhysBody3D* pbody = new PhysBody3D(body);
+
+	world->addRigidBody(body);
+	bodies.add(pbody);
+	return pbody;
 }
 
 // ---------------------------------------------------------

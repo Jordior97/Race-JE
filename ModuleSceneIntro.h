@@ -44,18 +44,5 @@ public:
 	PhysBody3D* Stick;
 	Cube StickShape;
 
-	PhysBody3D* Ball;
-	Sphere Ballshape;
-
-	PhysBody3D* Up;
-	Cube UpShape;
-
-	PhysBody3D* Down;
-	Cube DownShape;
-
-	PhysBody3D* Left;
-	Cube LeftShape;
-
-	PhysBody3D* Right;
-	Cube RightShape;
+	PhysBody3D* blow;
 };

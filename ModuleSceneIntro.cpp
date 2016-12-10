@@ -29,53 +29,23 @@ bool ModuleSceneIntro::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 	//CreateMap(10, 10);
 
-	/*StickShape.SetPos(0, 2.5, 0);
+	StickShape.SetPos(0, 2.5, 0);
 	StickShape.size.Set(2, 5, 2);
 	Stick = App->physics->AddBox(StickShape, 0);
 
-	Ballshape.SetPos(4, 5, 0);
-	Ballshape.radius = 1;
-	Ballshape.color = Red;
-	Ball = App->physics->AddBody(Ballshape, 1);
-
-	UpShape.SetPos(4, 7.5, 0);
-	UpShape.size.Set(1, 2, 1);
-	UpShape.color = Blue;
-	Up = App->physics->AddBox(UpShape, 1);
-	
-	DownShape.SetPos(4, 2.5, 0);
-	DownShape.size.Set(1, 2, 1);
-	DownShape.color = Blue;
-	Down = App->physics->AddBox(DownShape, 1);
-
-	RightShape.SetPos(4, 5, 2.5);
-	RightShape.size.Set(1, 1, 2);
-	RightShape.color = Blue;
-	Right = App->physics->AddBox(RightShape, 1);
-
-	LeftShape.SetPos(4, 5, 2.5);
-	LeftShape.size.Set(1, 1, 2);
-	LeftShape.color = Blue;
-	Left = App->physics->AddBox(LeftShape, 1);
-
 	vec3 vec1(4, 2.5, 0);
 	vec3 vec2(0, 0, 0);
-	vec3 vecUp(0, 2.25, 0);
-	vec3 vecDown(0, -2.25, 0);
-	vec3 vecLeft(0, 0, -2.25);
-	vec3 vecRight(0, 0, 2.25);
 
 	vec3 axis(1, 0, 0);
 	vec3 axis1(0, 1, 0);
 	vec3 axis2(0, 0, 1);
 
-	App->physics->AddConstraintHinge(Stick, Ball, vec1, vec2, axis, axis);
-	App->physics->AddConstraintHinge(Ball, Up, vecUp, vec2, axis1, axis1);
-	App->physics->AddConstraintHinge(Ball, Down, vecDown, vec2, axis1, axis1);
-	App->physics->AddConstraintHinge(Ball, Right, vecRight, vec2, axis2, axis2);
-	App->physics->AddConstraintHinge(Ball, Left, vecLeft, vec2, axis2, axis2);
-	*/
-	App->physics->CreateCurve(Cubes[0], Cubes[1], Cubes[2], 30, 15, NORTH, EAST);
+	blow = App->physics->AddBlow(4, 5, 0);
+	App->physics->AddConstraintHinge(Stick, blow, vec1, vec2, axis, axis);
+	blow->SetAngVel(50, 0, 0);
+	
+	
+	/*App->physics->CreateCurve(Cubes[0], Cubes[1], Cubes[2], 30, 15, NORTH, EAST);
 	Map[0] = curve.getFirst()->data;
 	Map[1] = curve.getFirst()->next->data;
 	Map[2] = curve.getFirst()->next->next->data;
@@ -85,7 +55,7 @@ bool ModuleSceneIntro::Start()
 	Map[4] = curve.getFirst()->next->data;
 	Map[5] = curve.getFirst()->next->next->data;
 
-	/*//MAP 1
+	//MAP 1
 	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0);
 	Map[1] = App->physics->CreateStraight(Cubes[1], 6, EAST, true, 0);
 	Map[2] = App->physics->CreateStraight(Cubes[2], 8, SOUTH, false, 0);
@@ -216,11 +186,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.Render();
 
 	// WINDMILL ---------------------------
-
-	/*Stick->GetTransform(&StickShape.transform);
+	Stick->GetTransform(&StickShape.transform);
 	StickShape.Render();
 
-	Ball->GetTransform(&Ballshape.transform);
+	/*Ball->GetTransform(&Ballshape.transform);
 	Ballshape.Render();
 	Ball->Torque(0.5, 0, 0);
 
@@ -237,11 +206,11 @@ update_status ModuleSceneIntro::Update(float dt)
 	LeftShape.Render();*/
 
 	//---------------------------
-	for (int i = 0; i < objects; i++)
+	/*for (int i = 0; i < objects; i++)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
-	}
+	}*/
 
 	/*for (int i = 0; i < MAX_OBJECTS; i++)
 	{
