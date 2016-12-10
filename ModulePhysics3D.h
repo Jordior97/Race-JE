@@ -47,7 +47,7 @@ public:
 	PhysBody3D* CreateStraight(Cube& cube, float lenght, Direction type, bool isRotation, float angle);
 	void CreateUPER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float altura, Direction type);
 	void CreateDOWNER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float altura, Direction type);
-	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, Direction type, Direction type_of_come);
+	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float height, Direction type, Direction type_of_come);
 
 private:
 

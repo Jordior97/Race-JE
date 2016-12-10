@@ -28,7 +28,7 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
-
+	freecam = true;
 	camera_pos = vec3(0, 7.0f, 0);
 	vec_view = vec3(0, 5.00f, 0);
 
@@ -49,76 +49,85 @@ update_status ModuleCamera3D::Update(float dt)
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
 
-	/*vec3 newPos(0,0,0);
-	float speed = 3.0f * dt;
-	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed = 28.0f * dt;
-
-	if(App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-	if(App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
-
-	Position += newPos;
-	Reference += newPos;*/
-
-	// Mouse motion ----------------
-
-	/*if(App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 	{
-		int dx = -App->input->GetMouseXMotion();
-		int dy = -App->input->GetMouseYMotion();
+		freecam = !freecam;
+	}
+	if (freecam)
+	{
+		vec3 newPos(0, 0, 0);
+		float speed = 3.0f * dt;
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+			speed = 28.0f * dt;
 
-		float Sensitivity = 0.25f;
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
 
-		Position -= Reference;
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
 
-		if(dx != 0)
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+
+		Position += newPos;
+		Reference += newPos;
+
+		// Mouse motion ----------------
+
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{
-			float DeltaX = (float)dx * Sensitivity;
+			int dx = -App->input->GetMouseXMotion();
+			int dy = -App->input->GetMouseYMotion();
 
-			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		}
+			float Sensitivity = 0.25f;
 
-		if(dy != 0)
-		{
-			float DeltaY = (float)dy * Sensitivity;
+			Position -= Reference;
 
-			Y = rotate(Y, DeltaY, X);
-			Z = rotate(Z, DeltaY, X);
-
-			if(Y.y < 0.0f)
+			if (dx != 0)
 			{
-				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = cross(Z, X);
+				float DeltaX = (float)dx * Sensitivity;
+
+				X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+				Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+				Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 			}
+
+			if (dy != 0)
+			{
+				float DeltaY = (float)dy * Sensitivity;
+
+				Y = rotate(Y, DeltaY, X);
+				Z = rotate(Z, DeltaY, X);
+
+				if (Y.y < 0.0f)
+				{
+					Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+					Y = cross(Z, X);
+				}
+			}
+
+			Position = Reference + Z * length(Position);
+		}
+	}
+
+	if (freecam == false)
+	{
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN)
+		{
+			state = SKY;
+		}
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			state = THIRD_PERSON;
 		}
 
-		Position = Reference + Z * length(Position);
-	}*/
+		temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
+		player_pos.Set(temp.getX(), temp.getY(), temp.getZ()); //position of the car respect to the world.
+		App->player->vehicle->GetTransform(&vehicle_info);
 
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN)
-	{
-		state = SKY;
-	}
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		state = THIRD_PERSON;
-	}
-
-	temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
-	player_pos.Set(temp.getX(), temp.getY(), temp.getZ()); //position of the car respect to the world.
-	App->player->vehicle->GetTransform(&vehicle_info);
-
-	switch (state)
-	{
-	case THIRD_PERSON:
+		switch (state)
+		{
+		case THIRD_PERSON:
 		{
 			//From the transform matrix of the car, we extract the rotation matrix of it.
 			X = vec3(vehicle_info[0], vehicle_info[1], vehicle_info[2]);
@@ -131,7 +140,7 @@ update_status ModuleCamera3D::Update(float dt)
 			break;
 		}
 
-	case SKY:
+		case SKY:
 		{
 			Position.x = 0;
 			Reference.x = 0;
@@ -143,11 +152,13 @@ update_status ModuleCamera3D::Update(float dt)
 
 			break;
 		}
-	default:
-	{
-		break;
+		default:
+		{
+			break;
+		}
+		}
 	}
-	}
+
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();

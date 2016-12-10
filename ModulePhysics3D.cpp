@@ -5,6 +5,7 @@
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
 #include "ModuleSceneIntro.h"
+#include <math.h>
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -631,7 +632,7 @@ void ModulePhysics3D::CreateDOWNER(Cube &cube_down, Cube &cube_upper, Cube &cube
 	App->scene_intro->downer.add(AddBox(cube_up, 0));
 }
 
-void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, float lenght, Direction type_of_come, Direction type)
+void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, float lenght, float height, Direction type, Direction type_of_come)
 {
 	App->scene_intro->curve.clear();
 
@@ -639,42 +640,43 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 	{
 		if (type_of_come == EAST)
 		{
-			cube.size.Set(2, 2, lenght);
-			cube_1.size.Set(2, 2, lenght);
-			cube_2.size.Set(lenght, 2, 2);
+			cube.size.Set(height, 2, lenght);
+			cube_1.size.Set(height, 2, lenght);
+			cube_2.size.Set(lenght, 2, height);
 			//cube
 			App->scene_intro->ActualPos.z += lenght / 2.0f;
 			cube.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
-			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z + lenght / 2.0f - 1);
+			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z + lenght / 2.0f - (height/2));
 			//cube_1
-			App->scene_intro->ActualPos.z += 1;
-			App->scene_intro->ActualPos.x += 0.41f;//this-> cube.size.z*sin(45)-ActualPos.x;
+			App->scene_intro->ActualPos.z += (height/2);
+			float tmp = sqrt((height / 2)*(height / 2) + (height / 2)*(height / 2));
+			App->scene_intro->ActualPos.x += (tmp - (height/2));//this-> cube.size.z*sin(45)-ActualPos.x;
 			if (lenght > 2)
 			{
-				App->scene_intro->ActualPos.x += ((lenght / 2.0f) - 1)*0.71f;
-				App->scene_intro->ActualPos.z += ((lenght / 2.0f) - 1)*0.71f;
+				App->scene_intro->ActualPos.x += ((lenght / 2.0f) - (height / 2))*0.71f;
+				App->scene_intro->ActualPos.z += ((lenght / 2.0f) - (height / 2))*0.71f;
 			}
 
 			cube_1.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			cube_1.SetRotation(45, { 0, 1, 0 });
-			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x + ((lenght / 2.0f) - 1)*0.71f, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z + ((lenght / 2.0f) - 1)*0.71f);
+			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x + ((lenght / 2.0f) - (height / 2))*0.71f, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z + ((lenght / 2.0f) - (height / 2))*0.71f);
 			//cube_2
-			App->scene_intro->ActualPos.z += 0.41f;//this-> cube.size.z*sin(45)-ActualPos.x;
+			App->scene_intro->ActualPos.z += (tmp - (height / 2));//this-> cube.size.z*sin(45)-ActualPos.x;
 			App->scene_intro->ActualPos.x += lenght / 2.0f;
 			cube_2.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x + ((lenght / 2.0f) - 1), App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 		}
 		else if (type_of_come == WEST)
 		{
-			cube.size.Set(2, 2, lenght);
-			cube_1.size.Set(2, 2, lenght);
+			cube.size.Set(height, 2, lenght);
+			cube_1.size.Set(height, 2, lenght);
 			cube_2.size.Set(lenght, 2, 2);
 			//cube
 			App->scene_intro->ActualPos.z -= lenght / 2.0f;
 			cube.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z - lenght / 2.0f + 1);
 			//cube_1
-			App->scene_intro->ActualPos.z -= 1;
+			App->scene_intro->ActualPos.z -= height/2;
 			App->scene_intro->ActualPos.x += 0.41f;//this-> cube.size.z*sin(45)-ActualPos.x;
 			if (lenght > 2)
 			{
@@ -696,15 +698,15 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 	{
 		if (type_of_come == NORTH)
 		{
-			cube.size.Set(lenght, 2, 2);
-			cube_1.size.Set(lenght, 2, 2);
+			cube.size.Set(lenght, 2, height);
+			cube_1.size.Set(lenght, 2, height);
 			cube_2.size.Set(2, 2, lenght);
 			//cube
 			App->scene_intro->ActualPos.x += lenght / 2.0f;
 			cube.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x + lenght / 2.0f - 1, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			//cube_1
-			App->scene_intro->ActualPos.x += 1;
+			App->scene_intro->ActualPos.x += height/2;
 			App->scene_intro->ActualPos.z += 0.41f;//this-> cube.size.z*sin(45)-ActualPos.x;
 			if (lenght > 2)
 			{
@@ -723,15 +725,15 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 		}
 		else if (type_of_come == SOUTH)
 		{
-			cube.size.Set(lenght, 2, 2);
-			cube_1.size.Set(lenght, 2, 2);
+			cube.size.Set(lenght, 2, height);
+			cube_1.size.Set(lenght, 2, height);
 			cube_2.size.Set(2, 2, lenght);
 			//cube
 			App->scene_intro->ActualPos.x -= lenght / 2.0f;
 			cube.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x - lenght / 2.0f + 1, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			//cube_1
-			App->scene_intro->ActualPos.x -= 1;
+			App->scene_intro->ActualPos.x -= height/2;
 			App->scene_intro->ActualPos.z += 0.41f;//this-> cube.size.z*sin(45)-ActualPos.x;
 			if (lenght > 2)
 			{
@@ -753,16 +755,16 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 	{
 		if (type_of_come == EAST)
 		{
-			cube.size.Set(2, 2, lenght);
-			cube_1.size.Set(2, 2, lenght);
-			cube_2.size.Set(lenght, 2, 2);
+			cube.size.Set(height, 2, lenght);
+			cube_1.size.Set(height, 2, lenght);
+			cube_2.size.Set(lenght, 2, height);
 			//cube
 			App->scene_intro->ActualPos.z += lenght / 2.0f;
 			cube.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z + lenght / 2.0f - 1);
 			//cube_1
-			App->scene_intro->ActualPos.z += 1;
-			App->scene_intro->ActualPos.x -= 0.41;//this-> cube.size.z*sin(45)-ActualPos.x;
+			App->scene_intro->ActualPos.z += height/2;
+			App->scene_intro->ActualPos.x -= sqrt(1 + ((height/2)*(height/2)));//this-> cube.size.z*sin(45)-ActualPos.x;
 			if (lenght > 2)
 			{
 				App->scene_intro->ActualPos.x -= ((lenght / 2.0f) - 1)*0.71f;
@@ -781,15 +783,15 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 		}
 		else if (type_of_come == WEST)
 		{
-			cube.size.Set(2, 2, lenght);
-			cube_1.size.Set(2, 2, lenght);
-			cube_2.size.Set(lenght, 2, 2);
+			cube.size.Set(height, 2, lenght);
+			cube_1.size.Set(height, 2, lenght);
+			cube_2.size.Set(lenght, 2, height);
 			//cube
 			App->scene_intro->ActualPos.z -= lenght / 2.0f;
 			cube.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z - lenght / 2.0f + 1);
 			//cube_1
-			App->scene_intro->ActualPos.z -= 1.0f;
+			App->scene_intro->ActualPos.z -= height/2;
 			App->scene_intro->ActualPos.x -= 0.41;//this-> cube.size.z*sin(45)-ActualPos.x;
 			if (lenght > 2)
 			{
@@ -811,15 +813,15 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 	{
 		if (type_of_come == NORTH)
 		{
-			cube.size.Set(lenght, 2, 2);
-			cube_1.size.Set(lenght, 2, 2);
-			cube_2.size.Set(2, 2, lenght);
+			cube.size.Set(lenght, 2, height);
+			cube_1.size.Set(lenght, 2, height);
+			cube_2.size.Set(height, 2, lenght);
 			//cube
 			App->scene_intro->ActualPos.x += lenght / 2.0f;
 			cube.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x + lenght / 2.0f - 1, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			//cube_1
-			App->scene_intro->ActualPos.x += 1;
+			App->scene_intro->ActualPos.x += height/2;
 			App->scene_intro->ActualPos.z -= 0.41f;//this-> cube.size.z*sin(45)-ActualPos.x;
 			if (lenght > 2)
 			{
@@ -838,15 +840,15 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 		}
 		else if (type_of_come == SOUTH)
 		{
-			cube.size.Set(lenght, 2, 2);
-			cube_1.size.Set(lenght, 2, 2);
-			cube_2.size.Set(2, 2, lenght);
+			cube.size.Set(lenght, 2, height);
+			cube_1.size.Set(lenght, 2, height);
+			cube_2.size.Set(height, 2, lenght);
 			//cube
 			App->scene_intro->ActualPos.x -= lenght / 2.0f;
 			cube.SetPos(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x - lenght / 2.0f + 1, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z);
 			//cube_1
-			App->scene_intro->ActualPos.x -= 1;
+			App->scene_intro->ActualPos.x -= height/2;
 			App->scene_intro->ActualPos.z -= 0.41f;//this-> cube.size.z*sin(45)-ActualPos.x;
 			if (lenght > 2)
 			{

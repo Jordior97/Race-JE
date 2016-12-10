@@ -39,6 +39,6 @@ public:
 
 
 private:
-
+	bool freecam = true;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 };

@@ -9,7 +9,7 @@
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	objects = 64;
+	objects = 6;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -29,7 +29,7 @@ bool ModuleSceneIntro::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 	//CreateMap(10, 10);
 
-	StickShape.SetPos(0, 2.5, 0);
+	/*StickShape.SetPos(0, 2.5, 0);
 	StickShape.size.Set(2, 5, 2);
 	Stick = App->physics->AddBox(StickShape, 0);
 
@@ -74,7 +74,16 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddConstraintHinge(Ball, Down, vecDown, vec2, axis1, axis1);
 	App->physics->AddConstraintHinge(Ball, Right, vecRight, vec2, axis2, axis2);
 	App->physics->AddConstraintHinge(Ball, Left, vecLeft, vec2, axis2, axis2);
+	*/
+	App->physics->CreateCurve(Cubes[0], Cubes[1], Cubes[2], 30, 15, NORTH, EAST);
+	Map[0] = curve.getFirst()->data;
+	Map[1] = curve.getFirst()->next->data;
+	Map[2] = curve.getFirst()->next->next->data;
 
+	App->physics->CreateCurve(Cubes[3], Cubes[4], Cubes[5], 20, 10, WEST, NORTH);
+	Map[3] = curve.getFirst()->data;
+	Map[4] = curve.getFirst()->next->data;
+	Map[5] = curve.getFirst()->next->next->data;
 
 	/*//MAP 1
 	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0);
@@ -208,7 +217,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	// WINDMILL ---------------------------
 
-	Stick->GetTransform(&StickShape.transform);
+	/*Stick->GetTransform(&StickShape.transform);
 	StickShape.Render();
 
 	Ball->GetTransform(&Ballshape.transform);
@@ -225,14 +234,14 @@ update_status ModuleSceneIntro::Update(float dt)
 	RightShape.Render();
 
 	Left->GetTransform(&LeftShape.transform);
-	LeftShape.Render();
+	LeftShape.Render();*/
 
 	//---------------------------
-	/*for (int i = 0; i < objects; i++)
+	for (int i = 0; i < objects; i++)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
-	}*/
+	}
 
 	/*for (int i = 0; i < MAX_OBJECTS; i++)
 	{
