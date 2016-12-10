@@ -36,9 +36,10 @@ public:
 	vec3 player_pos;
 	vec3 camera_pos;
 	vec3 vec_view;
-
+	bool changecam = false;
 
 private:
 	bool freecam = true;
+
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 };
