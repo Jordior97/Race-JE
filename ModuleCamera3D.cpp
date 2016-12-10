@@ -4,7 +4,7 @@
 #include "ModulePlayer.h"
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
-
+#include "ModuleLevel1.h"
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	CalculateViewMatrix();
@@ -30,7 +30,7 @@ bool ModuleCamera3D::Start()
 	bool ret = true;
 	freecam = true;
 	camera_pos = vec3(0, 7.0f, 0);
-	vec_view = vec3(0, 5.00f, 0);
+	vec_view = vec3(10, 5.00f, 0);
 
 	return ret;
 }
@@ -49,6 +49,21 @@ update_status ModuleCamera3D::Update(float dt)
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
 
+	if (App->level1->History && changecam)
+	{
+		changecam = false;
+		//
+	}
+	if (App->level1->Multiplayer && changecam)
+	{
+		changecam = false;
+		//
+	}
+	if (App->level1->CustomLevel && changecam)
+	{
+		changecam = false;
+		//
+	}
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 	{
 		freecam = !freecam;
