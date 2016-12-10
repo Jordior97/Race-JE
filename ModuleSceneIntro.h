@@ -45,4 +45,8 @@ public:
 	Cube StickShape;
 
 	PhysBody3D* blow;
+
+	PhysBody3D* KinematicObject;
+	Cube KinematicShape;
+	bool test = false;
 };

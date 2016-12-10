@@ -33,6 +33,10 @@ bool ModuleSceneIntro::Start()
 	StickShape.size.Set(2, 5, 2);
 	Stick = App->physics->AddBox(StickShape, 0);
 
+	KinematicShape.SetPos(5, 10, 5);
+	KinematicShape.size.Set(5, 2, 5);
+	KinematicObject = App->physics->AddBox(KinematicShape, 0);
+
 	vec3 vec1(4, 2.5, 0);
 	vec3 vec2(0, 0, 0);
 
@@ -166,6 +170,7 @@ bool ModuleSceneIntro::Start()
 	new_object = 1;
 	Map[64] = App->physics->CreateStraight(Cubes[64], 6, NORTH, false, 0);
 	Save_dir = NORTH;*/
+	
 
 	return ret;
 }
@@ -185,9 +190,35 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
+	//KINEMATIC OBJECT ----------
+	if (KinematicObject->GetPos().y >= 20)
+	{
+		test = true;
+	}
+
+	else if(KinematicObject->GetPos().y <= 10)
+	{
+		test = false;
+	}
+
+	if (test == true)
+	{
+		KinematicObject->Move(0, -1, 0);
+	}
+	else 
+	{
+		KinematicObject->Move(0, 1, 0);
+	}
+	
+	KinematicObject->GetTransform(&KinematicShape.transform);
+	KinematicShape.Render();
+	//---------------------------
+
 	// WINDMILL ---------------------------
 	Stick->GetTransform(&StickShape.transform);
 	StickShape.Render();
+
+	
 
 	/*Ball->GetTransform(&Ballshape.transform);
 	Ballshape.Render();
@@ -206,6 +237,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	LeftShape.Render();*/
 
 	//---------------------------
+
+
 	/*for (int i = 0; i < objects; i++)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));

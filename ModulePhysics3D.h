@@ -49,8 +49,8 @@ public:
 	void CreateDOWNER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float altura, Direction type);
 	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float height, Direction type, Direction type_of_come);
 	
-	
 	PhysBody3D* AddBlow(int x, int y, int z);
+	
 
 
 private:

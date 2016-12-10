@@ -63,3 +63,9 @@ void PhysBody3D::SetAngVel(float x, float y, float z)
 {
 	body->SetAngularVelocity(btVector3(x, y, z));
 }
+
+void PhysBody3D::Move(float x, float y, float z)
+{
+	btTransform newTrans = body->getWorldTransform();
+	body->setWorldTransform(newTrans);
+}
