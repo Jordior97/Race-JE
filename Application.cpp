@@ -10,6 +10,7 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	physics = new ModulePhysics3D(this);
 	player = new ModulePlayer(this);
+	level1 = new ModuleLevel1(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -22,6 +23,7 @@ Application::Application()
 	AddModule(audio);
 	AddModule(physics);
 	AddModule(player);
+	AddModule(level1);
 	
 	// Scenes
 	AddModule(scene_intro);
