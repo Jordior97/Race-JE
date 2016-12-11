@@ -21,7 +21,7 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	//void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void CreateMap(int num_rows,int num_columns);
 
 public:
@@ -49,4 +49,10 @@ public:
 	PhysBody3D* KinematicObject;
 	Cube KinematicShape;
 	bool test = false;
+
+	bool anothercar = false;
+	uint RedSelected = 0;
+	uint BlueSelected = 0;
+	Cube s;
+	PhysBody3D* sensor;
 };
