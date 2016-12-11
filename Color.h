@@ -23,6 +23,8 @@ struct Color
 	{
 		return (float*)this;
 	}
+
+	bool operator == (Color test);
 };
 
 extern Color Red;

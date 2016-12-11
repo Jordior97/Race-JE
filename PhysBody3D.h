@@ -24,8 +24,12 @@ public:
 	void SetAngVel(float x, float y, float z);
 	void Move(float x, float y, float z);
 
+	void SetAsSensor(bool is_sensor);
+	bool IsSensor() const;
+
 private:
 	btRigidBody* body = nullptr;
+	bool is_sensor = false;
 
 public:
 	p2List<Module*> collision_listeners;
