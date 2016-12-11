@@ -17,11 +17,21 @@ public:
 	bool CheckButton(const SDL_Rect* button, int x, int y) const;
 
 public:
-	int x;
 	SDL_Rect History_Rect;
 	SDL_Rect Multiplayer_Rect;
 	SDL_Rect CustomLevel_Rect;
 	bool History = false;
 	bool Multiplayer = false;
 	bool CustomLevel = false;
+
+private:
+	PhysBody3D* ModeHistory[23];
+	Cube Cubes_History[23];
+
+	PhysBody3D* ModeMulti[22];
+	Cube Cubes_Multi[22];
+
+	PhysBody3D* ModeCustom[22];
+	Cube Cubes_Custom[22];
+
 };
