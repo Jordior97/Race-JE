@@ -29,11 +29,11 @@ bool ModuleSceneIntro::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 	//CreateMap(10, 10);*/
 
-	StickShape.SetPos(0, 2.5, 0);
+	/*StickShape.SetPos(0, 2.5, 0);
 	StickShape.size.Set(2, 5, 2);
 	Stick = App->physics->AddBox(StickShape, 0);
 
-	KinematicShape.SetPos(5, 10, 5);
+	KinematicShape.SetPos(20, 100, 20);
 	KinematicShape.size.Set(5, 2, 5);
 	KinematicObject = App->physics->AddBox(KinematicShape, 0);
 
@@ -46,7 +46,7 @@ bool ModuleSceneIntro::Start()
 
 	blow = App->physics->AddBlow(4, 5, 0);
 	App->physics->AddConstraintHinge(Stick, blow, vec1, vec2, axis, axis);
-	blow->SetAngVel(50, 0, 0);
+	blow->SetAngVel(50, 0, 0);*/
 
 	s.size = vec3(5, 3, 1);
 	s.SetPos(0, 2.5f, 20);
@@ -87,12 +87,12 @@ update_status ModuleSceneIntro::Update(float dt)
 	s.Render();
 
 	//KINEMATIC OBJECT ----------
-	if (KinematicObject->GetPos().y >= 20)
+	/*if (KinematicObject->GetPos().y >= 150)
 	{
 		test = true;
 	}
 
-	else if(KinematicObject->GetPos().y <= 10)
+	else if(KinematicObject->GetPos().y <= 50)
 	{
 		test = false;
 	}
@@ -107,12 +107,12 @@ update_status ModuleSceneIntro::Update(float dt)
 	}
 	
 	KinematicObject->GetTransform(&KinematicShape.transform);
-	KinematicShape.Render();
+	KinematicShape.Render();*/
 	//---------------------------
 
 	// WINDMILL ---------------------------
-	Stick->GetTransform(&StickShape.transform);
-	StickShape.Render();
+	/*Stick->GetTransform(&StickShape.transform);
+	StickShape.Render();*/
 
 	
 

@@ -28,8 +28,8 @@ private:
 	PhysBody3D* ModeHistory[23];
 	Cube Cubes_History[23];
 
-	PhysBody3D* ModeMulti[22];
-	Cube Cubes_Multi[22];
+	PhysBody3D* ModeMulti[12];
+	Cube Cubes_Multi[12];
 
 	PhysBody3D* ModeCustom[22];
 	Cube Cubes_Custom[22];

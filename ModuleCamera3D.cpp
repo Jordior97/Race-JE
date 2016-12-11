@@ -162,12 +162,11 @@ update_status ModuleCamera3D::Update(float dt)
 		{
 			Position.x = 0;
 			Reference.x = 0;
-			Position.y = 50;
-			Reference.y = 50;
+			Position.y = 80;
+			Reference.y = 80;
 			Position.z = 0;
 			Reference.z = 0;
 			LookAt(player_pos);
-
 			break;
 		}
 		default:

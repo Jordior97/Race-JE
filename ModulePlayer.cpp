@@ -216,7 +216,7 @@ update_status ModulePlayer::Update(float dt)
 	y = App->input->GetMouseY();
 	if (App->level1->History)
 	{
-		sprintf_s(title, "%.1f Km/h (%i, %i)", vehicle->GetKmh(), x, y);
+		sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	}
 	else if (App->level1->Multiplayer)
 	{
@@ -228,7 +228,7 @@ update_status ModulePlayer::Update(float dt)
 	}
 	else
 	{
-		sprintf_s(title, "Selecting Mode");
+		sprintf_s(title, "Selecting Mode  (%i, %i)", x, y);
 	}
 
 	App->window->SetTitle(title);

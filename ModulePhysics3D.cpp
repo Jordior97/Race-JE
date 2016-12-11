@@ -222,61 +222,37 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
 
 PhysBody3D* ModulePhysics3D::AddBox(const Cube& cube, bool multi, float mass)
 {
+	btVector3 vec;
 	if (multi)
 	{
-		const btVector3 vec(cube.size.x*.5, cube.size.y*0.5 + 2, cube.size.z*0.5);
-		btCollisionShape* colShape = new btBoxShape(vec);
-		shapes.add(colShape);
-
-		btTransform startTransform;
-		startTransform.setFromOpenGLMatrix(&cube.transform);
-
-		btVector3 localInertia(0, 0, 0);
-		if (mass != 0.f)
-			colShape->calculateLocalInertia(mass, localInertia);
-
-		btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-		motions.add(myMotionState);
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
-
-		btRigidBody* body = new btRigidBody(rbInfo);
-		PhysBody3D* pbody = new PhysBody3D(body);
-
-		body->setUserPointer(pbody);
-		world->addRigidBody(body);
-		bodies.add(pbody);
-
-		return pbody;
+		vec.setValue(cube.size.x*.5, cube.size.y*0.5 + 2, cube.size.z*0.5);
 	}
 	else
 	{
-		const btVector3 vec(cube.size.x*.5, cube.size.y*0.5, cube.size.z*0.5);
-		btCollisionShape* colShape = new btBoxShape(vec);
-		shapes.add(colShape);
-
-		btTransform startTransform;
-		startTransform.setFromOpenGLMatrix(&cube.transform);
-
-		btVector3 localInertia(0, 0, 0);
-		if (mass != 0.f)
-			colShape->calculateLocalInertia(mass, localInertia);
-
-		btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-		motions.add(myMotionState);
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
-
-		btRigidBody* body = new btRigidBody(rbInfo);
-		PhysBody3D* pbody = new PhysBody3D(body);
-
-		body->setUserPointer(pbody);
-		world->addRigidBody(body);
-		bodies.add(pbody);
-
-		return pbody;
-
+		vec.setValue(cube.size.x*.5, cube.size.y*0.5, cube.size.z*0.5);
 	}
+	btCollisionShape* colShape = new btBoxShape(vec);
+	shapes.add(colShape);
 
+	btTransform startTransform;
+	startTransform.setFromOpenGLMatrix(&cube.transform);
 
+	btVector3 localInertia(0, 0, 0);
+	if (mass != 0.f)
+		colShape->calculateLocalInertia(mass, localInertia);
+
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+	motions.add(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody3D* pbody = new PhysBody3D(body);
+
+	body->setUserPointer(pbody);
+	world->addRigidBody(body);
+	bodies.add(pbody);
+
+	return pbody;
 }
 
 PhysBody3D* ModulePhysics3D::AddCylinder(const Cylinder& cylinder, float mass)

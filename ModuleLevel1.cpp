@@ -7,9 +7,9 @@
 
 ModuleLevel1::ModuleLevel1(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	History_Rect = { 195, 85, 1100, 280 };
-	Multiplayer_Rect = { 195, 400, 1100,280 };
-	CustomLevel_Rect = { 195, 600, 200, 200 };
+	History_Rect = { 195, 85, 905, 180 };
+	Multiplayer_Rect = { 195, 340, 795, 180 };
+	CustomLevel_Rect = { 195, 600, 915, 180 };
 }
 
 ModuleLevel1::~ModuleLevel1()
@@ -85,18 +85,98 @@ bool ModuleLevel1::Start()
 
 	//MULTI
 	//M
+	Cubes_Multi[0].size.Set(6, 16, 2);
+	Cubes_Multi[0].SetPos(0, 120, 0);
+	Cubes_Multi[1].size.Set(8, 3, 2);
+	Cubes_Multi[1].SetPos(5, 124, 0);
+	Cubes_Multi[1].SetRotation(45, { 0, 0, -1 });
+	Cubes_Multi[2].size.Set(8, 3, 2);
+	Cubes_Multi[2].SetPos(9, 124, 0);
+	Cubes_Multi[2].SetRotation(45, { 0, 0, 1 });
+	Cubes_Multi[3].size.Set(6, 16, 2);
+	Cubes_Multi[3].SetPos(14, 120, 0);
+
 	//U
+	Cubes_Multi[4].size.Set(5, 16, 2);
+	Cubes_Multi[4].SetPos(23, 120, 0);
+	Cubes_Multi[5].size.Set(8, 5, 2);
+	Cubes_Multi[5].SetPos(29.5, 114.5, 0);
+	Cubes_Multi[6].size.Set(5, 16, 2);
+	Cubes_Multi[6].SetPos(36, 120, 0);
+
 	//L
+	Cubes_Multi[7].size.Set(5, 16, 2);
+	Cubes_Multi[7].SetPos(45, 120, 0);
+	Cubes_Multi[8].size.Set(8, 5, 2);
+	Cubes_Multi[8].SetPos(51.5, 114.5, 0);
+
 	//T
+	Cubes_Multi[9].size.Set(14, 5, 2);
+	Cubes_Multi[9].SetPos(64, 125.5, 0);
+	Cubes_Multi[10].size.Set(4, 16, 2);
+	Cubes_Multi[10].SetPos(64, 120, 0);
+
 	//I
+	Cubes_Multi[11].size.Set(5, 16, 2);
+	Cubes_Multi[11].SetPos(78, 120, 0);
 
 	//CUSTOM
 	//C
+	Cubes_Custom[0].size.Set(16, 4, 2);
+	Cubes_Custom[0].SetPos(5.5, 96, 0);
+	Cubes_Custom[1].size.Set(4, 16, 2);
+	Cubes_Custom[1].SetPos(-0.5, 90, 0);
+	Cubes_Custom[2].size.Set(16, 4, 2);
+	Cubes_Custom[2].SetPos(5.5, 84, 0);
+
 	//U
+	Cubes_Custom[3].size.Set(5, 16, 2);
+	Cubes_Custom[3].SetPos(19, 90, 0);
+	Cubes_Custom[4].size.Set(15, 5, 2);
+	Cubes_Custom[4].SetPos(26.5, 84.5, 0);
+	Cubes_Custom[5].size.Set(5, 16, 2);
+	Cubes_Custom[5].SetPos(31.5, 90, 0);
+
 	//S
+	Cubes_Custom[6].size.Set(3, 12, 2);
+	Cubes_Custom[6].SetPos(43, 96.5, 0);
+	Cubes_Custom[6].SetRotation(90, { 0, 0, 1 });
+	Cubes_Custom[7].size.Set(4, 5, 2);
+	Cubes_Custom[7].SetPos(39, 94.5, 0);
+	Cubes_Custom[8].size.Set(12, 3, 2);
+	Cubes_Custom[8].SetPos(43, 90.5, 0);
+	Cubes_Custom[9].size.Set(4, 10, 2);
+	Cubes_Custom[9].SetPos(47, 87, 0);
+	Cubes_Custom[10].size.Set(12, 3, 2);
+	Cubes_Custom[10].SetPos(43, 83.5, 0);
+
 	//T
+	Cubes_Custom[11].size.Set(14, 5, 2);
+	Cubes_Custom[11].SetPos(58, 95.5, 0);
+	Cubes_Custom[12].size.Set(4, 16, 2);
+	Cubes_Custom[12].SetPos(58, 90, 0);
+
 	//O
+	Cubes_Custom[13].size.Set(12, 3, 2);
+	Cubes_Custom[13].SetPos(73.5, 83.5, 0);
+	Cubes_Custom[14].size.Set(3, 12, 2);
+	Cubes_Custom[14].SetPos(69, 90, 0);
+	Cubes_Custom[15].size.Set(12, 3, 2);
+	Cubes_Custom[15].SetPos(73.5, 96.5, 0);
+	Cubes_Custom[16].size.Set(3, 12, 2);
+	Cubes_Custom[16].SetPos(78, 90, 0);
+
 	//M
+	Cubes_Custom[17].size.Set(5, 16, 2);
+	Cubes_Custom[17].SetPos(85, 90, 0);
+	Cubes_Custom[18].size.Set(8, 3, 2);
+	Cubes_Custom[18].SetPos(89.5, 94, 0);
+	Cubes_Custom[18].SetRotation(45, { 0, 0, -1 });
+	Cubes_Custom[19].size.Set(8, 3, 2);
+	Cubes_Custom[19].SetPos(93, 94, 0);
+	Cubes_Custom[19].SetRotation(45, { 0, 0, 1 });
+	Cubes_Custom[20].size.Set(5, 16, 2);
+	Cubes_Custom[20].SetPos(97.5, 90, 0);
 
 
 	return true;
@@ -111,26 +191,102 @@ bool ModuleLevel1::CleanUp()
 update_status ModuleLevel1::Update(float dt)
 {
 	LOG("----> %i   //----> %i", App->input->GetMouseX(), App->input->GetMouseY());
-	
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+
+	if (CheckButton(&History_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
 	{
-		if (CheckButton(&History_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
+		if (Cubes_History[0].color == White)
+		{
+			for (int i = 0; i < 23; i++)
+			{
+				Cubes_History[i].color = Green;
+			}
+		}
+
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			History = true;
 		}
-		if (CheckButton(&Multiplayer_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
+	}
+	else
+	{
+		if (Cubes_History[0].color == Green)
+		{
+			for (int i = 0; i < 23; i++)
+			{
+				Cubes_History[i].color = White;
+			}
+		}
+	}
+
+	if (CheckButton(&Multiplayer_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
+	{
+		if (Cubes_Multi[0].color == White)
+		{
+			for (int i = 0; i < 12; i++)
+			{
+				Cubes_Multi[i].color = Green;
+			}
+		}
+
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			Multiplayer = true;
 		}
-		if (CheckButton(&CustomLevel_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
+	}
+	else
+	{
+		if (Cubes_Multi[0].color == Green)
+		{
+			for (int i = 0; i < 12; i++)
+			{
+				Cubes_Multi[i].color = White;
+			}
+		}
+	}
+
+	if (CheckButton(&CustomLevel_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
+	{
+		if (Cubes_Custom[0].color == White)
+		{
+			for (int i = 0; i < 21; i++)
+			{
+				Cubes_Custom[i].color = Green;
+			}
+		}
+
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			CustomLevel = true;
 		}
 	}
+	else
+	{
+		if (Cubes_Custom[0].color == Green)
+		{
+			for (int i = 0; i < 21; i++)
+			{
+				Cubes_Custom[i].color = White;
+			}
+		}
+	}
 
+
+	// "HISTORY" RENDER
 	for (int i = 0; i < 23; i++)
 	{
 		Cubes_History[i].Render();
+	}
+
+	// "MULTI" RENDER
+	for (int i = 0; i < 12; i++)
+	{
+		Cubes_Multi[i].Render();
+	}
+
+	// "CUSTOM" RENDER
+	for (int i = 0; i < 21; i++)
+	{
+		Cubes_Custom[i].Render();
 	}
 
 	return UPDATE_CONTINUE;
