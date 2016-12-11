@@ -220,32 +220,63 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere& sphere, float mass)
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBox(const Cube& cube, float mass)
+PhysBody3D* ModulePhysics3D::AddBox(const Cube& cube, bool multi, float mass)
 {
-	const btVector3 vec(cube.size.x*.5, cube.size.y*0.5, cube.size.z*0.5);
+	if (multi)
+	{
+		const btVector3 vec(cube.size.x*.5, cube.size.y*0.5 + 2, cube.size.z*0.5);
+		btCollisionShape* colShape = new btBoxShape(vec);
+		shapes.add(colShape);
 
-	btCollisionShape* colShape = new btBoxShape(vec);
-	shapes.add(colShape);
+		btTransform startTransform;
+		startTransform.setFromOpenGLMatrix(&cube.transform);
 
-	btTransform startTransform;
-	startTransform.setFromOpenGLMatrix(&cube.transform);
+		btVector3 localInertia(0, 0, 0);
+		if (mass != 0.f)
+			colShape->calculateLocalInertia(mass, localInertia);
 
-	btVector3 localInertia(0, 0, 0);
-	if (mass != 0.f)
-		colShape->calculateLocalInertia(mass, localInertia);
+		btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+		motions.add(myMotionState);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
 
-	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-	motions.add(myMotionState);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+		btRigidBody* body = new btRigidBody(rbInfo);
+		PhysBody3D* pbody = new PhysBody3D(body);
 
-	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body);
+		body->setUserPointer(pbody);
+		world->addRigidBody(body);
+		bodies.add(pbody);
 
-	body->setUserPointer(pbody);
-	world->addRigidBody(body);
-	bodies.add(pbody);
+		return pbody;
+	}
+	else
+	{
+		const btVector3 vec(cube.size.x*.5, cube.size.y*0.5, cube.size.z*0.5);
+		btCollisionShape* colShape = new btBoxShape(vec);
+		shapes.add(colShape);
 
-	return pbody;
+		btTransform startTransform;
+		startTransform.setFromOpenGLMatrix(&cube.transform);
+
+		btVector3 localInertia(0, 0, 0);
+		if (mass != 0.f)
+			colShape->calculateLocalInertia(mass, localInertia);
+
+		btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
+		motions.add(myMotionState);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+
+		btRigidBody* body = new btRigidBody(rbInfo);
+		PhysBody3D* pbody = new PhysBody3D(body);
+
+		body->setUserPointer(pbody);
+		world->addRigidBody(body);
+		bodies.add(pbody);
+
+		return pbody;
+
+	}
+
+
 }
 
 PhysBody3D* ModulePhysics3D::AddCylinder(const Cylinder& cylinder, float mass)
@@ -392,7 +423,7 @@ PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, float lenght, Direction 
 		App->scene_intro->ActualPos.Set(App->scene_intro->ActualPos.x, App->scene_intro->ActualPos.y, App->scene_intro->ActualPos.z - lenght / 2 + 1);
 	}
 
-	tm = AddBox(cube, 0);
+	tm = AddBox(cube, false, 0);
 
 	return tm;
 }
@@ -508,9 +539,9 @@ void ModulePhysics3D::CreateUPER(Cube &cube_down, Cube &cube_upper, Cube &cube_u
 
 	
 
-	App->scene_intro->upper.add(AddBox(cube_down, 0));
-	App->scene_intro->upper.add(AddBox(cube_upper, 0));
-	App->scene_intro->upper.add(AddBox(cube_up, 0));
+	App->scene_intro->upper.add(AddBox(cube_down, false, 0));
+	App->scene_intro->upper.add(AddBox(cube_upper, false, 0));
+	App->scene_intro->upper.add(AddBox(cube_up, false, 0));
 }
 
 void ModulePhysics3D::CreateDOWNER(Cube &cube_down, Cube &cube_upper, Cube &cube_up, float lenght, float altura, Direction type)
@@ -625,9 +656,9 @@ void ModulePhysics3D::CreateDOWNER(Cube &cube_down, Cube &cube_upper, Cube &cube
 
 
 
-	App->scene_intro->downer.add(AddBox(cube_down, 0));
-	App->scene_intro->downer.add(AddBox(cube_upper, 0));
-	App->scene_intro->downer.add(AddBox(cube_up, 0));
+	App->scene_intro->downer.add(AddBox(cube_down, false, 0));
+	App->scene_intro->downer.add(AddBox(cube_upper, false, 0));
+	App->scene_intro->downer.add(AddBox(cube_up, false, 0));
 }
 
 void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, float lenght, float height, Direction type, Direction type_of_come)
@@ -865,9 +896,9 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 		}
 	}
 
-	App->scene_intro->curve.add(AddBox(cube, 0));
-	App->scene_intro->curve.add(AddBox(cube_1, 0));
-	App->scene_intro->curve.add(AddBox(cube_2, 0));
+	App->scene_intro->curve.add(AddBox(cube, false, 0));
+	App->scene_intro->curve.add(AddBox(cube_1, false, 0));
+	App->scene_intro->curve.add(AddBox(cube_2, false, 0));
 }
 
 

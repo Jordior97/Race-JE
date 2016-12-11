@@ -36,7 +36,7 @@ public:
 	bool CleanUp();
 
 	PhysBody3D* AddBody(const Sphere& sphere, float mass = 1.0f);
-	PhysBody3D* AddBox(const Cube& cube, float mass = 1.0f);
+	PhysBody3D* AddBox(const Cube& cube, bool multi, float mass = 1.0f);
 	PhysBody3D* AddCylinder(const Cylinder& cylinder, float mass = 1.0f);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 

@@ -99,6 +99,8 @@ bool ModulePlayer::Start()
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->SetPos(0, 12, 10);
 
+	vehicle_Number2 = App->physics->AddVehicle(car);
+	vehicle_Number2->SetPos(20, 12, 5);
 	return true;
 }
 
@@ -114,8 +116,34 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
-
+	//vehicle _ 1
 	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		acceleration = MAX_ACCELERATION;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	{
+		if (turn < TURN_DEGREES)
+			turn += TURN_DEGREES;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		if (turn > -TURN_DEGREES)
+			turn -= TURN_DEGREES;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		acceleration = -MAX_ACCELERATION;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
+	{
+		brake = BRAKE_POWER;
+	}
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		acceleration = MAX_ACCELERATION;
 	}
@@ -148,11 +176,61 @@ update_status ModulePlayer::Update(float dt)
 
 	vehicle->Render();
 
+	//vehicle_Number2
+	turn = acceleration = brake = 0.0f;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		acceleration = MAX_ACCELERATION;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		if (turn < TURN_DEGREES)
+			turn += TURN_DEGREES;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		if (turn > -TURN_DEGREES)
+			turn -= TURN_DEGREES;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		acceleration = -MAX_ACCELERATION;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT)
+	{
+		brake = BRAKE_POWER;
+	}
+	vehicle_Number2->ApplyEngineForce(acceleration);
+	vehicle_Number2->Turn(turn);
+	vehicle_Number2->Brake(brake);
+
+	vehicle_Number2->Render();
+
 	char title[80];
 	int x, y;
 	x = App->input->GetMouseX();
 	y = App->input->GetMouseY();
-	sprintf_s(title, "%.1f Km/h (%i, %i)", vehicle->GetKmh(),x,y);
+	if (App->level1->History)
+	{
+		sprintf_s(title, "%.1f Km/h (%i, %i)", vehicle->GetKmh(), x, y);
+	}
+	else if (App->level1->Multiplayer)
+	{
+		sprintf_s(title, "RED-> %i  //  BLUE-> %i", App->scene_intro->RedSelected, App->scene_intro->BlueSelected);
+	}
+	else if (App->level1->CustomLevel)
+	{
+		sprintf_s(title, "CUSTOM LEVEL");
+	}
+	else
+	{
+		sprintf_s(title, "Selecting Mode");
+	}
+
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
