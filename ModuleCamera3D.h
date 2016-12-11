@@ -4,7 +4,7 @@
 #include "glmath.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
-enum CameraPos { THIRD_PERSON, SKY };
+enum CameraPos { HISTORY, MULTIPLAYER, CUSTOM, INTRO };
 
 class ModuleCamera3D : public Module
 {
@@ -28,7 +28,7 @@ private:
 public:
 	
 	vec3 X, Y, Z, Position, Reference;
-	CameraPos state = SKY;
+	CameraPos state = INTRO;
 
 	mat4x4 vehicle_info;
 
@@ -39,7 +39,7 @@ public:
 	bool changecam = false;
 
 private:
-	bool freecam = true;
+	bool freecam = false;
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 };

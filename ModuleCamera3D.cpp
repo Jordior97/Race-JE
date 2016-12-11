@@ -28,9 +28,9 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
-	freecam = true;
+	freecam = false;
 	camera_pos = vec3(0, 7.0f, 0);
-	vec_view = vec3(10, 5.00f, 0);
+	vec_view = vec3(0, 5.0f, 0);
 
 	return ret;
 }
@@ -49,7 +49,7 @@ update_status ModuleCamera3D::Update(float dt)
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
 
-	if (App->level1->History && changecam)
+	/*if (App->level1->History && changecam)
 	{
 		changecam = false;
 		//
@@ -63,11 +63,13 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		changecam = false;
 		//
-	}
+	}*/
+
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 	{
 		freecam = !freecam;
 	}
+
 	if (freecam)
 	{
 		vec3 newPos(0, 0, 0);
@@ -127,13 +129,14 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (freecam == false)
 	{
-		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN)
+		if (App->level1->Multiplayer == true)
 		{
-			state = SKY;
+			state = MULTIPLAYER;
 		}
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+
+		else if (App->level1->History == true)
 		{
-			state = THIRD_PERSON;
+			state = HISTORY;
 		}
 
 		temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
@@ -142,7 +145,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 		switch (state)
 		{
-		case THIRD_PERSON:
+		case HISTORY:
 		{
 			//From the transform matrix of the car, we extract the rotation matrix of it.
 			X = vec3(vehicle_info[0], vehicle_info[1], vehicle_info[2]);
@@ -155,7 +158,7 @@ update_status ModuleCamera3D::Update(float dt)
 			break;
 		}
 
-		case SKY:
+		case MULTIPLAYER:
 		{
 			Position.x = 0;
 			Reference.x = 0;

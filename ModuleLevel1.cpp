@@ -7,9 +7,9 @@
 
 ModuleLevel1::ModuleLevel1(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	History_Rect = { 300,100,200,200 };
-	Multiplayer_Rect = { 300, 300,200,200 };
-	CustomLevel_Rect = { 300, 600,200,200 };
+	History_Rect = { 195, 85, 1100, 280 };
+	Multiplayer_Rect = { 195, 400, 1100,280 };
+	CustomLevel_Rect = { 195, 600, 200, 200 };
 }
 
 ModuleLevel1::~ModuleLevel1()
@@ -18,6 +18,9 @@ ModuleLevel1::~ModuleLevel1()
 bool ModuleLevel1::Start()
 {
 	LOG("Loading Level1");
+
+	App->camera->Move(vec3(47, 110, 100));
+	App->camera->LookAt(vec3(47, 110, 0));
 
 	//HISTORY
 	//H
@@ -108,22 +111,20 @@ bool ModuleLevel1::CleanUp()
 update_status ModuleLevel1::Update(float dt)
 {
 	LOG("----> %i   //----> %i", App->input->GetMouseX(), App->input->GetMouseY());
+	
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
 		if (CheckButton(&History_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
 		{
 			History = true;
-			App->camera->changecam = true;
 		}
 		if (CheckButton(&Multiplayer_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
 		{
 			Multiplayer = true;
-			App->camera->changecam = true;
 		}
 		if (CheckButton(&CustomLevel_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
 		{
 			CustomLevel = true;
-			App->camera->changecam = true;
 		}
 	}
 

@@ -149,7 +149,10 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
+	int x, y;
+	x = App->input->GetMouseX();
+	y = App->input->GetMouseY();
+	sprintf_s(title, "%.1f Km/h (%i, %i)", vehicle->GetKmh(),x,y);
 	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
