@@ -37,7 +37,6 @@ public:
 	p2List<PhysBody3D*> downer;
 	p2List<PhysBody3D*> curve;
 	vec3 ActualPos;
-	uint new_object = 1;
 	Direction Save_dir;
 	bool key_2 = false;
 

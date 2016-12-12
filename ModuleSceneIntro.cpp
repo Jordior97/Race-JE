@@ -9,7 +9,7 @@
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	objects = 6;
+	objects = 1;
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -55,16 +55,18 @@ bool ModuleSceneIntro::Start()
 	sensor->SetAsSensor(true);
 	sensor->collision_listeners.add(this);
 	
-
-	/*//MAP CUSTOM
-	ActualPos.x = -50;
-	ActualPos.y = 0;
-	ActualPos.z = -50;
-	new_object = 1;
-	Map[64] = App->physics->CreateStraight(Cubes[64], 6, NORTH, false, 0);
-	Save_dir = NORTH;*/
-	
+	//Multiplayer Splatoon
 	CreateMap(10, 10);
+
+
+	//Custom Map
+	ActualPos.x = 150;
+	ActualPos.y = 0;
+	ActualPos.z = 0;
+	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0);
+	Save_dir = NORTH;
+	
+
 	return ret;
 }
 
@@ -135,11 +137,11 @@ update_status ModuleSceneIntro::Update(float dt)
 	//---------------------------
 
 
-	/*for (int i = 0; i < objects; i++)
+	for (int i = 0; i < objects; i++)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
-	}*/
+	}
 
 	for (int i = 0; i < MAX_OBJECTS; i++)
 	{

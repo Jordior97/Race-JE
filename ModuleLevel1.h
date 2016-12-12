@@ -23,6 +23,7 @@ public:
 	bool History = false;
 	bool Multiplayer = false;
 	bool CustomLevel = false;
+	bool selectMode = true;
 
 private:
 	PhysBody3D* ModeHistory[23];

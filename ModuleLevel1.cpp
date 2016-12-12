@@ -190,104 +190,128 @@ bool ModuleLevel1::CleanUp()
 
 update_status ModuleLevel1::Update(float dt)
 {
-	LOG("----> %i   //----> %i", App->input->GetMouseX(), App->input->GetMouseY());
-
-	if (CheckButton(&History_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
+	//LOG("----> %i   //----> %i", App->input->GetMouseX(), App->input->GetMouseY());
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && App->camera->state != INTRO)
 	{
-		if (Cubes_History[0].color == White)
+		App->camera->Position.x = 47;
+		App->camera->Position.y = 110;
+		App->camera->Position.z = 100;
+		App->camera->LookAt(vec3(47, 110, 0));
+		App->camera->state = INTRO;
+		History = false;
+		Multiplayer = false;
+		CustomLevel = false;
+		selectMode = !selectMode;
+	}
+	if (selectMode)
+	{
+		if (CheckButton(&History_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
 		{
-			for (int i = 0; i < 23; i++)
+			if (Cubes_History[0].color == White)
 			{
-				Cubes_History[i].color = Green;
+				for (int i = 0; i < 23; i++)
+				{
+					Cubes_History[i].color = Green;
+				}
+			}
+
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+			{
+				History = true;
+				Multiplayer = false;
+				CustomLevel = false;
+				selectMode = false;
+			}
+		}
+		else
+		{
+			if (Cubes_History[0].color == Green)
+			{
+				for (int i = 0; i < 23; i++)
+				{
+					Cubes_History[i].color = White;
+				}
 			}
 		}
 
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		if (CheckButton(&Multiplayer_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
 		{
-			History = true;
-		}
-	}
-	else
-	{
-		if (Cubes_History[0].color == Green)
-		{
-			for (int i = 0; i < 23; i++)
+			if (Cubes_Multi[0].color == White)
 			{
-				Cubes_History[i].color = White;
+				for (int i = 0; i < 12; i++)
+				{
+					Cubes_Multi[i].color = Green;
+				}
+			}
+
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+			{
+				History = false;
+				Multiplayer = true;
+				CustomLevel = false;
+				selectMode = false;
 			}
 		}
-	}
-
-	if (CheckButton(&Multiplayer_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
-	{
-		if (Cubes_Multi[0].color == White)
+		else
 		{
-			for (int i = 0; i < 12; i++)
+			if (Cubes_Multi[0].color == Green)
 			{
-				Cubes_Multi[i].color = Green;
-			}
-		}
-
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
-		{
-			Multiplayer = true;
-		}
-	}
-	else
-	{
-		if (Cubes_Multi[0].color == Green)
-		{
-			for (int i = 0; i < 12; i++)
-			{
-				Cubes_Multi[i].color = White;
-			}
-		}
-	}
-
-	if (CheckButton(&CustomLevel_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
-	{
-		if (Cubes_Custom[0].color == White)
-		{
-			for (int i = 0; i < 21; i++)
-			{
-				Cubes_Custom[i].color = Green;
+				for (int i = 0; i < 12; i++)
+				{
+					Cubes_Multi[i].color = White;
+				}
 			}
 		}
 
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		if (CheckButton(&CustomLevel_Rect, App->input->GetMouseX(), App->input->GetMouseY()))
 		{
-			CustomLevel = true;
-		}
-	}
-	else
-	{
-		if (Cubes_Custom[0].color == Green)
-		{
-			for (int i = 0; i < 21; i++)
+			if (Cubes_Custom[0].color == White)
 			{
-				Cubes_Custom[i].color = White;
+				for (int i = 0; i < 21; i++)
+				{
+					Cubes_Custom[i].color = Green;
+				}
+			}
+
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+			{
+				History = false;
+				Multiplayer = false;
+				CustomLevel = true;
+				selectMode = false;
 			}
 		}
-	}
+		else
+		{
+			if (Cubes_Custom[0].color == Green)
+			{
+				for (int i = 0; i < 21; i++)
+				{
+					Cubes_Custom[i].color = White;
+				}
+			}
+		}
 
 
-	// "HISTORY" RENDER
-	for (int i = 0; i < 23; i++)
-	{
-		Cubes_History[i].Render();
+		// "HISTORY" RENDER
+		for (int i = 0; i < 23; i++)
+		{
+			Cubes_History[i].Render();
+		}
+
+		// "MULTI" RENDER
+		for (int i = 0; i < 12; i++)
+		{
+			Cubes_Multi[i].Render();
+		}
+
+		// "CUSTOM" RENDER
+		for (int i = 0; i < 21; i++)
+		{
+			Cubes_Custom[i].Render();
+		}
 	}
 
-	// "MULTI" RENDER
-	for (int i = 0; i < 12; i++)
-	{
-		Cubes_Multi[i].Render();
-	}
-
-	// "CUSTOM" RENDER
-	for (int i = 0; i < 21; i++)
-	{
-		Cubes_Custom[i].Render();
-	}
 
 	return UPDATE_CONTINUE;
 }
