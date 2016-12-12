@@ -19,6 +19,8 @@ bool ModuleLevel1::Start()
 {
 	LOG("Loading Level1");
 
+	button_press = App->audio->LoadFx("Music&Fx/ButtonPress.wav");
+
 	App->camera->Move(vec3(47, 110, 100));
 	App->camera->LookAt(vec3(47, 110, 0));
 
@@ -198,6 +200,7 @@ update_status ModuleLevel1::Update(float dt)
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 			{
 				History = true;
+				App->audio->PlayFx(button_press);
 				Multiplayer = false;
 				CustomLevel = false;
 				selectMode = false;
@@ -228,6 +231,7 @@ update_status ModuleLevel1::Update(float dt)
 			{
 				History = false;
 				Multiplayer = true;
+				App->audio->PlayFx(button_press);
 				CustomLevel = false;
 				selectMode = false;
 			}
@@ -258,6 +262,7 @@ update_status ModuleLevel1::Update(float dt)
 				History = false;
 				Multiplayer = false;
 				CustomLevel = true;
+				App->audio->PlayFx(button_press);
 				selectMode = false;
 			}
 		}

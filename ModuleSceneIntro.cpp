@@ -20,6 +20,8 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+	App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
+
 	//Actual pos = (0,0,0)
 	ActualPos.x = 0;
 	ActualPos.y = 0;
@@ -48,16 +50,14 @@ bool ModuleSceneIntro::Start()
 	App->physics->AddConstraintHinge(Stick, blow, vec1, vec2, axis, axis);
 	blow->SetAngVel(50, 0, 0);*/
 
-	s.size = vec3(5, 3, 1);
+	/*s.size = vec3(5, 3, 1);
 	s.SetPos(0, 2.5f, 20);
-
 	sensor = App->physics->AddBox(s, 0.0f);
 	sensor->SetAsSensor(true);
-	sensor->collision_listeners.add(this);
+	sensor->collision_listeners.add(this);*/
 	
 	//Multiplayer Splatoon
 	CreateMap(10, 10);
-
 
 	//Custom Map
 	ActualPos.x = 150;
@@ -66,7 +66,6 @@ bool ModuleSceneIntro::Start()
 	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0);
 	Save_dir = NORTH;
 	
-
 	return ret;
 }
 
@@ -85,8 +84,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-	sensor->GetTransform(&s.transform);
-	s.Render();
+	/*sensor->GetTransform(&s.transform);
+	s.Render();*/
 
 	//KINEMATIC OBJECT ----------
 	/*if (KinematicObject->GetPos().y >= 150)

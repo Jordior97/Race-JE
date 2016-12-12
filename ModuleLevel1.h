@@ -33,4 +33,6 @@ private:
 	PhysBody3D* ModeCustom[22];
 	Cube Cubes_Custom[22];
 
+	uint button_press;
+
 };
