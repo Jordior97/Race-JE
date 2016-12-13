@@ -1,12 +1,11 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleMenu.h"
-#include "ModuleLevel1.h"
 #include "ModuleInput.h"
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
 
-ModuleMenu::ModuleMenu(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleMenu::ModuleMenu(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
 	History_Rect = { 195, 85, 705, 175 };
 	Multiplayer_Rect = { 195, 340, 795, 180 };
@@ -22,6 +21,13 @@ bool ModuleMenu::Start()
 
 	button_press = App->audio->LoadFx("Music&Fx/ButtonPress.wav");
 
+	//Set plane
+	Plane p(0, 1, 0, 0);
+	plane = p;
+	plane.axis = true;
+	plane.color = Black;
+
+	//Set camera position
 	App->camera->Move(vec3(47, 103, 100));
 	App->camera->LookAt(vec3(47, 120, 0));
 
@@ -160,8 +166,7 @@ bool ModuleMenu::Start()
 	Cubes_Custom[19].SetRotation(45, { 0, 0, 1 });
 	Cubes_Custom[20].size.Set(5, 16, 2);
 	Cubes_Custom[20].SetPos(97.5, 90, 0);
-	x1 = 1.0f;
-	fadetoblack = false;
+
 	return true;
 }
 
@@ -173,52 +178,41 @@ bool ModuleMenu::CleanUp()
 
 update_status ModuleMenu::Update(float dt)
 {
-	//LOG("----> %i   //----> %i", App->input->GetMouseX(), App->input->GetMouseY());
+	plane.Render();
+	
+	LOG("----> %i   //----> %i", App->input->GetMouseX(), App->input->GetMouseY());
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && App->camera->state != INTRO)
 	{
-		App->camera->Position.x = 47;
-		App->camera->Position.y = 110;
-		App->camera->Position.z = 100;
+		App->camera->Move(vec3(47, 110, 100));
 		App->camera->LookAt(vec3(47, 110, 0));
+		/*App->camera->Position.x = 47;
+		App->camera->Position.y = 110;
+		App->camera->Position.z = 100;*/
+
 		App->camera->state = INTRO;
 		History = false;
 		Multiplayer = false;
 		CustomLevel = false;
 		selectMode = !selectMode;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_REPEAT)
-	{
-		x1 -= 0.01f;
-		for (int i = 0; i < 21; i++)
-		{
-			Cubes_Custom[i].color.Set(x1, x1, x1);
-		}
-		for (int i = 0; i < 12; i++)
-		{
-			Cubes_Multi[i].color.Set(x1, x1, x1);
-		}
-		for (int i = 0; i < 19; i++)
-		{
-			Cubes_History[i].color.Set(x1, x1, x1);
-		}
-	}
+
 	if (fadetoblack)
 	{
-		x1 -= 0.01f;
+		color_black -= 0.01f;
 		for (int i = 0; i < 21; i++)
 		{
-			Cubes_Custom[i].color.Set(x1, x1, x1);
+			Cubes_Custom[i].color.Set(color_black, color_black, color_black);
 		}
 		for (int i = 0; i < 12; i++)
 		{
-			Cubes_Multi[i].color.Set(x1, x1, x1);
+			Cubes_Multi[i].color.Set(color_black, color_black, color_black);
 		}
 		for (int i = 0; i < 19; i++)
 		{
-			Cubes_History[i].color.Set(x1, x1, x1);
+			Cubes_History[i].color.Set(color_black, color_black, color_black);
 		}
 
-		if (x1 <= 0)
+		if (color_black <= 0)
 		{
 			History = false;
 			App->audio->PlayFx(button_press);
@@ -227,7 +221,7 @@ update_status ModuleMenu::Update(float dt)
 			selectMode = false;
 			fadetoblack = false;
 			App->level1->fadetowhite = true;
-			x1 = 1.0f;
+			color_black = 1.0f;
 		}
 	}
 	if (selectMode)
@@ -245,13 +239,11 @@ update_status ModuleMenu::Update(float dt)
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 			{
 				fadetoblack = true;
-
-				/*History = true;
+				History = true;
 				App->audio->PlayFx(button_press);
 				Multiplayer = false;
 				CustomLevel = false;
 				selectMode = false;
-				*/
 			}
 		}
 		else

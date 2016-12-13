@@ -9,6 +9,7 @@
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
+
 enum Direction
 {
 	NORTH,
@@ -17,6 +18,7 @@ enum Direction
 	WEST
 };
 
+class ModuleScene;
 class DebugDrawer;
 struct PhysBody3D;
 struct PhysVehicle3D;
@@ -44,10 +46,10 @@ public:
 	void AddConstraintHinge(PhysBody3D* bodyA, PhysBody3D* bodyB, const vec3& anchorA, const vec3& anchorB, const vec3& axisS, const vec3& axisB, bool disable_collision = false);
 
 	//Functionts for Create Map
-	PhysBody3D* CreateStraight(Cube& cube, float lenght, Direction type, bool isRotation, float angle, Module* scene);
-	void CreateUPER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float altura, Direction type, Module* scene);
-	void CreateDOWNER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float altura, Direction type, Module* scene);
-	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float height, Direction type, Direction type_of_come, Module* scene);
+	PhysBody3D* CreateStraight(Cube& cube, float lenght, Direction type, bool isRotation, float angle, ModuleScene* scene);
+	void CreateUPER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float altura, Direction type, ModuleScene* scene);
+	void CreateDOWNER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float altura, Direction type, ModuleScene* scene);
+	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float height, Direction type, Direction type_of_come, ModuleScene* scene);
 	
 	PhysBody3D* AddBlow(int x, int y, int z);
 	

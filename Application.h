@@ -10,8 +10,10 @@
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
 #include "ModulePlayer.h"
-#include "ModuleLevel1.h"
 #include "ModuleMenu.h"
+#include "ModuleLevel1.h"
+#include "ModuleCustom.h"
+#include "ModuleMultiplayer.h"
 
 class Application
 {
@@ -25,6 +27,8 @@ public:
 	ModulePlayer* player;
 	ModuleMenu* menu;
 	ModuleLevel1* level1;
+	ModuleCustom* custom;
+	ModuleMultiplayer* multiplayer;
 
 private:
 

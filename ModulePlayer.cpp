@@ -4,6 +4,8 @@
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
+#include "ModuleMenu.h"
+#include "ModuleMultiplayer.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
@@ -214,15 +216,15 @@ update_status ModulePlayer::Update(float dt)
 	int x, y;
 	x = App->input->GetMouseX();
 	y = App->input->GetMouseY();
-	if (App->level1->History)
+	if (App->menu->History)
 	{
 		sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	}
-	else if (App->level1->Multiplayer)
+	else if (App->menu->Multiplayer)
 	{
-		sprintf_s(title, "RED-> %i  //  BLUE-> %i", App->scene_intro->RedSelected, App->scene_intro->BlueSelected);
+		sprintf_s(title, "RED-> %i  //  BLUE-> %i", App->multiplayer->RedSelected, App->multiplayer->BlueSelected);
 	}
-	else if (App->level1->CustomLevel)
+	else if (App->menu->CustomLevel)
 	{
 		sprintf_s(title, "CUSTOM LEVEL");
 	}

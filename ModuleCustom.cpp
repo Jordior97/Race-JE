@@ -1,16 +1,16 @@
-/*#include "ModuleCustom.h"
+#include "ModuleCustom.h"
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
+#include "ModuleScene.h"
 #include "ModulePlayer.h"
 #include "PhysVehicle3D.h"
-#include "Module.h"
 
 
-ModuleCustom::ModuleCustom(Application * app, bool start_enabled) : Module(app, start_enabled)
+
+ModuleCustom::ModuleCustom(Application * app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
 	objects = 1;
 }
@@ -22,22 +22,22 @@ bool ModuleCustom::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-	ActualPos.x = 0;
-	ActualPos.y = 0;
-	ActualPos.z = 0;
+
+	//Set plane
+	Plane p(0, 1, 0, 0);
+	plane = p;
+	plane.axis = true;
+	plane.color = Black;
 
 	//CUSTOM MAP
-	ActualPos.x = 150;
-	ActualPos.y = 0;
-	ActualPos.z = 0;
-	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0);
+	ActualPos.Set(150, 0, 0);
+	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0, this);
 	Save_dir = NORTH;
-
 
 	return ret;
 }
 
-bool ModuleCustom::CleanUp()
+bool ModuleCustom::CleanUp() //NEED CORRECTION !!!
 {
 	LOG("Unloading Intro scene");
 	App->physics->CleanUp();
@@ -49,10 +49,7 @@ bool ModuleCustom::CleanUp()
 
 update_status ModuleCustom::Update(float dt)
 {
-	Plane p(0, 1, 0, 0);
-	p.axis = true;
-	p.color = Black;
-	p.Render();
+	plane.Render();
 
 	for (int i = 0; i < objects; i++)
 	{
@@ -63,7 +60,7 @@ update_status ModuleCustom::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		objects += 1;
-		Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0);
+		Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
@@ -74,7 +71,7 @@ update_status ModuleCustom::Update(float dt)
 		objects += 1;
 		objects += 1;
 		objects += 1;
-		App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 8, 10, Save_dir);
+		App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 8, 10, Save_dir, this);
 		Map[objects - 3] = upper.getFirst()->data;
 		Map[objects - 2] = upper.getFirst()->next->data;
 		Map[objects - 1] = upper.getFirst()->next->next->data;
@@ -84,7 +81,7 @@ update_status ModuleCustom::Update(float dt)
 		objects += 1;
 		objects += 1;
 		objects += 1;
-		App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 6, 10, Save_dir);
+		App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 6, 10, Save_dir, this);
 		Map[objects - 3] = downer.getFirst()->data;
 		Map[objects - 2] = downer.getFirst()->next->data;
 		Map[objects - 1] = downer.getFirst()->next->next->data;
@@ -110,7 +107,7 @@ update_status ModuleCustom::Update(float dt)
 				Save_dir = NORTH;
 			}
 			objects += 1;
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0);
+			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
 			key_2 = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
@@ -132,12 +129,9 @@ update_status ModuleCustom::Update(float dt)
 				Save_dir = NORTH;
 			}
 			objects += 1;
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0);
+			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
 			key_2 = false;
 		}
 	}
 	return UPDATE_CONTINUE;
 }
-
-
-*/

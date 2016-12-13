@@ -22,6 +22,9 @@
     <Filter Include="Sources\Modules\Story">
       <UniqueIdentifier>{d957cb09-356f-4cf7-a768-e2fa37743623}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\Multiplayer">
+      <UniqueIdentifier>{ec8ab4a3-a4dc-4a3f-a705-3bfc55e45ba8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -87,14 +90,20 @@
     <ClInclude Include="ModuleFadeToBlack.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleLevel1.h">
-      <Filter>Sources\Modules\Story</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleMenu.h">
       <Filter>Sources\Modules\Game</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleCustom.h">
+      <Filter>Sources\Modules\Story</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleLevel1.h">
+      <Filter>Sources\Modules\Story</Filter>
+    </ClInclude>
     <ClInclude Include="ModuleScene.h">
-      <Filter>Sources\Modules</Filter>
+      <Filter>Sources\Modules\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleMultiplayer.h">
+      <Filter>Sources\Modules\Multiplayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -152,11 +161,17 @@
     <ClCompile Include="ModuleFadeToBlack.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleMenu.cpp">
+      <Filter>Sources\Modules\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleCustom.cpp">
+      <Filter>Sources\Modules\Story</Filter>
+    </ClCompile>
     <ClCompile Include="ModuleLevel1.cpp">
       <Filter>Sources\Modules\Story</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleMenu.cpp">
-      <Filter>Sources\Modules\Game</Filter>
+    <ClCompile Include="ModuleMultiplayer.cpp">
+      <Filter>Sources\Modules\Multiplayer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

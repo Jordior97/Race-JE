@@ -67,8 +67,6 @@ public:
 		}
 	}
 
-	vec3 ActualPos;
-
 private:
 
 	bool enabled = true;

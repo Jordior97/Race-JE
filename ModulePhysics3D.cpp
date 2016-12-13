@@ -4,6 +4,7 @@
 #include "PhysBody3D.h"
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
+#include "ModuleScene.h"
 #include <math.h>
 
 #ifdef _DEBUG
@@ -365,7 +366,7 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D* bodyA, PhysBody3D* bodyB, c
 	hinge->setDbgDrawSize(2.0f);
 }
 
-PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, float lenght, Direction type, bool isRotation, float angle, Module* scene)
+PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, float lenght, Direction type, bool isRotation, float angle, ModuleScene* scene)
 {
 	PhysBody3D* tm;
 
@@ -403,7 +404,7 @@ PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, float lenght, Direction 
 	return tm;
 }
 
-void ModulePhysics3D::CreateUPER(Cube &cube_down, Cube &cube_upper, Cube &cube_up, float lenght, float altura, Direction type, Module* scene)
+void ModulePhysics3D::CreateUPER(Cube &cube_down, Cube &cube_upper, Cube &cube_up, float lenght, float altura, Direction type, ModuleScene* scene)
 {
 	scene->upper.clear();
 	altura = altura / 0.71f;
@@ -519,7 +520,7 @@ void ModulePhysics3D::CreateUPER(Cube &cube_down, Cube &cube_upper, Cube &cube_u
 	scene->upper.add(AddBox(cube_up, false, 0));
 }
 
-void ModulePhysics3D::CreateDOWNER(Cube &cube_down, Cube &cube_upper, Cube &cube_up, float lenght, float altura, Direction type, Module* scene)
+void ModulePhysics3D::CreateDOWNER(Cube &cube_down, Cube &cube_upper, Cube &cube_up, float lenght, float altura, Direction type, ModuleScene* scene)
 {
 	scene->downer.clear();
 	altura = altura / 0.71f;
@@ -636,7 +637,7 @@ void ModulePhysics3D::CreateDOWNER(Cube &cube_down, Cube &cube_upper, Cube &cube
 	scene->downer.add(AddBox(cube_up, false, 0));
 }
 
-void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, float lenght, float height, Direction type, Direction type_of_come, Module* scene)
+void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, float lenght, float height, Direction type, Direction type_of_come, ModuleScene* scene)
 {
 	scene->curve.clear();
 

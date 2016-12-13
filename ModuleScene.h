@@ -1,6 +1,6 @@
 #pragma once
 #include "Module.h"
-#include "p2DynArray.h"
+#include "p2List.h"
 #include "Globals.h"
 #include "Primitive.h"
 
@@ -14,19 +14,16 @@ struct PhysMotor3D;
 class ModuleScene : public Module
 {
 public:
-	ModuleScene(Application* app, bool start_enabled = true);
-	~ModuleScene();
+	ModuleScene(Application* app, bool start_enabled = true) :Module(app, start_enabled) {}
+	virtual ~ModuleScene() {}
 
-	bool Start();
-	update_status Update(float dt);
-	bool CleanUp();
 
 public:
 
+	Plane plane;
 	uint objects = 0;
 	PhysBody3D* Map[MAX_OBJECTS];
 	Cube Cubes[MAX_OBJECTS];
-
 	p2List<PhysBody3D*> upper;
 	p2List<PhysBody3D*> downer;
 	p2List<PhysBody3D*> curve;
@@ -36,5 +33,8 @@ public:
 	bool key_2 = false;
 
 	bool fadetowhite = false;
-	float x2;
+	float color_white = 0.0f;
+	bool fadetoblack = false;
+	float color_black = 1.0f;
+
 };

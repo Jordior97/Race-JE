@@ -129,16 +129,16 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (freecam == false)
 	{
-		if (App->level1->Multiplayer == true)
+		if (App->menu->Multiplayer == true)
 		{
 			state = MULTIPLAYER;
 		}
 
-		else if (App->level1->History == true)
+		else if (App->menu->History == true)
 		{
 			state = HISTORY;
 		}
-		else if (App->level1->CustomLevel == true)
+		else if (App->menu->CustomLevel == true)
 		{
 			if (state != CUSTOM)
 			{

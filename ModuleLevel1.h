@@ -1,5 +1,5 @@
 #pragma once
-#include "Module.h"
+#include "ModuleScene.h"
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
@@ -11,7 +11,7 @@ struct PhysBody3D;
 enum Direction;
 struct PhysMotor3D;
 
-class ModuleLevel1 : public Module
+class ModuleLevel1 : public ModuleScene
 {
 public:
 	ModuleLevel1(Application* app, bool start_enabled = true);
@@ -21,12 +21,9 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
-	void CreateMap(int num_rows, int num_columns);
-
 public:
 
-	uint objects = 0;
+	/*uint objects = 0;
 	PhysBody3D* Map[MAX_OBJECTS];
 	Cube Cubes[MAX_OBJECTS];
 
@@ -49,12 +46,9 @@ public:
 	Cube KinematicShape;
 	bool test = false;
 
-	bool anothercar = false;
-	uint RedSelected = 0;
-	uint BlueSelected = 0;
 	Cube s;
 	PhysBody3D* sensor;
 
 	bool fadetowhite = false;
-	float x2;
+	float x2;*/
 };

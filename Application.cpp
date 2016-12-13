@@ -11,6 +11,8 @@ Application::Application()
 	player = new ModulePlayer(this);
 	menu = new ModuleMenu(this);
 	level1 = new ModuleLevel1(this);
+	custom = new ModuleCustom(this);
+	multiplayer = new ModuleMultiplayer(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -27,6 +29,8 @@ Application::Application()
 	// Scenes
 	AddModule(menu);
 	AddModule(level1);
+	AddModule(custom);
+	AddModule(multiplayer);
 
 	// Renderer last!
 	AddModule(renderer3D);
