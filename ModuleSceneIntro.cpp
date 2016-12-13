@@ -66,6 +66,8 @@ bool ModuleSceneIntro::Start()
 	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0);
 	Save_dir = NORTH;
 	
+
+	x2 = 0.0f;
 	return ret;
 }
 
@@ -82,6 +84,7 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	Plane p(0, 1, 0, 0);
 	p.axis = true;
+	p.color = Black;
 	p.Render();
 
 	/*sensor->GetTransform(&s.transform);
@@ -134,7 +137,24 @@ update_status ModuleSceneIntro::Update(float dt)
 	LeftShape.Render();*/
 
 	//---------------------------
+	if (fadetowhite)
+	{
+		x2 += 0.005f;
+		for (int i = 0; i < 100; i++)
+		{
+			SplatoonShapes[i].color.Set(x2, x2, x2);
+		}
+		if (x2 >= 1.0f)
+		{
+			fadetowhite = false;
+			x2 = 0.0f;
+			for (int i = 0; i < 100; i++)
+			{
+				SplatoonShapes[i].color = White;
+			}
+		}
 
+	}
 
 	for (int i = 0; i < objects; i++)
 	{
@@ -279,7 +299,7 @@ void ModuleSceneIntro::CreateMap(int num_rows, int num_columns)
 		{
 			SplatoonShapes[k].size = size;
 			SplatoonShapes[k].SetPos(ActualPos.x + j*size.x, ActualPos.y - 2.4, ActualPos.z + i*size.z);
-			SplatoonShapes[k].color = White;
+			SplatoonShapes[k].color = Black;
 			SplatoonMap[k] = App->physics->AddBox(SplatoonShapes[k], true, 0);
 			SplatoonMap[k]->SetAsSensor(true);
 			SplatoonMap[k]->collision_listeners.add(this);

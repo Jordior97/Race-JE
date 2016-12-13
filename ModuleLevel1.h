@@ -35,4 +35,7 @@ private:
 
 	uint button_press;
 
+	float x1;
+	bool fadetoblack = false;
+
 };

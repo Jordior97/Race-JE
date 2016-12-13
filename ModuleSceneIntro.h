@@ -54,4 +54,9 @@ public:
 	uint BlueSelected = 0;
 	Cube s;
 	PhysBody3D* sensor;
+
+
+
+	bool fadetowhite = false;
+	float x2;
 };

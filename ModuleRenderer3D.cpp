@@ -124,6 +124,15 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	SDL_GL_SwapWindow(App->window->window);
+	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN)
+	{
+		lights[0].Active(false);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_H) == KEY_UP)
+	{
+		lights[0].Active(true);
+	}
+
 	return UPDATE_CONTINUE;
 }
 
