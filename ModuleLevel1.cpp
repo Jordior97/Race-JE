@@ -21,8 +21,8 @@ bool ModuleLevel1::Start()
 
 	button_press = App->audio->LoadFx("Music&Fx/ButtonPress.wav");
 
-	App->camera->Move(vec3(47, 103, 100));
-	App->camera->LookAt(vec3(47, 120, 0));
+	App->camera->Move(vec3(47, 110, 100));
+	App->camera->LookAt(vec3(47, 110, 0));
 
 	//STORY
 	//S
