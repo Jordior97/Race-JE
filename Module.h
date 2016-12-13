@@ -5,9 +5,6 @@ struct PhysBody3D;
 
 class Module
 {
-private :
-	bool enabled;
-
 public:
 	Application* App;
 
@@ -49,4 +46,30 @@ public:
 
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
+
+	bool IsEnabled() const { return enabled; }
+
+	void Enable()
+	{
+		if (enabled == false)
+		{
+			enabled = true;
+			Start();
+		}
+	}
+
+	void Disable()
+	{
+		if (enabled == true)
+		{
+			enabled = false;
+			CleanUp();
+		}
+	}
+
+	vec3 ActualPos;
+
+private:
+
+	bool enabled = true;
 };

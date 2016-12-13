@@ -11,18 +11,15 @@ struct PhysBody3D;
 enum Direction;
 struct PhysMotor3D;
 
-class ModuleLevel1 : public Module
+class ModuleScene : public Module
 {
 public:
-	ModuleLevel1(Application* app, bool start_enabled = true);
-	~ModuleLevel1();
+	ModuleScene(Application* app, bool start_enabled = true);
+	~ModuleScene();
 
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
-
-	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
-	void CreateMap(int num_rows, int num_columns);
 
 public:
 
@@ -30,30 +27,13 @@ public:
 	PhysBody3D* Map[MAX_OBJECTS];
 	Cube Cubes[MAX_OBJECTS];
 
-	PhysBody3D* SplatoonMap[MAX_OBJECTS];
-	Cube SplatoonShapes[MAX_OBJECTS];
-
 	p2List<PhysBody3D*> upper;
 	p2List<PhysBody3D*> downer;
 	p2List<PhysBody3D*> curve;
+
 	vec3 ActualPos;
 	Direction Save_dir;
 	bool key_2 = false;
-
-	PhysBody3D* Stick;
-	Cube StickShape;
-
-	PhysBody3D* blow;
-
-	PhysBody3D* KinematicObject;
-	Cube KinematicShape;
-	bool test = false;
-
-	bool anothercar = false;
-	uint RedSelected = 0;
-	uint BlueSelected = 0;
-	Cube s;
-	PhysBody3D* sensor;
 
 	bool fadetowhite = false;
 	float x2;

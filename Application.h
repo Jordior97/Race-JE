@@ -1,5 +1,4 @@
 #pragma once
-
 #include "p2List.h"
 #include "Globals.h"
 #include "Timer.h"
@@ -7,12 +6,12 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
-#include "ModuleSceneIntro.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
 #include "ModulePlayer.h"
 #include "ModuleLevel1.h"
+#include "ModuleMenu.h"
 
 class Application
 {
@@ -20,11 +19,11 @@ public:
 	ModuleWindow* window;
 	ModuleInput* input;
 	ModuleAudio* audio;
-	ModuleSceneIntro* scene_intro;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModulePhysics3D* physics;
 	ModulePlayer* player;
+	ModuleMenu* menu;
 	ModuleLevel1* level1;
 
 private:
