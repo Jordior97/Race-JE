@@ -71,6 +71,11 @@ update_status ModuleMultiplayer::Update(float dt)
 	return UPDATE_CONTINUE; 
 }
 
+bool ModuleMultiplayer::CleanUp()
+{
+	return true;
+}
+
 void ModuleMultiplayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	for (int i = 0; i < MAX_OBJECTS; i++)
