@@ -12,7 +12,7 @@ enum Direction;
 class ModuleMultiplayer : public ModuleScene
 {
 public:
-	ModuleMultiplayer(Application* app, bool start_enabled = true);
+	ModuleMultiplayer(Application* app, bool start_enabled = false);
 	~ModuleMultiplayer();
 
 	bool Start();

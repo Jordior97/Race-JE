@@ -40,9 +40,13 @@ bool ModuleCustom::Start()
 bool ModuleCustom::CleanUp() //NEED CORRECTION !!!
 {
 	LOG("Unloading Intro scene");
-	App->physics->CleanUp();
-	delete[] Map;
-	delete[] Cubes;
+	if (Map[0] != nullptr)//TODO entra amb NULL y nullptr nose perque
+	{
+		App->physics->CleanUp();
+		delete[] Map;
+		delete[] Cubes;
+	}
+
 
 	return true;
 }

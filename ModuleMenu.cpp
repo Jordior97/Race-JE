@@ -20,7 +20,7 @@ bool ModuleMenu::Start()
 	LOG("Loading Level1");
 
 	button_press = App->audio->LoadFx("Music&Fx/ButtonPress.wav");
-
+	App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
 	//Set plane
 	Plane p(0, 1, 0, 0);
 	plane = p;

@@ -17,7 +17,6 @@ ModuleMultiplayer::~ModuleMultiplayer()
 
 bool ModuleMultiplayer::Start()
 {
-	App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
 	
 	//Set plane
 	Plane p(0, 1, 0, 0);

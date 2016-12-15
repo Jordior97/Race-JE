@@ -12,7 +12,7 @@ enum Direction;
 class ModuleCustom : public ModuleScene
 {
 public:
-	ModuleCustom(Application* app, bool start_enabled = true);
+	ModuleCustom(Application* app, bool start_enabled = false);
 	~ModuleCustom();
 	bool Start();
 	update_status Update(float dt);

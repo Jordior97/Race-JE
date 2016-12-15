@@ -136,6 +136,9 @@ update_status ModuleCamera3D::Update(float dt)
 
 		else if (App->menu->History == true)
 		{
+			temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
+			player_pos.Set(temp.getX(), temp.getY(), temp.getZ()); //position of the car respect to the world.
+			App->player->vehicle->GetTransform(&vehicle_info);
 			state = HISTORY;
 		}
 		else if (App->menu->CustomLevel == true)
@@ -150,9 +153,7 @@ update_status ModuleCamera3D::Update(float dt)
 			state = CUSTOM;
 		}
 
-		temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
-		player_pos.Set(temp.getX(), temp.getY(), temp.getZ()); //position of the car respect to the world.
-		App->player->vehicle->GetTransform(&vehicle_info);
+
 
 		switch (state)
 		{

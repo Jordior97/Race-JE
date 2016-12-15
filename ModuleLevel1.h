@@ -14,7 +14,7 @@ struct PhysMotor3D;
 class ModuleLevel1 : public ModuleScene
 {
 public:
-	ModuleLevel1(Application* app, bool start_enabled = true);
+	ModuleLevel1(Application* app, bool start_enabled = false);
 	~ModuleLevel1();
 
 	bool Start();
