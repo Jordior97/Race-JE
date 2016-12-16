@@ -48,23 +48,6 @@ update_status ModuleCamera3D::Update(float dt)
 {
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
-
-	/*if (App->level1->History && changecam)
-	{
-	changecam = false;
-	//
-	}
-	if (App->level1->Multiplayer && changecam)
-	{
-	changecam = false;
-	//
-	}
-	if (App->level1->CustomLevel && changecam)
-	{
-	changecam = false;
-	//
-	}*/
-
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 	{
 		freecam = !freecam;
@@ -72,6 +55,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (freecam)
 	{
+		//TODO-> treure'l al final TT
 		vec3 newPos(0, 0, 0);
 		float speed = 3.0f * dt;
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
@@ -129,36 +113,13 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (freecam == false)
 	{
-		if (App->menu->Multiplayer == true)
-		{
-			state = MULTIPLAYER;
-		}
-
-		else if (App->menu->History == true)
-		{
-			temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
-			player_pos.Set(temp.getX(), temp.getY(), temp.getZ()); //position of the car respect to the world.
-			App->player->vehicle->GetTransform(&vehicle_info);
-			state = HISTORY;
-		}
-		else if (App->menu->CustomLevel == true)
-		{
-			if (state != CUSTOM)
-			{
-				Position.x = 130;
-				Position.y = 20;
-				Position.z = 0;
-				LookAt(vec3(150, 0, 0));
-			}
-			state = CUSTOM;
-		}
-
-
-
 		switch (state)
 		{
 		case HISTORY:
 		{
+			temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
+			player_pos.Set(temp.getX(), temp.getY(), temp.getZ()); //position of the car respect to the world.
+			App->player->vehicle->GetTransform(&vehicle_info);
 			//From the transform matrix of the car, we extract the rotation matrix of it.
 			X = vec3(vehicle_info[0], vehicle_info[1], vehicle_info[2]);
 			Y = vec3(vehicle_info[4], vehicle_info[5], vehicle_info[6]);
@@ -167,18 +128,6 @@ update_status ModuleCamera3D::Update(float dt)
 			//Then we look at the player pos from behind.
 			Look((camera_pos + player_pos) - Z * 10, vec_view + player_pos, true);
 
-			break;
-		}
-
-		case MULTIPLAYER:
-		{
-			Position.x = 0;
-			Reference.x = 0;
-			Position.y = 80;
-			Reference.y = 80;
-			Position.z = 0;
-			Reference.z = 0;
-			LookAt(player_pos);
 			break;
 		}
 		case CUSTOM:

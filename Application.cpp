@@ -31,10 +31,10 @@ Application::Application()
 	AddModule(level1);
 	AddModule(custom);
 	AddModule(multiplayer);
-	level1->Disable();
-	custom->Disable();
-	multiplayer->Disable();
-	player->Disable();
+	custom->Disable_without_cleanup();
+	level1->Disable_without_cleanup();
+	multiplayer->Disable_without_cleanup();
+	player->Disable_without_cleanup();
 
 	// Renderer last!
 	AddModule(renderer3D);

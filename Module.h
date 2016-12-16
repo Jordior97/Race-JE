@@ -68,6 +68,14 @@ public:
 		}
 	}
 
+	void Disable_without_cleanup()
+	{
+		if (enabled == true)
+		{
+			enabled = false;
+		}
+	}
+
 private:
 
 	bool enabled = true;

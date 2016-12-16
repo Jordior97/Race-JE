@@ -29,6 +29,16 @@ bool ModuleCustom::Start()
 	plane.axis = true;
 	plane.color = Black;
 
+	if (App->menu->IsEnabled())
+	{
+		App->menu->Disable();
+	}
+	//TODO
+	App->camera->Position.x = 130;
+	App->camera->Position.y = 20;
+	App->camera->Position.z = 0;
+	App->camera->LookAt(vec3(150, 0, 0));
+
 	//CUSTOM MAP
 	ActualPos.Set(150, 0, 0);
 	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0, this);
@@ -40,13 +50,10 @@ bool ModuleCustom::Start()
 bool ModuleCustom::CleanUp() //NEED CORRECTION !!!
 {
 	LOG("Unloading Intro scene");
-	if (Map[0] != nullptr)//TODO entra amb NULL y nullptr nose perque
-	{
-		App->physics->CleanUp();
-		delete[] Map;
-		delete[] Cubes;
-	}
 
+	App->physics->CleanUp();
+	delete[] Map;
+	delete[] Cubes;
 
 	return true;
 }
@@ -54,6 +61,24 @@ bool ModuleCustom::CleanUp() //NEED CORRECTION !!!
 update_status ModuleCustom::Update(float dt)
 {
 	plane.Render();
+
+	if (fadetowhite)
+	{
+		color_white += 0.005f;
+		for (int i = 0; i < 100; i++)
+		{
+			Cubes[i].color.Set(color_white, color_white, color_white);
+		}
+		if (color_white >= 1.0f)
+		{
+			fadetowhite = false;
+			color_white = 0.0f;
+			for (int i = 0; i < 100; i++)
+			{
+				Cubes[i].color = White;
+			}
+		}
+	}
 
 	for (int i = 0; i < objects; i++)
 	{

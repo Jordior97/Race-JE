@@ -4,7 +4,7 @@
 #include "glmath.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
-enum CameraPos { HISTORY, MULTIPLAYER, CUSTOM, INTRO };
+enum CameraPos { HISTORY, CUSTOM, INTRO };
 
 class ModuleCamera3D : public Module
 {

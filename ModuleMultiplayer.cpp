@@ -25,13 +25,25 @@ bool ModuleMultiplayer::Start()
 	plane.color = Black;
 
 	//Set camera position
-	App->camera->Move(vec3(0, 50, 0));
+	App->camera->Move(vec3(-47, 50, -100));
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	//Set reference position
 	ActualPos.x = 0;
 	ActualPos.y = 0;
 	ActualPos.z = 0;
+
+	if (App->menu->IsEnabled())
+	{
+		App->menu->Disable();
+	}
+
+	if (App->player->IsEnabled() == false)
+	{
+		App->player->Enable();
+	}
+
+
 
 	//Create Multiplayer Map
 	CreateMap(10, 10);
