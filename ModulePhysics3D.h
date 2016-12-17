@@ -54,6 +54,8 @@ public:
 	PhysBody3D* AddBlow(int x, int y, int z);
 	
 
+	btDiscreteDynamicsWorld*			world;
+	p2List<PhysVehicle3D*> vehicles;
 
 private:
 
@@ -63,7 +65,7 @@ private:
 	btCollisionDispatcher*				dispatcher;
 	btBroadphaseInterface*				broad_phase;
 	btSequentialImpulseConstraintSolver* solver;
-	btDiscreteDynamicsWorld*			world;
+
 	btDefaultVehicleRaycaster*			vehicle_raycaster;
 	DebugDrawer*						debug_draw;
 
@@ -71,7 +73,6 @@ private:
 	p2List<PhysBody3D*> bodies;
 	p2List<btDefaultMotionState*> motions;
 	p2List<btTypedConstraint*> constraints;
-	p2List<PhysVehicle3D*> vehicles;
 
 };
 

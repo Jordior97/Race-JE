@@ -30,20 +30,20 @@ bool ModuleLevel1::Start()
 	//Enable Player 1
 	if (App->player->IsEnabled() == false)
 	{
-		App->player->Enable();
+		//App->player->Enable();
 	}
 
 	CreateFirstLevel();
 
-	App->player->vehicle->SetPos(0, 5, 5);
+	//App->player->vehicle->SetPos(0, 5, 5);
 
 	//Set camera mode to HISTORY MODE (3rd person view)
 	App->camera->state = HISTORY;
 
 	//SET LEVEL 1 TITLE
-	char title[80];
+	/*char title[80];
 	sprintf_s(title, "LEVEL 1 - %.1f Km/h", App->player->vehicle->GetKmh());
-	App->window->SetTitle(title);
+	App->window->SetTitle(title);*/
 
 	//Set plane
 	Plane p(0, 1, 0, 0);
@@ -51,6 +51,9 @@ bool ModuleLevel1::Start()
 	plane.axis = true;
 	plane.color = Black;
 
+	KinematicShape.SetPos(20, 20, -5);
+	KinematicShape.size.Set(5, 2, 5);
+	KinematicObject = App->physics->AddBox(KinematicShape, 0);
 	/*App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
 
 	/*App->camera->Move(vec3(0.0f, 30.0f, 0.0f));
@@ -163,27 +166,27 @@ update_status ModuleLevel1::Update(float dt)
 	s.Render();*/
 
 	//KINEMATIC OBJECT ----------
-	/*if (KinematicObject->GetPos().y >= 150)
+	if (KinematicObject->GetPos().z >= 20)
 	{
-	test = true;
+		testillo = true;
 	}
 
-	else if(KinematicObject->GetPos().y <= 50)
+	else if (KinematicObject->GetPos().z <= 0)
 	{
-	test = false;
+		testillo = false;
 	}
 
-	if (test == true)
+	if (testillo == true)
 	{
-	KinematicObject->Move(0, -1, 0);
+		KinematicObject->Move(0, 0, -1.0f);
 	}
 	else
 	{
-	KinematicObject->Move(0, 1, 0);
+		KinematicObject->Move(0, 0, 1.0f);
 	}
 
-	KinematicObject->GetTransform(&KinematicShape.transform);
-	KinematicShape.Render();*/
+	KinematicObject->GetTransform_special(&KinematicShape.transform);
+	KinematicShape.Render();
 	//---------------------------
 
 	// WINDMILL ---------------------------
@@ -207,11 +210,11 @@ update_status ModuleLevel1::Update(float dt)
 	LeftShape.Render();*/
 	//---------------------------
 
-	for (int i = 0; i < 7; i++)
+	/*for (int i = 0; i < 7; i++)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
-	}
+	}*/
 
 
 

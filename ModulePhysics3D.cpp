@@ -60,7 +60,6 @@ bool ModulePhysics3D::Start()
 	// Big plane as ground
 	{
 		btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
-
 		btDefaultMotionState* myMotionState = new btDefaultMotionState();
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
 
@@ -122,12 +121,12 @@ update_status ModulePhysics3D::Update(float dt)
 		world->debugDrawWorld();
 
 		// Render vehicles
-		p2List_item<PhysVehicle3D*>* item = vehicles.getFirst();
+		/*p2List_item<PhysVehicle3D*>* item = vehicles.getFirst();
 		while (item)
 		{
 			item->data->Render();
 			item = item->next;
-		}
+		}*/
 
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)//TODO Delete when finish
 		{

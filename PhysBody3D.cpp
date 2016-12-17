@@ -35,6 +35,15 @@ void PhysBody3D::GetTransform(float* matrix) const
 	}
 }
 
+void PhysBody3D::GetTransform_special(float* matrix) const
+{
+	if (body != NULL && matrix != NULL)
+	{
+		body->getWorldTransform().getOpenGLMatrix(matrix);
+		body->setGravity(btVector3(0, 0, 0));
+	}
+}
+
 // ---------------------------------------------------------
 void PhysBody3D::SetTransform(const float* matrix) const
 {
@@ -69,7 +78,7 @@ void PhysBody3D::SetAngVel(float x, float y, float z)
 void PhysBody3D::Move(float x, float y, float z)
 {
 	btTransform newTrans = body->getWorldTransform();
-	newTrans.getOrigin() += (btVector3(x*0.1, y*0.1, z*0.1));
+	newTrans.getOrigin() += (btVector3(x*0.1f, y*0.1f, z*0.1f));
 	body->setWorldTransform(newTrans);
 }
 

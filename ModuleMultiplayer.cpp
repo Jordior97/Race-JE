@@ -26,7 +26,7 @@ bool ModuleMultiplayer::Start()
 	Plane p(0, 1, 0, 0);
 	plane = p;
 	plane.axis = true;
-	plane.color = White;
+	plane.color = Black;
 
 	//Enable player
 	if (App->player->IsEnabled() == false)
@@ -42,16 +42,9 @@ bool ModuleMultiplayer::Start()
 	App->player2->vehicle->SetPos(25, 12, 25);
 
 	//Set camera position
-	/*App->camera->Position.Set(0.0f, 50.0f, 0.0f);
-	App->camera->Reference.Set(0.0f, 0.0f, 0.0f);*/
-	App->camera->MoveAt(vec3(-20.0f, 100.0f, 0.0f));
-	//App->camera->Move(vec3(-47, 50, -100));
-	//LOG("ANTES->  %f   %f   %f", App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
-	//LOG("ANTES->  %f   %f   %f", App->camera->Reference.x, App->camera->Reference.y, App->camera->Reference.z);
-	App->camera->LookAt(vec3(0, 0, 0));
-	//LOG("DESPUES->   %f   %f   %f", App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
-	//LOG("DESPUES->   %f   %f   %f", App->camera->Reference.x, App->camera->Reference.y, App->camera->Reference.z);
 
+	App->camera->MoveAt(vec3(-20.0f, 100.0f, 0.0f));
+	App->camera->LookAt(vec3(0, 0, 0));
 	//Set reference position
 	ActualPos.x = 0;
 	ActualPos.y = 0;
@@ -75,16 +68,17 @@ update_status ModuleMultiplayer::Update(float dt)
 {
 	plane.Render();
 
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
 	{
 		actualtime = GetTickCount();
+		App->menu->Enable();
 		if (test)
 		{
 			time = actualtime;
 			test = false;
 		}
 
-		if (actualtime >= time + 3000)
+		if (actualtime >= time + 1000)
 		{
 			time = actualtime;
 			App->menu->Enable();

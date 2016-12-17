@@ -4,6 +4,8 @@
 #include "ModuleInput.h"
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
+#include "PhysVehicle3D.h"
+#include "PhysBody3D.h"
 
 ModuleMenu::ModuleMenu(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
@@ -55,8 +57,32 @@ bool ModuleMenu::Start()
 	if (App->player->IsEnabled())
 	{
 		App->player->Disable();
-		/*delete App->player->vehicles;
-		while(App->physics->world->getDispatcher()->)
+		//
+		
+		App->physics->world->removeRigidBody(App->player->vehicle->body);
+		App->physics->world->removeRigidBody(App->player2->vehicle->body);
+		for (int i = 0; i < 100; i++)
+		{
+			App->physics->world->removeRigidBody(App->multiplayer->Map[i]->body);
+		}
+
+		//App->physics->world->removeVehicle((btActionInterface*)App->player->vehicle);
+		//delete App->player->vehicle;
+		/*delete App->player->vehicle;
+		//App->physics->world->removeVehicle((btActionInterface*)App->player->vehicle->body);
+		
+		App->physics->world->removeRigidBody(App->player2->vehicle->body);
+		App->physics->world->removeVehicle((btActionInterface*)App->player2->vehicle->body);
+		*/
+		//App->physics->world->removeVehicle((btActionInterface*)App->player2->vehicle);
+		/*for (p2List_item<PhysVehicle3D*>* item = App->physics->vehicles.getFirst(); item; item = item->next)
+			delete item->data;
+		//App->physics->world->removeRigidBody((btRigidBody*)App->player->vehicle);
+		App->physics->vehicles.clear();*/
+		//delete App->player->vehicle;
+		//delete App->player->vehicle;
+		//
+		/*while(App->physics->world->getDispatcher()->)
 		delete App->physics->world;*/
 	}
 

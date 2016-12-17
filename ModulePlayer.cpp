@@ -98,8 +98,6 @@ bool ModulePlayer::Start()
 
 	vehicle = new PhysVehicle3D(App->physics->AddVehicle(car));
 
-
-
 	return true;
 }
 

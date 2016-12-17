@@ -53,6 +53,10 @@ public:
 	bool fadetowhite = false;
 	float x2;*/
 
+	PhysBody3D* KinematicObject;
+	Cube KinematicShape;
+	bool testillo = false;
+
 private:
 
 	//Return to menu
