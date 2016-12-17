@@ -410,231 +410,224 @@ void ModulePhysics3D::CreateUPER(Cube &cube_down, Cube &cube_upper, Cube &cube_u
 	height = height / 0.71f;
 	if (type == NORTH)
 	{
-		/*//Cube_down
-		cube_down.size.Set(lenght, 2, 12);
+		//Cube_down
+		cube_down.size.Set(lenght, 2, width);
 		scene->ActualPos.x += lenght / 2.0f;
 		cube_down.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		scene->ActualPos.Set(scene->ActualPos.x + lenght / 2.0f - 1, scene->ActualPos.y, scene->ActualPos.z);
 		//Cube_upper
-		cube_upper.size.Set(altura, 2, 12);
+		cube_upper.size.Set(height, 2, width);
 		scene->ActualPos.x += 1;
 		scene->ActualPos.y += 0.41f;
-		if (altura > 2)
+		if (height > 2)
 		{
-			scene->ActualPos.x += ((altura / 2.0f) - 1) * 0.71f;
-			scene->ActualPos.y += ((altura / 2.0f) - 1) * 0.71f;
+			scene->ActualPos.x += ((height / 2.0f) - 1) * 0.71f;
+			scene->ActualPos.y += ((height / 2.0f) - 1) * 0.71f;
 		}
 		cube_upper.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		cube_upper.SetRotation(45, { 0, 0, 1 });
-		scene->ActualPos.Set(scene->ActualPos.x + ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.y + ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.z);
+		scene->ActualPos.Set(scene->ActualPos.x + ((height / 2.0f) - 1)*0.71f, scene->ActualPos.y + ((height / 2.0f) - 1)*0.71f, scene->ActualPos.z);
 		//Cube_up
-		cube_up.size.Set(lenght, 2, 12);
+		cube_up.size.Set(lenght, 2, width);
 		scene->ActualPos.x += lenght / 2.0f;
 		scene->ActualPos.y += 0.41f;
 		cube_up.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		scene->ActualPos.Set(scene->ActualPos.x + lenght / 2.0f - 1, scene->ActualPos.y, scene->ActualPos.z);*/
+		scene->ActualPos.Set(scene->ActualPos.x + lenght / 2.0f - 1, scene->ActualPos.y, scene->ActualPos.z);
 	}
 	else if (type == EAST)
 	{
-		/*//Cube_down
-		cube_down.size.Set(12, 2, lenght);
+		//Cube_down
+		cube_down.size.Set(width, 2, lenght);
 		scene->ActualPos.z += lenght / 2.0f;
 		cube_down.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z + lenght / 2.0f - 1);
 		//Cube_upper
-		cube_upper.size.Set(12, 2, altura);
+		cube_upper.size.Set(width, 2, height);
 		scene->ActualPos.z += 1;
 		scene->ActualPos.y += 0.41f;
-		if (altura > 2)
+		if (height > 2)
 		{
-			scene->ActualPos.z += ((altura / 2.0f) - 1)*0.71f;
-			scene->ActualPos.y += ((altura / 2.0f) - 1)*0.71f;
+			scene->ActualPos.z += ((height / 2.0f) - 1)*0.71f;
+			scene->ActualPos.y += ((height / 2.0f) - 1)*0.71f;
 		}
 		cube_upper.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		cube_upper.SetRotation(45, { -1, 0, 0 });
-		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y + ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.z + ((altura / 2.0f) - 1)*0.71f);
+		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y + ((height / 2.0f) - 1)*0.71f, scene->ActualPos.z + ((height / 2.0f) - 1)*0.71f);
 		//Cube_up
-		cube_up.size.Set(12, 2, lenght);
+		cube_up.size.Set(width, 2, lenght);
 		scene->ActualPos.z += lenght / 2.0f;
 		scene->ActualPos.y += 0.41f;
 		cube_up.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z + lenght / 2.0f - 1);*/
+		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z + lenght / 2.0f - 1);
 	}
 	else if (type == SOUTH)
 	{
-		/*//Cube_down
-		cube_down.size.Set(lenght, 2, 12);
+		//Cube_down
+		cube_down.size.Set(lenght, 2, width);
 		scene->ActualPos.x -= lenght / 2.0f;
 		cube_down.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		scene->ActualPos.Set(scene->ActualPos.x - lenght / 2.0f + 1, scene->ActualPos.y, scene->ActualPos.z);
 		//Cube_upper
-		cube_upper.size.Set(altura, 2, 12);
+		cube_upper.size.Set(height, 2, width);
 		scene->ActualPos.x -= 1;
 		scene->ActualPos.y += 0.41f;
-		if (altura > 2)
+		if (height > 2)
 		{
-			scene->ActualPos.x -= ((altura / 2.0f) - 1)*0.71f;
-			scene->ActualPos.y += ((altura / 2.0f) - 1)*0.71f;
+			scene->ActualPos.x -= ((height / 2.0f) - 1)*0.71f;
+			scene->ActualPos.y += ((height / 2.0f) - 1)*0.71f;
 		}
 		cube_upper.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		cube_upper.SetRotation(45, { 0, 0, -1 });
-		scene->ActualPos.Set(scene->ActualPos.x - ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.y + ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.z);
+		scene->ActualPos.Set(scene->ActualPos.x - ((height / 2.0f) - 1)*0.71f, scene->ActualPos.y + ((height / 2.0f) - 1)*0.71f, scene->ActualPos.z);
 		//Cube_up
-		cube_up.size.Set(lenght, 2, 12);
+		cube_up.size.Set(lenght, 2, width);
 		scene->ActualPos.x -= lenght / 2.0f;
 		scene->ActualPos.y += 0.41f;
 		cube_up.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		scene->ActualPos.Set(scene->ActualPos.x - lenght / 2.0f + 1, scene->ActualPos.y, scene->ActualPos.z);*/
+		scene->ActualPos.Set(scene->ActualPos.x - lenght / 2.0f + 1, scene->ActualPos.y, scene->ActualPos.z);
 	}
 	else if (type == WEST)
 	{
-		/*//Cube_down
-		cube_down.size.Set(12, 2, lenght);
+		//Cube_down
+		cube_down.size.Set(width, 2, lenght);
 		scene->ActualPos.z -= lenght / 2.0f;
 		cube_down.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z - lenght / 2.0f + 1);
 		//Cube_upper
-		cube_upper.size.Set(12, 2, altura);
+		cube_upper.size.Set(width, 2, height);
 		scene->ActualPos.z -= 1;
 		scene->ActualPos.y += 0.41f;
-		if (altura > 2)
+		if (height > 2)
 		{
-			scene->ActualPos.z -= ((altura / 2.0f) - 1)*0.71f;
-			scene->ActualPos.y += ((altura / 2.0f) - 1)*0.71f;
+			scene->ActualPos.z -= ((height / 2.0f) - 1)*0.71f;
+			scene->ActualPos.y += ((height / 2.0f) - 1)*0.71f;
 		}
 		cube_upper.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		cube_upper.SetRotation(45, { 1, 0, 0 });
-		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y + ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.z - ((altura / 2.0f) - 1)*0.71f);
+		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y + ((height / 2.0f) - 1)*0.71f, scene->ActualPos.z - ((height / 2.0f) - 1)*0.71f);
 		//Cube_up
-		cube_up.size.Set(12, 2, lenght);
+		cube_up.size.Set(width, 2, lenght);
 		scene->ActualPos.z -= lenght / 2.0f;
 		scene->ActualPos.y += 0.41f;
 		cube_up.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z - lenght / 2.0f + 1);*/
+		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z - lenght / 2.0f + 1);
 	}
 
-	
+
 
 	scene->upper.add(AddBox(cube_down, false, 0));
 	scene->upper.add(AddBox(cube_upper, false, 0));
 	scene->upper.add(AddBox(cube_up, false, 0));
 }
 
-void ModulePhysics3D::CreateDOWNER(Cube &cube_down, Cube &cube_upper, Cube &cube_up, float lenght, float width, float height, Direction type, ModuleScene* scene)
+void ModulePhysics3D::CreateDOWNER(Cube &cube_down, Cube &cube_upper, Cube &cube_up, float lenght, float widths, float height, Direction type, ModuleScene* scene)
 {
 	scene->downer.clear();
-	width = width / 0.71f;
-	//TODO - REPASAR, Pivot up is diferent to pivot down, error!!
+	height = height / 0.71f;
 	if (type == NORTH)
 	{
-		//Cubes
-		cube_down.size.Set(width, height, lenght);
-		cube_upper.size.Set(lenght, height, width);
-		cube_up.size.Set(lenght, height, width);
-		//cube
-		scene->ActualPos.y += lenght / 2.0f;
-		cube_down.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y + lenght / 2.0f - (width / 2), scene->ActualPos.z);
-		//cube_1
-		scene->ActualPos.y += (width / 2);
-		float tmp = sqrt((width / 2)*(width / 2) + (width / 2)*(width / 2));
-		scene->ActualPos.x += (tmp - (width / 2));
-		if (lenght > 2)
-		{
-			scene->ActualPos.x += ((lenght / 2.0f) - (width / 2))*0.71f;
-			scene->ActualPos.y += ((lenght / 2.0f) - (width / 2))*0.71f;
-		}
-
-		cube_upper.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		cube_upper.SetRotation(45, { 0, -1, 0 });
-		scene->ActualPos.Set(scene->ActualPos.x + ((lenght / 2.0f) - (width / 2))*0.71f, scene->ActualPos.y + ((lenght / 2.0f) - (width / 2))*0.71f, scene->ActualPos.z);
-		//cube_2
-		scene->ActualPos.y += (tmp - (width / 2));
+		//Cube_down
+		cube_down.size.Set(lenght, 2, widths);
 		scene->ActualPos.x += lenght / 2.0f;
+		cube_down.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
+		scene->ActualPos.Set(scene->ActualPos.x + lenght / 2.0f - 1, scene->ActualPos.y, scene->ActualPos.z);
+		//Cube_upper
+		cube_upper.size.Set(height, 2, widths);
+		scene->ActualPos.x += 1;
+		scene->ActualPos.y -= 0.41f;
+		if (height > 2)
+		{
+			scene->ActualPos.x += ((height / 2.0f) - 1)*0.71f;
+			scene->ActualPos.y -= ((height / 2.0f) - 1)*0.71f;
+		}
+		cube_upper.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
+		cube_upper.SetRotation(45, { 0, 0, -1 });
+		scene->ActualPos.Set(scene->ActualPos.x + ((height / 2.0f) - 1)*0.71f, scene->ActualPos.y - ((height / 2.0f) - 1)*0.71f, scene->ActualPos.z);
+		//Cube_up
+		cube_up.size.Set(lenght, 2, widths);
+		scene->ActualPos.x += lenght / 2.0f;
+		scene->ActualPos.y -= 0.41f;
 		cube_up.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		scene->ActualPos.Set(scene->ActualPos.x + ((lenght / 2.0f) - 1), scene->ActualPos.y, scene->ActualPos.z);
-
+		scene->ActualPos.Set(scene->ActualPos.x + lenght / 2.0f - 1, scene->ActualPos.y, scene->ActualPos.z);
 	}
 	else if (type == EAST)
 	{
-		/*//Cube_down
-		cube_down.size.Set(12, 2, lenght);
+		//Cube_down
+		cube_down.size.Set(widths, 2, lenght);
 		scene->ActualPos.z += lenght / 2.0f;
 		cube_down.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z + lenght / 2.0f - 1);
 		//Cube_upper
-		cube_upper.size.Set(12, 2, altura);
+		cube_upper.size.Set(widths, 2, height);
 		scene->ActualPos.z += 1;
 		scene->ActualPos.y -= 0.41f;
-		if (altura > 2)
+		if (height > 2)
 		{
-			scene->ActualPos.z += ((altura / 2.0f) - 1)*0.71f;
-			scene->ActualPos.y -= ((altura / 2.0f) - 1)*0.71f;
+			scene->ActualPos.z += ((height / 2.0f) - 1)*0.71f;
+			scene->ActualPos.y -= ((height / 2.0f) - 1)*0.71f;
 		}
 		cube_upper.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		cube_upper.SetRotation(45, { 1, 0, 0 });
-		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y - ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.z + ((altura / 2.0f) - 1)*0.71f);
+		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y - ((height / 2.0f) - 1)*0.71f, scene->ActualPos.z + ((height / 2.0f) - 1)*0.71f);
 		//Cube_up
-		cube_up.size.Set(12, 2, lenght);
+		cube_up.size.Set(widths, 2, lenght);
 		scene->ActualPos.z += lenght / 2.0f;
 		scene->ActualPos.y -= 0.41f;
 		cube_up.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z + lenght / 2.0f - 1);*/
+		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z + lenght / 2.0f - 1);
 	}
 	else if (type == SOUTH)
 	{
-		/*//Cube_down
-		cube_down.size.Set(lenght, 2, 12);
+		//Cube_down
+		cube_down.size.Set(lenght, 2, widths);
 		scene->ActualPos.x -= lenght / 2.0f;
 		cube_down.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		scene->ActualPos.Set(scene->ActualPos.x - lenght / 2.0f + 1, scene->ActualPos.y, scene->ActualPos.z);
 		//Cube_upper
-		cube_upper.size.Set(altura, 2, 12);
+		cube_upper.size.Set(height, 2, widths);
 		scene->ActualPos.x -= 1;
 		scene->ActualPos.y -= 0.41f;
-		if (altura > 2)
+		if (height > 2)
 		{
-			scene->ActualPos.x -= ((altura / 2.0f) - 1)*0.71f;
-			scene->ActualPos.y -= ((altura / 2.0f) - 1)*0.71f;
+			scene->ActualPos.x -= ((height / 2.0f) - 1)*0.71f;
+			scene->ActualPos.y -= ((height / 2.0f) - 1)*0.71f;
 		}
 		cube_upper.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		cube_upper.SetRotation(45, { 0, 0, 1 });
-		scene->ActualPos.Set(scene->ActualPos.x - ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.y - ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.z);
+		scene->ActualPos.Set(scene->ActualPos.x - ((height / 2.0f) - 1)*0.71f, scene->ActualPos.y - ((height / 2.0f) - 1)*0.71f, scene->ActualPos.z);
 		//Cube_up
-		cube_up.size.Set(lenght, 2, 12);
+		cube_up.size.Set(lenght, 2, widths);
 		scene->ActualPos.x -= lenght / 2.0f;
 		scene->ActualPos.y -= 0.41f;
 		cube_up.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		scene->ActualPos.Set(scene->ActualPos.x - lenght / 2.0f + 1, scene->ActualPos.y, scene->ActualPos.z);*/
+		scene->ActualPos.Set(scene->ActualPos.x - lenght / 2.0f + 1, scene->ActualPos.y, scene->ActualPos.z);
 	}
 	else if (type == WEST)
 	{
-		/*//Cube_down
-		cube_down.size.Set(12, 2, lenght);
+		//Cube_down
+		cube_down.size.Set(widths, 2, lenght);
 		scene->ActualPos.z -= lenght / 2.0f;
 		cube_down.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z - lenght / 2.0f + 1);
 		//Cube_upper
-		cube_upper.size.Set(12, 2, altura);
+		cube_upper.size.Set(widths, 2, height);
 		scene->ActualPos.z -= 1;
 		scene->ActualPos.y -= 0.41f;
-		if (altura > 2)
+		if (height > 2)
 		{
-			scene->ActualPos.z -= ((altura / 2.0f) - 1)*0.71f;
-			scene->ActualPos.y -= ((altura / 2.0f) - 1)*0.71f;
+			scene->ActualPos.z -= ((height / 2.0f) - 1)*0.71f;
+			scene->ActualPos.y -= ((height / 2.0f) - 1)*0.71f;
 		}
 		cube_upper.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
 		cube_upper.SetRotation(45, { -1, 0, 0 });
-		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y - ((altura / 2.0f) - 1)*0.71f, scene->ActualPos.z - ((altura / 2.0f) - 1)*0.71f);
+		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y - ((height / 2.0f) - 1)*0.71f, scene->ActualPos.z - ((height / 2.0f) - 1)*0.71f);
 		//Cube_up
-		cube_up.size.Set(12, 2, lenght);
+		cube_up.size.Set(widths, 2, lenght);
 		scene->ActualPos.z -= lenght / 2.0f;
 		scene->ActualPos.y -= 0.41f;
 		cube_up.SetPos(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z);
-		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z - lenght / 2.0f + 1);*/
+		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z - lenght / 2.0f + 1);
 	}
-
-
 
 	scene->downer.add(AddBox(cube_down, false, 0));
 	scene->downer.add(AddBox(cube_upper, false, 0));

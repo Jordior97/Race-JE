@@ -124,7 +124,7 @@ void ModuleLevel1::CreateFirstLevel()
 {
 	ActualPos.Set(0, 0, 0);
 	
-	App->physics->CreateUPER(Cubes[0], Cubes[1], Cubes[2], 30, 8, EAST, this);
+	/*App->physics->CreateUPER(Cubes[0], Cubes[1], Cubes[2], 30, 8, EAST, this);
 	Map[0] = upper.getFirst()->data;
 	Map[1] = upper.getFirst()->next->data;
 	Map[2] = upper.getFirst()->next->next->data;
@@ -134,7 +134,7 @@ void ModuleLevel1::CreateFirstLevel()
 	Map[4] = curve.getFirst()->next->data;
 	Map[5] = curve.getFirst()->next->next->data;
 
-	Map[6] = App->physics->CreateStraight(Cubes[6], 3, SOUTH, false, 0, this);
+	Map[6] = App->physics->CreateStraight(Cubes[6], 3, SOUTH, false, 0, this);*/
 }
 
 // Update
