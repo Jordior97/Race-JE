@@ -117,7 +117,7 @@ update_status ModuleCamera3D::Update(float dt)
 		{
 		case HISTORY:
 		{
-			/*temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
+			temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
 			player_pos.Set(temp.getX(), temp.getY(), temp.getZ()); //position of the car respect to the world.
 			App->player->vehicle->GetTransform(&vehicle_info);
 
@@ -128,7 +128,6 @@ update_status ModuleCamera3D::Update(float dt)
 
 			//Then we look at the player pos from behind.
 			Look((camera_pos + player_pos) - Z * 10, vec_view + player_pos, true);
-			*/
 			break;
 		}
 		case CUSTOM:

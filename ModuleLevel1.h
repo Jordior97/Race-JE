@@ -51,11 +51,11 @@ public:
 	PhysBody3D* sensor;
 
 	bool fadetowhite = false;
-	float x2;*/
+	float x2;
 
 	PhysBody3D* KinematicObject;
 	Cube KinematicShape;
-	bool testillo = false;
+	bool testillo = false;*/
 
 private:
 

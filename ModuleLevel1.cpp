@@ -30,20 +30,20 @@ bool ModuleLevel1::Start()
 	//Enable Player 1
 	if (App->player->IsEnabled() == false)
 	{
-		//App->player->Enable();
+		App->player->Enable();
 	}
 
 	CreateFirstLevel();
 
-	//App->player->vehicle->SetPos(0, 5, 5);
+	App->player->vehicle->SetPos(0, 5, 5);
 
 	//Set camera mode to HISTORY MODE (3rd person view)
 	App->camera->state = HISTORY;
 
 	//SET LEVEL 1 TITLE
-	/*char title[80];
+	char title[80];
 	sprintf_s(title, "LEVEL 1 - %.1f Km/h", App->player->vehicle->GetKmh());
-	App->window->SetTitle(title);*/
+	App->window->SetTitle(title);
 
 	//Set plane
 	Plane p(0, 1, 0, 0);
@@ -51,9 +51,9 @@ bool ModuleLevel1::Start()
 	plane.axis = true;
 	plane.color = Black;
 
-	KinematicShape.SetPos(20, 20, -5);
+	/*KinematicShape.SetPos(20, 20, -5);
 	KinematicShape.size.Set(5, 2, 5);
-	KinematicObject = App->physics->AddBox(KinematicShape, 0);
+	KinematicObject = App->physics->AddBox(KinematicShape, 0);*/
 	/*App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
 
 	/*App->camera->Move(vec3(0.0f, 30.0f, 0.0f));
@@ -126,18 +126,26 @@ bool ModuleLevel1::CleanUp()
 void ModuleLevel1::CreateFirstLevel()
 {
 	ActualPos.Set(0, 0, 0);
-	
-	/*App->physics->CreateUPER(Cubes[0], Cubes[1], Cubes[2], 30, 8, EAST, this);
+	App->physics->CreateUPER(Cubes[0], Cubes[1], Cubes[2], 30, 10, 7, EAST, this);
 	Map[0] = upper.getFirst()->data;
 	Map[1] = upper.getFirst()->next->data;
 	Map[2] = upper.getFirst()->next->next->data;
 
-	App->physics->CreateCurve(Cubes[3], Cubes[4], Cubes[5], 30, 15, EAST, SOUTH, this);
+	App->physics->CreateCurve(Cubes[3], Cubes[4], Cubes[5], 30, 10, 2, SOUTH, EAST, this);
 	Map[3] = curve.getFirst()->data;
 	Map[4] = curve.getFirst()->next->data;
 	Map[5] = curve.getFirst()->next->next->data;
 
-	Map[6] = App->physics->CreateStraight(Cubes[6], 3, SOUTH, false, 0, this);*/
+	Map[6] = App->physics->CreateStraight(Cubes[6], 15, 10, 2, SOUTH, false, 0, this);
+	ActualPos.y -= 7;
+
+	Map[7] = App->physics->CreateStraight(Cubes[7], 20, 10, 2, EAST, false, 0, this);
+
+	App->physics->CreateCurve(Cubes[8], Cubes[9], Cubes[10], 30, 10, 2, NORTH, EAST, this);
+	Map[8] = curve.getFirst()->data;
+	Map[9] = curve.getFirst()->next->data;
+	Map[10] = curve.getFirst()->next->next->data;
+
 }
 
 // Update
@@ -166,7 +174,7 @@ update_status ModuleLevel1::Update(float dt)
 	s.Render();*/
 
 	//KINEMATIC OBJECT ----------
-	if (KinematicObject->GetPos().z >= 20)
+	/*if (KinematicObject->GetPos().z >= 20)
 	{
 		testillo = true;
 	}
@@ -186,7 +194,7 @@ update_status ModuleLevel1::Update(float dt)
 	}
 
 	KinematicObject->GetTransform_special(&KinematicShape.transform);
-	KinematicShape.Render();
+	KinematicShape.Render();*/
 	//---------------------------
 
 	// WINDMILL ---------------------------
@@ -210,11 +218,11 @@ update_status ModuleLevel1::Update(float dt)
 	LeftShape.Render();*/
 	//---------------------------
 
-	/*for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
-	}*/
+	}
 
 
 
