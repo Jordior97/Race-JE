@@ -171,7 +171,7 @@ update_status ModuleCustom::Update(float dt)
 		objects += 1;
 		objects += 1;
 		objects += 1;
-		App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 8, 10, Save_dir, this);
+		App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 8, 10, 2, Save_dir, this);
 		Map[objects - 3] = upper.getFirst()->data;
 		Map[objects - 2] = upper.getFirst()->next->data;
 		Map[objects - 1] = upper.getFirst()->next->next->data;
@@ -181,7 +181,7 @@ update_status ModuleCustom::Update(float dt)
 		objects += 1;
 		objects += 1;
 		objects += 1;
-		App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 6, 10, Save_dir, this);
+		App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 6, 10, 2, Save_dir, this);
 		Map[objects - 3] = downer.getFirst()->data;
 		Map[objects - 2] = downer.getFirst()->next->data;
 		Map[objects - 1] = downer.getFirst()->next->next->data;
@@ -213,7 +213,7 @@ update_status ModuleCustom::Update(float dt)
 			objects += 1; 
 			objects += 1;
 			objects += 1;
-			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, Save_dir, Last_save_dir, this);
+			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, 2, Save_dir, Last_save_dir, this);
 			Map[objects - 3] = curve.getFirst()->data;
 			Map[objects - 2] = curve.getFirst()->next->data;
 			Map[objects - 1] = curve.getFirst()->next->next->data;
@@ -246,7 +246,7 @@ update_status ModuleCustom::Update(float dt)
 			objects += 1;
 			objects += 1;
 			objects += 1;
-			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, Save_dir, Last_save_dir, this);
+			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, 2, Save_dir, Last_save_dir, this);
 			Map[objects - 3] = curve.getFirst()->data;
 			Map[objects - 2] = curve.getFirst()->next->data;
 			Map[objects - 1] = curve.getFirst()->next->next->data;
