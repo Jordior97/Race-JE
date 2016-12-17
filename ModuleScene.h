@@ -30,6 +30,7 @@ public:
 
 	vec3 ActualPos;
 	Direction Save_dir;
+
 	bool key_2 = false;
 
 	bool fadetowhite = false;

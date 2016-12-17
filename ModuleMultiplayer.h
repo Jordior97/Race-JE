@@ -5,7 +5,6 @@
 #include "Primitive.h"
 #include "p2List.h"
 
-#define MAX_OBJECTS 100
 struct PhysBody3D;
 enum Direction;
 
@@ -25,4 +24,11 @@ public:
 public:
 	uint RedSelected = 0;
 	uint BlueSelected = 0;
+
+	int objects;
+
+	//Return to menu
+	int time;
+	int actualtime;
+	bool test;
 };

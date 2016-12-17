@@ -24,17 +24,16 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(physics);
-	AddModule(player);
 	
-	// Scenes
+	// Menu
 	AddModule(menu);
+	// Player
+	AddModule(player);
+	// Scenes
 	AddModule(level1);
 	AddModule(custom);
 	AddModule(multiplayer);
-	custom->Disable_without_cleanup();
-	level1->Disable_without_cleanup();
-	multiplayer->Disable_without_cleanup();
-	player->Disable_without_cleanup();
+	player->Disable_whitout();
 
 	// Renderer last!
 	AddModule(renderer3D);

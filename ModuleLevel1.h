@@ -51,4 +51,12 @@ public:
 
 	bool fadetowhite = false;
 	float x2;*/
+
+private:
+
+	//Return to menu
+	int time;
+	int actualtime;
+	bool test;
+
 };

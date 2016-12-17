@@ -12,7 +12,7 @@
 
 ModuleCustom::ModuleCustom(Application * app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
-	objects = 1;
+	objects = 19;
 }
 
 ModuleCustom::~ModuleCustom()
@@ -41,8 +41,51 @@ bool ModuleCustom::Start()
 
 	//CUSTOM MAP
 	ActualPos.Set(150, 0, 0);
-	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0, this);
-	Save_dir = NORTH;
+	Map[0] = App->physics->CreateStraight(Cubes[0], 6, EAST, false, 0, this);
+	Save_dir = EAST;
+
+	App->physics->CreateCurve(Cubes[1], Cubes[2], Cubes[3], 30, 15, NORTH, EAST, this);
+	Map[1] = curve.getFirst()->data;
+	Map[2] = curve.getFirst()->next->data;
+	Map[3] = curve.getFirst()->next->next->data;
+
+	ActualPos.Set(50, 0, 50);
+	App->physics->CreateCurve(Cubes[4], Cubes[5], Cubes[6], 30, 15, NORTH, WEST, this);
+	Map[4] = curve.getFirst()->data;
+	Map[5] = curve.getFirst()->next->data;
+	Map[6] = curve.getFirst()->next->next->data;
+
+	ActualPos.Set(150, 0, 100);
+	App->physics->CreateCurve(Cubes[7], Cubes[8], Cubes[9], 30, 15, NORTH, EAST, this);
+	Map[7] = curve.getFirst()->data;
+	Map[8] = curve.getFirst()->next->data;
+	Map[9] = curve.getFirst()->next->next->data;
+
+	ActualPos.Set(150, 0, 150);
+	App->physics->CreateCurve(Cubes[10], Cubes[11], Cubes[12], 30, 15, NORTH, EAST, this);
+	Map[10] = curve.getFirst()->data;
+	Map[11] = curve.getFirst()->next->data;
+	Map[12] = curve.getFirst()->next->next->data;
+
+	ActualPos.Set(150, 0, 200);
+	App->physics->CreateCurve(Cubes[13], Cubes[14], Cubes[15], 30, 15, NORTH, EAST, this);
+	Map[13] = curve.getFirst()->data;
+	Map[14] = curve.getFirst()->next->data;
+	Map[15] = curve.getFirst()->next->next->data;
+
+	ActualPos.Set(150, 0, 250);
+	App->physics->CreateCurve(Cubes[16], Cubes[17], Cubes[18], 30, 15, NORTH, EAST, this);
+	Map[16] = curve.getFirst()->data;
+	Map[17] = curve.getFirst()->next->data;
+	Map[18] = curve.getFirst()->next->next->data;
+
+	if (App->player->IsEnabled() == false)
+	{
+		App->player->Enable();
+	}
+
+	test = true;
+	time = GetTickCount();
 
 	return ret;
 }
@@ -51,16 +94,29 @@ bool ModuleCustom::CleanUp() //NEED CORRECTION !!!
 {
 	LOG("Unloading Intro scene");
 
-	App->physics->CleanUp();
-	delete[] Map;
-	delete[] Cubes;
-
 	return true;
 }
 
 update_status ModuleCustom::Update(float dt)
 {
 	plane.Render();
+
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
+	{
+		actualtime = GetTickCount();
+		if (test)
+		{
+			time = actualtime;
+			test = false;
+		}
+
+		if (actualtime >= time + 3000)
+		{
+			time = actualtime;
+			App->menu->Enable();
+		}
+	}
 
 	if (fadetowhite)
 	{
@@ -89,7 +145,7 @@ update_status ModuleCustom::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		objects += 1;
-		Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
+		Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, Save_dir, false, 0, this);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
@@ -121,44 +177,65 @@ update_status ModuleCustom::Update(float dt)
 		{
 			if (Save_dir == NORTH)
 			{
+				Last_save_dir = NORTH;
 				Save_dir = WEST;
 			}
 			else if (Save_dir == WEST)
 			{
+				Last_save_dir = WEST;
 				Save_dir = SOUTH;
 			}
 			else if (Save_dir == SOUTH)
 			{
+				Last_save_dir = SOUTH;
 				Save_dir = EAST;
 			}
 			else if (Save_dir == EAST)
 			{
+				Last_save_dir = EAST;
 				Save_dir = NORTH;
 			}
+			objects += 1; 
 			objects += 1;
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
+			objects += 1;
+			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 6, 12, Save_dir, Last_save_dir, this);
+			Map[objects - 3] = curve.getFirst()->data;
+			Map[objects - 2] = curve.getFirst()->next->data;
+			Map[objects - 1] = curve.getFirst()->next->next->data;
+			
+			//Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
 			key_2 = false;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
 			if (Save_dir == NORTH)
 			{
+				Last_save_dir = NORTH;
 				Save_dir = EAST;
 			}
 			else if (Save_dir == EAST)
 			{
+				Last_save_dir = EAST;
 				Save_dir = SOUTH;
 			}
 			else if (Save_dir == SOUTH)
 			{
+				Last_save_dir = SOUTH;
 				Save_dir = WEST;
 			}
 			else if (Save_dir == WEST)
 			{
+				Last_save_dir = WEST;
 				Save_dir = NORTH;
 			}
 			objects += 1;
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
+			objects += 1;
+			objects += 1;
+			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 12, Save_dir, Last_save_dir, this);
+			Map[objects - 3] = curve.getFirst()->data;
+			Map[objects - 2] = curve.getFirst()->data;
+			Map[objects - 1] = curve.getFirst()->data;
+			//Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
 			key_2 = false;
 		}
 	}

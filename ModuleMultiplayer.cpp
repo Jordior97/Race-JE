@@ -22,11 +22,18 @@ bool ModuleMultiplayer::Start()
 	Plane p(0, 1, 0, 0);
 	plane = p;
 	plane.axis = true;
-	plane.color = Black;
+	plane.color = White;
 
 	//Set camera position
-	App->camera->Move(vec3(-47, 50, -100));
+	/*App->camera->Position.Set(0.0f, 50.0f, 0.0f);
+	App->camera->Reference.Set(0.0f, 0.0f, 0.0f);*/
+	App->camera->MoveAt(vec3(20.0f, 200.0f, 0.0f));
+	//App->camera->Move(vec3(-47, 50, -100));
+	//LOG("ANTES->  %f   %f   %f", App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	//LOG("ANTES->  %f   %f   %f", App->camera->Reference.x, App->camera->Reference.y, App->camera->Reference.z);
 	App->camera->LookAt(vec3(0, 0, 0));
+	//LOG("DESPUES->   %f   %f   %f", App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	//LOG("DESPUES->   %f   %f   %f", App->camera->Reference.x, App->camera->Reference.y, App->camera->Reference.z);
 
 	//Set reference position
 	ActualPos.x = 0;
@@ -43,17 +50,36 @@ bool ModuleMultiplayer::Start()
 		App->player->Enable();
 	}
 
-
+	objects = 100;
 
 	//Create Multiplayer Map
 	CreateMap(10, 10);
-
+	test = true;
+	time = GetTickCount();
 	return true;
 }
 
 update_status ModuleMultiplayer::Update(float dt)
 {
 	plane.Render();
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
+	{
+		actualtime = GetTickCount();
+		if (test)
+		{
+			time = actualtime;
+			test = false;
+		}
+
+		if (actualtime >= time + 3000)
+		{
+			time = actualtime;
+			App->menu->Enable();
+		}
+	}
+
+
 
 	if (fadetowhite)
 	{
@@ -73,7 +99,7 @@ update_status ModuleMultiplayer::Update(float dt)
 		}
 	}
 
-	for (int i = 0; i < MAX_OBJECTS; i++)
+	for (int i = 0; i < objects; i++)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
@@ -89,7 +115,7 @@ bool ModuleMultiplayer::CleanUp()
 
 void ModuleMultiplayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	for (int i = 0; i < MAX_OBJECTS; i++)
+	for (int i = 0; i < objects; i++)
 	{
 		if (Map[i] == body1 && App->player->vehicle == body2) //RED CAR
 		{

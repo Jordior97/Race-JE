@@ -67,14 +67,15 @@ public:
 			CleanUp();
 		}
 	}
-
-	void Disable_without_cleanup()
+	void Disable_whitout()
 	{
 		if (enabled == true)
 		{
 			enabled = false;
 		}
 	}
+
+
 
 private:
 

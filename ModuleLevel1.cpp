@@ -27,6 +27,7 @@ bool ModuleLevel1::Start()
 	plane.axis = true;
 	plane.color = Black;
 
+
 	if (App->menu->IsEnabled())
 	{
 		App->menu->Disable();
@@ -89,6 +90,10 @@ bool ModuleLevel1::Start()
 
 	x1 = 1.0f;
 	fadetoblack = false;*/
+
+	test = true;
+	time = GetTickCount();
+
 	return true;
 }
 
@@ -106,6 +111,23 @@ update_status ModuleLevel1::Update(float dt)
 {
 
 	plane.Render();
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
+	{
+		actualtime = GetTickCount();
+		if (test)
+		{
+			time = actualtime;
+			test = false;
+		}
+
+		if (actualtime >= time + 3000)
+		{
+			time = actualtime;
+			App->menu->Enable();
+		}
+	}
+
 	/*sensor->GetTransform(&s.transform);
 	s.Render();*/
 

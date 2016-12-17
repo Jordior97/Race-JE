@@ -19,5 +19,17 @@ public:
 	bool CleanUp();
 
 
+public:
+
+
+
+
+private:
+
+	//Return to menu
+	int time;
+	int actualtime;
+	bool test;
+	Direction Last_save_dir;
 
 };

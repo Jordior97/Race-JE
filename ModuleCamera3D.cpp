@@ -243,6 +243,13 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 	CalculateViewMatrix();
 }
 
+void ModuleCamera3D::MoveAt(const vec3 &Movement)
+{
+	Position = Movement;
+	Reference = Movement;
+	CalculateViewMatrix();
+}
+
 // -----------------------------------------------------------------
 float* ModuleCamera3D::GetViewMatrix()
 {

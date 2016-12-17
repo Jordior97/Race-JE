@@ -18,7 +18,7 @@ bool ModuleMenu::Start()
 	LOG("Loading Level1");
 
 	button_press = App->audio->LoadFx("Music&Fx/ButtonPress.wav");
-	App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
+	//App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
 	//Set plane
 	Plane p(0, 1, 0, 0);
 	plane = p;
@@ -30,8 +30,19 @@ bool ModuleMenu::Start()
 	Multiplayer_Rect = { 195, 340, 795, 180 };
 	CustomLevel_Rect = { 195, 600, 915, 180 };
 
+	App->custom->Disable();
+	App->level1->Disable();
+	App->multiplayer->Disable();
+	if (App->player->IsEnabled())
+	{
+		App->player->Disable();
+	}
+
+
+
 	//Set camera position
-	App->camera->Move(vec3(47, 110, 100));
+	App->camera->MoveAt(vec3(47, 110, 100));
+	//App->camera->Move(vec3(47, 110, 100));
 	App->camera->LookAt(vec3(47, 110, 0));
 
 	//Seting all bool to false
@@ -174,6 +185,36 @@ bool ModuleMenu::Start()
 	Cubes_Custom[20].size.Set(5, 16, 2);
 	Cubes_Custom[20].SetPos(97.5, 90, 0);
 
+	for (int i = 0; i < 21; i++)
+	{
+		Cubes_Custom[i].color.Set(color_black, color_black, color_black);
+	}
+	for (int i = 0; i < 12; i++)
+	{
+		Cubes_Multi[i].color.Set(color_black, color_black, color_black);
+	}
+	for (int i = 0; i < 19; i++)
+	{
+		Cubes_History[i].color.Set(color_black, color_black, color_black);
+	}
+
+
+	Background.size.Set(200, 200, 2);
+	Background.SetPos(40, 120, -20);
+	changeColor_background = true;
+	/*int k = 0;
+	vec3 size(5, 5, 5);
+	for (int i = 1; i <= 10; i++)
+	{
+		for (int j = 1; j <= 10; j++)
+		{
+			Cube_Background[k].size.Set(140, 100, 2);
+			Cube_Background[k].SetPos(ActualPos.x + j*size.x, ActualPos.y - i*size.y, ActualPos.z);
+			Cube_Background[k].color = Blue;
+			k++;
+		}
+	}*/
+	color_state = 0;
 	return true;
 }
 
@@ -186,22 +227,82 @@ bool ModuleMenu::CleanUp()
 
 update_status ModuleMenu::Update(float dt)
 {
+	actualtime = GetTickCount();
 	plane.Render();
 
-	LOG("----> %i   //----> %i", App->input->GetMouseX(), App->input->GetMouseY());
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN && App->camera->state != INTRO)
+	if (changeColor_background)
 	{
+		if (actualtime >= time + 1500)
+		{
+			time = actualtime;
+			/*int k = 0;
+			for (int i = 1; i <= 10; i++)
+			{
+			for (int j = 1; j <= 10; j++)
+			{
+			if (color_state == 0)
+			{
+			Cube_Background[k].color = Red;
+			}
+			if (color_state == 1)
+			{
+			Cube_Background[k].color = Green;
+			}
+			if (color_state == 2)
+			{
+			Cube_Background[k].color = Blue;
+			}
+			k++;
+			}
+			}
+			color_state += 1;
+			if (color_state == 3)
+			{
+			color_state = 0;
+			}*/
 
+			if (color_state == 0)
+			{
+				Background.color = Red;
+			}
+			if (color_state == 1)
+			{
+				Background.color = Green;
+			}
+			if (color_state == 2)
+			{
+				Background.color = Blue;
+			}
+			if (color_state == 3)
+			{
+				Background.color = Yellow;
+			}
+			if (color_state == 4)
+			{
+				Background.color = Purpule;
+			}
+			color_state += 1;
+			if (color_state == 5)
+			{
+				color_state = 0;
+			}
 
-		App->camera->state = INTRO;
-		History = false;
-		Multiplayer = false;
-		CustomLevel = false;
+		}
+	}
+	else if (fadetoblack == false)
+	{
+		if (color_state == 0)
+		{
+			color_state = 3;
+		}
+		else
+			color_state -= 1;
+		fadetoblack = true;
 	}
 
 	if (fadetoblack)
 	{
-		color_black -= 0.01f;
+		color_black -= 0.008f;
 		for (int i = 0; i < 21; i++)
 		{
 			Cubes_Custom[i].color.Set(color_black, color_black, color_black);
@@ -213,6 +314,26 @@ update_status ModuleMenu::Update(float dt)
 		for (int i = 0; i < 19; i++)
 		{
 			Cubes_History[i].color.Set(color_black, color_black, color_black);
+		}
+		if (color_state == 0)//RED
+		{
+			Background.color.Set(color_black, 0, 0);
+		}
+		if (color_state == 1)//GREEN
+		{
+			Background.color.Set(0, color_black, 0);
+		}
+		if (color_state == 2)//BLUE
+		{
+			Background.color.Set(0, 0, color_black);
+		}
+		if (color_state == 3)//Yellow
+		{
+			Background.color.Set(color_black, color_black, 0);
+		}
+		if (color_state == 4)//Yellow
+		{
+			Background.color.Set(color_black, 0, color_black);
 		}
 
 		if (color_black <= 0)
@@ -252,7 +373,7 @@ update_status ModuleMenu::Update(float dt)
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			History = true;
-			fadetoblack = true;
+			changeColor_background = false;
 			App->audio->PlayFx(button_press);
 		}
 	}
@@ -280,7 +401,7 @@ update_status ModuleMenu::Update(float dt)
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			Multiplayer = true;
-			fadetoblack = true;
+			changeColor_background = false;
 			App->audio->PlayFx(button_press);
 		}
 	}
@@ -309,7 +430,7 @@ update_status ModuleMenu::Update(float dt)
 		{
 			CustomLevel = true;
 			App->audio->PlayFx(button_press);
-			fadetoblack = true;
+			changeColor_background = false;
 		}
 	}
 	else
@@ -341,8 +462,12 @@ update_status ModuleMenu::Update(float dt)
 	{
 		Cubes_Custom[i].Render();
 	}
-
-
+	Background.Render();
+	// REDNER TEST
+	/*for (int i = 0; i < 100; i++)
+	{
+		Cube_Background[i].Render();
+	}*/
 
 	return UPDATE_CONTINUE;
 }

@@ -29,6 +29,15 @@ private:
 	Cube Cubes_History[23];
 	Cube Cubes_Multi[12];
 	Cube Cubes_Custom[22];
+	Cube Cube_Background[100];
+	Cube Background;
+	bool changeColor_background;
 
+	uint color_state;
 	uint button_press;
+
+	int time = GetTickCount();
+	int actualtime;
+
+
 };
