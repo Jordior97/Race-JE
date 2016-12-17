@@ -96,7 +96,9 @@ bool ModulePlayer::Start()
 	car.wheels[3].brake = true;
 	car.wheels[3].steering = false;
 
-	vehicle = App->physics->AddVehicle(car);
+	vehicle = new PhysVehicle3D(App->physics->AddVehicle(car));
+
+
 
 	return true;
 }
@@ -105,7 +107,7 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
-
+	//delete vehicles;
 	return true;
 }
 

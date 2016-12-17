@@ -55,6 +55,9 @@ bool ModuleMenu::Start()
 	if (App->player->IsEnabled())
 	{
 		App->player->Disable();
+		/*delete App->player->vehicles;
+		while(App->physics->world->getDispatcher()->)
+		delete App->physics->world;*/
 	}
 
 	if (App->player2->IsEnabled())

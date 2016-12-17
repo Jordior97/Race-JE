@@ -14,6 +14,10 @@ PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const
 {
 }
 
+PhysVehicle3D::PhysVehicle3D(PhysVehicle3D* copy) : PhysBody3D(copy->body), vehicle(copy->vehicle), info(copy->info)
+{
+}
+
 // ----------------------------------------------------------------------------
 PhysVehicle3D::~PhysVehicle3D()
 {

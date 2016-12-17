@@ -43,6 +43,7 @@ struct PhysVehicle3D : public PhysBody3D
 {
 public:
 	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info);
+	PhysVehicle3D(PhysVehicle3D* copy);
 	~PhysVehicle3D();
 
 	void Render();
