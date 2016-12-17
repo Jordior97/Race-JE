@@ -12,7 +12,7 @@
 
 ModuleCustom::ModuleCustom(Application * app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
-	objects = 19;
+	objects = 1;
 }
 
 ModuleCustom::~ModuleCustom()
@@ -20,8 +20,13 @@ ModuleCustom::~ModuleCustom()
 
 bool ModuleCustom::Start()
 {
-	LOG("Loading Intro assets");
+	LOG("Loading CUSTOM MODE");
 	bool ret = true;
+
+	//SET CUSTOM MODE TITLE
+	char title[80];
+	sprintf_s(title, "CUSTOM LEVEL - Design your own circuit and play it!");
+	App->window->SetTitle(title);
 
 	//Set plane
 	Plane p(0, 1, 0, 0);
@@ -34,9 +39,7 @@ bool ModuleCustom::Start()
 		App->menu->Disable();
 	}
 	//TODO
-	App->camera->Position.x = 130;
-	App->camera->Position.y = 20;
-	App->camera->Position.z = 0;
+	App->camera->MoveAt(vec3(130, 20, 0));
 	App->camera->LookAt(vec3(150, 0, 0));
 
 	//CUSTOM MAP
@@ -44,7 +47,7 @@ bool ModuleCustom::Start()
 	Map[0] = App->physics->CreateStraight(Cubes[0], 6, EAST, false, 0, this);
 	Save_dir = EAST;
 
-	App->physics->CreateCurve(Cubes[1], Cubes[2], Cubes[3], 30, 15, NORTH, EAST, this);
+	/*App->physics->CreateCurve(Cubes[1], Cubes[2], Cubes[3], 30, 15, NORTH, EAST, this);
 	Map[1] = curve.getFirst()->data;
 	Map[2] = curve.getFirst()->next->data;
 	Map[3] = curve.getFirst()->next->next->data;
@@ -56,28 +59,40 @@ bool ModuleCustom::Start()
 	Map[6] = curve.getFirst()->next->next->data;
 
 	ActualPos.Set(150, 0, 100);
-	App->physics->CreateCurve(Cubes[7], Cubes[8], Cubes[9], 30, 15, NORTH, EAST, this);
+	App->physics->CreateCurve(Cubes[7], Cubes[8], Cubes[9], 30, 15, EAST, NORTH, this);
 	Map[7] = curve.getFirst()->data;
 	Map[8] = curve.getFirst()->next->data;
 	Map[9] = curve.getFirst()->next->next->data;
 
 	ActualPos.Set(150, 0, 150);
-	App->physics->CreateCurve(Cubes[10], Cubes[11], Cubes[12], 30, 15, NORTH, EAST, this);
+	App->physics->CreateCurve(Cubes[10], Cubes[11], Cubes[12], 30, 15, EAST, SOUTH, this);
 	Map[10] = curve.getFirst()->data;
 	Map[11] = curve.getFirst()->next->data;
 	Map[12] = curve.getFirst()->next->next->data;
 
 	ActualPos.Set(150, 0, 200);
-	App->physics->CreateCurve(Cubes[13], Cubes[14], Cubes[15], 30, 15, NORTH, EAST, this);
+	App->physics->CreateCurve(Cubes[13], Cubes[14], Cubes[15], 30, 15, SOUTH, EAST, this);
 	Map[13] = curve.getFirst()->data;
 	Map[14] = curve.getFirst()->next->data;
 	Map[15] = curve.getFirst()->next->next->data;
 
 	ActualPos.Set(150, 0, 250);
-	App->physics->CreateCurve(Cubes[16], Cubes[17], Cubes[18], 30, 15, NORTH, EAST, this);
+	App->physics->CreateCurve(Cubes[16], Cubes[17], Cubes[18], 30, 15, SOUTH, WEST, this);
 	Map[16] = curve.getFirst()->data;
 	Map[17] = curve.getFirst()->next->data;
 	Map[18] = curve.getFirst()->next->next->data;
+
+	ActualPos.Set(250, 0, 100);
+	App->physics->CreateCurve(Cubes[19], Cubes[20], Cubes[21], 30, 15, WEST, NORTH, this);
+	Map[19] = curve.getFirst()->data;
+	Map[20] = curve.getFirst()->next->data;
+	Map[21] = curve.getFirst()->next->next->data;
+
+	ActualPos.Set(250, 0, 175);
+	App->physics->CreateCurve(Cubes[22], Cubes[23], Cubes[24], 30, 15, WEST, SOUTH, this);
+	Map[22] = curve.getFirst()->data;
+	Map[23] = curve.getFirst()->next->data;
+	Map[24] = curve.getFirst()->next->next->data;*/
 
 	if (App->player->IsEnabled() == false)
 	{
@@ -198,7 +213,7 @@ update_status ModuleCustom::Update(float dt)
 			objects += 1; 
 			objects += 1;
 			objects += 1;
-			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 6, 12, Save_dir, Last_save_dir, this);
+			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, Save_dir, Last_save_dir, this);
 			Map[objects - 3] = curve.getFirst()->data;
 			Map[objects - 2] = curve.getFirst()->next->data;
 			Map[objects - 1] = curve.getFirst()->next->next->data;
@@ -231,10 +246,10 @@ update_status ModuleCustom::Update(float dt)
 			objects += 1;
 			objects += 1;
 			objects += 1;
-			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 12, Save_dir, Last_save_dir, this);
+			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, Save_dir, Last_save_dir, this);
 			Map[objects - 3] = curve.getFirst()->data;
-			Map[objects - 2] = curve.getFirst()->data;
-			Map[objects - 1] = curve.getFirst()->data;
+			Map[objects - 2] = curve.getFirst()->next->data;
+			Map[objects - 1] = curve.getFirst()->next->next->data;
 			//Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
 			key_2 = false;
 		}
