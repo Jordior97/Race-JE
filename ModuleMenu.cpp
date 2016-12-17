@@ -15,14 +15,20 @@ ModuleMenu::~ModuleMenu()
 
 bool ModuleMenu::Start()
 {
-	LOG("Loading Level1");
+	LOG("Loading MENU");
+	
+	//SET MENU TITLE
+	char title[80];
+	sprintf_s(title, "WELCOME TO OUR RACE GAME, select the GAME MODE:");
+	App->window->SetTitle(title);
 
 	button_press = App->audio->LoadFx("Music&Fx/ButtonPress.wav");
 	//App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
+
 	//Set plane
 	Plane p(0, 1, 0, 0);
 	plane = p;
-	plane.axis = true;
+	plane.axis = false;
 	plane.color = Black;
 
 	//Set Mode Rects
@@ -30,25 +36,43 @@ bool ModuleMenu::Start()
 	Multiplayer_Rect = { 195, 340, 795, 180 };
 	CustomLevel_Rect = { 195, 600, 915, 180 };
 
-	App->custom->Disable();
-	App->level1->Disable();
-	App->multiplayer->Disable();
+	// DISABLE MODULES
+	if (App->custom->IsEnabled())
+	{
+		App->custom->Disable();
+	}
+
+	if (App->level1->IsEnabled())
+	{
+		App->level1->Disable();
+	}
+
+	if (App->multiplayer->IsEnabled())
+	{
+		App->multiplayer->Disable();
+	}
+
 	if (App->player->IsEnabled())
 	{
 		App->player->Disable();
 	}
 
+	if (App->player2->IsEnabled())
+	{
+		App->player2->Disable();
+	}
 
+
+	//Seting all bool to false
+	History = false;
+	Multiplayer = false;
+	CustomLevel = false;
 
 	//Set camera position
 	App->camera->MoveAt(vec3(47, 110, 100));
 	//App->camera->Move(vec3(47, 110, 100));
 	App->camera->LookAt(vec3(47, 110, 0));
 
-	//Seting all bool to false
-	History = false;
-	Multiplayer = false;
-	CustomLevel = false;
 	//STORY
 	//S
 	Cubes_History[0].size.Set(3, 12, 2);
@@ -221,7 +245,6 @@ bool ModuleMenu::Start()
 bool ModuleMenu::CleanUp()
 {
 	LOG("Unloading Level1");
-
 	return true;
 }
 
@@ -302,7 +325,7 @@ update_status ModuleMenu::Update(float dt)
 
 	if (fadetoblack)
 	{
-		color_black -= 0.008f;
+		color_black -= 0.02f;
 		for (int i = 0; i < 21; i++)
 		{
 			Cubes_Custom[i].color.Set(color_black, color_black, color_black);

@@ -18,8 +18,32 @@ ModuleLevel1::~ModuleLevel1()
 // Load assets
 bool ModuleLevel1::Start()
 {
-	LOG("Loading Intro assets");
+	LOG("Loading Level 1");
 	bool ret = true;
+
+	//Disable Menu
+	if (App->menu->IsEnabled())
+	{
+		App->menu->Disable();
+	}
+	 
+	//Enable Player 1
+	if (App->player->IsEnabled() == false)
+	{
+		App->player->Enable();
+	}
+
+	CreateFirstLevel();
+
+	App->player->vehicle->SetPos(0, 5, 5);
+
+	//Set camera mode to HISTORY MODE (3rd person view)
+	App->camera->state = HISTORY;
+
+	//SET LEVEL 1 TITLE
+	char title[80];
+	sprintf_s(title, "LEVEL 1 - %.1f Km/h", App->player->vehicle->GetKmh());
+	App->window->SetTitle(title);
 
 	//Set plane
 	Plane p(0, 1, 0, 0);
@@ -27,17 +51,7 @@ bool ModuleLevel1::Start()
 	plane.axis = true;
 	plane.color = Black;
 
-
-	if (App->menu->IsEnabled())
-	{
-		App->menu->Disable();
-	}
-
-	/**/
-
 	/*App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
-
-
 
 	/*App->camera->Move(vec3(0.0f, 30.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
@@ -100,10 +114,27 @@ bool ModuleLevel1::Start()
 // Load assets
 bool ModuleLevel1::CleanUp()
 {
-	LOG("Unloading Intro scene");
+	LOG("Unloading Level 1");
 
 
 	return true;
+}
+
+void ModuleLevel1::CreateFirstLevel()
+{
+	ActualPos.Set(0, 0, 0);
+	
+	App->physics->CreateUPER(Cubes[0], Cubes[1], Cubes[2], 30, 8, EAST, this);
+	Map[0] = upper.getFirst()->data;
+	Map[1] = upper.getFirst()->next->data;
+	Map[2] = upper.getFirst()->next->next->data;
+
+	App->physics->CreateCurve(Cubes[3], Cubes[4], Cubes[5], 30, 15, EAST, SOUTH, this);
+	Map[3] = curve.getFirst()->data;
+	Map[4] = curve.getFirst()->next->data;
+	Map[5] = curve.getFirst()->next->next->data;
+
+	Map[6] = App->physics->CreateStraight(Cubes[6], 3, SOUTH, false, 0, this);
 }
 
 // Update
@@ -159,8 +190,6 @@ update_status ModuleLevel1::Update(float dt)
 	/*Stick->GetTransform(&StickShape.transform);
 	StickShape.Render();*/
 
-
-
 	/*Ball->GetTransform(&Ballshape.transform);
 	Ballshape.Render();
 	Ball->Torque(0.5, 0, 0);
@@ -176,90 +205,15 @@ update_status ModuleLevel1::Update(float dt)
 
 	Left->GetTransform(&LeftShape.transform);
 	LeftShape.Render();*/
-
 	//---------------------------
 
+	for (int i = 0; i < 7; i++)
+	{
+		Map[i]->GetTransform(&(Cubes[i].transform));
+		Cubes[i].Render();
+	}
 
-	/*if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		objects += 1;
-		Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		key_2 = true;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		objects += 1;
-		objects += 1;
-		objects += 1;
-		App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 8, 10, Save_dir);
-		Map[objects - 3] = upper.getFirst()->data;
-		Map[objects - 2] = upper.getFirst()->next->data;
-		Map[objects - 1] = upper.getFirst()->next->next->data;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
-	{
-		objects += 1;
-		objects += 1;
-		objects += 1;
-		App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 6, 10, Save_dir);
-		Map[objects - 3] = downer.getFirst()->data;
-		Map[objects - 2] = downer.getFirst()->next->data;
-		Map[objects - 1] = downer.getFirst()->next->next->data;
-	}
-	if (key_2)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-		{
-			if (Save_dir == NORTH)
-			{
-				Save_dir = WEST;
-			}
-			else if (Save_dir == WEST)
-			{
-				Save_dir = SOUTH;
-			}
-			else if (Save_dir == SOUTH)
-			{
-				Save_dir = EAST;
-			}
-			else if (Save_dir == EAST)
-			{
-				Save_dir = NORTH;
-			}
-			objects += 1;
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0);
-			key_2 = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-		{
-			if (Save_dir == NORTH)
-			{
-				Save_dir = EAST;
-			}
-			else if (Save_dir == EAST)
-			{
-				Save_dir = SOUTH;
-			}
-			else if (Save_dir == SOUTH)
-			{
-				Save_dir = WEST;
-			}
-			else if (Save_dir == WEST)
-			{
-				Save_dir = NORTH;
-			}
-			objects += 1;
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0);
-			key_2 = false;
-		}
-	}
-	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
-	{
-		anothercar = !anothercar;
-	}*/
+
 
 	return UPDATE_CONTINUE;
 }

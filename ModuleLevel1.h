@@ -4,8 +4,7 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#define OBJECTS 64
-#define MAX_OBJECTS 100
+#define FIRST_LEVEL_OBJECTS 7
 
 struct PhysBody3D;
 enum Direction;
@@ -20,6 +19,8 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+
+	void CreateFirstLevel();
 
 public:
 

@@ -1,22 +1,22 @@
 #include "Globals.h"
 #include "Application.h"
-#include "ModulePlayer.h"
+#include "ModulePlayer2.h"
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
 #include "PhysBody3D.h"
 
-ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
+ModulePlayer2::ModulePlayer2(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
 	turn = acceleration = brake = 0.0f;
 }
 
-ModulePlayer::~ModulePlayer()
+ModulePlayer2::~ModulePlayer2()
 {}
 
 // Load assets
-bool ModulePlayer::Start()
+bool ModulePlayer2::Start()
 {
-	LOG("Loading player");
+	LOG("Loading player 2");
 
 	VehicleInfo car;
 
@@ -43,7 +43,7 @@ bool ModulePlayer::Start()
 	float half_length = car.chassis_size.z*0.5f;
 
 	vec3 direction(0, -1, 0);
-	vec3 axis(-1, 0, 0);
+	vec3 axis(1, 0, 0);
 
 	car.num_wheels = 4;
 	car.wheels = new Wheel[4];
@@ -102,43 +102,43 @@ bool ModulePlayer::Start()
 }
 
 // Unload assets
-bool ModulePlayer::CleanUp()
+bool ModulePlayer2::CleanUp()
 {
-	LOG("Unloading player");
+	LOG("Unloading player 2");
 
 	return true;
 }
 
 // Update: draw background
-update_status ModulePlayer::Update(float dt)
+update_status ModulePlayer2::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		acceleration = MAX_ACCELERATION;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		if (turn < TURN_DEGREES)
-			turn += TURN_DEGREES;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	{
-		if (turn > -TURN_DEGREES)
 			turn -= TURN_DEGREES;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		if (turn > -TURN_DEGREES)
+			turn += TURN_DEGREES;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		acceleration = -MAX_ACCELERATION;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
-		brake = BRAKE_POWER;
+  		brake = BRAKE_POWER;
 	}
 
 	vehicle->ApplyEngineForce(acceleration);

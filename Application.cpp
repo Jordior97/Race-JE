@@ -9,6 +9,7 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	physics = new ModulePhysics3D(this);
 	player = new ModulePlayer(this);
+	player2 = new ModulePlayer2(this);
 	menu = new ModuleMenu(this);
 	level1 = new ModuleLevel1(this);
 	custom = new ModuleCustom(this);
@@ -27,13 +28,18 @@ Application::Application()
 	
 	// Menu
 	AddModule(menu);
-	// Player
+
+	// Players
 	AddModule(player);
+	AddModule(player2);
+
 	// Scenes
 	AddModule(level1);
 	AddModule(custom);
 	AddModule(multiplayer);
+
 	player->Disable_whitout();
+	player2->Disable_whitout();
 
 	// Renderer last!
 	AddModule(renderer3D);

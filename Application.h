@@ -10,6 +10,7 @@
 #include "ModuleCamera3D.h"
 #include "ModulePhysics3D.h"
 #include "ModulePlayer.h"
+#include "ModulePlayer2.h"
 #include "ModuleMenu.h"
 #include "ModuleLevel1.h"
 #include "ModuleCustom.h"
@@ -25,6 +26,7 @@ public:
 	ModuleCamera3D* camera;
 	ModulePhysics3D* physics;
 	ModulePlayer* player;
+	ModulePlayer2* player2;
 	ModuleMenu* menu;
 	ModuleLevel1* level1;
 	ModuleCustom* custom;

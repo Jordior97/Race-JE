@@ -16,18 +16,35 @@ ModuleMultiplayer::~ModuleMultiplayer()
 {}
 
 bool ModuleMultiplayer::Start()
-{
-	
+{	
+	if (App->menu->IsEnabled())
+	{
+		App->menu->Disable();
+	}
+
 	//Set plane
 	Plane p(0, 1, 0, 0);
 	plane = p;
 	plane.axis = true;
 	plane.color = White;
 
+	//Enable player
+	if (App->player->IsEnabled() == false)
+	{
+		App->player->Enable();
+	}
+	if (App->player2->IsEnabled() == false)
+	{
+		App->player2->Enable();
+	}
+
+	App->player->vehicle->SetPos(-20, 12, -20);
+	App->player2->vehicle->SetPos(25, 12, 25);
+
 	//Set camera position
 	/*App->camera->Position.Set(0.0f, 50.0f, 0.0f);
 	App->camera->Reference.Set(0.0f, 0.0f, 0.0f);*/
-	App->camera->MoveAt(vec3(20.0f, 200.0f, 0.0f));
+	App->camera->MoveAt(vec3(-20.0f, 100.0f, 0.0f));
 	//App->camera->Move(vec3(-47, 50, -100));
 	//LOG("ANTES->  %f   %f   %f", App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 	//LOG("ANTES->  %f   %f   %f", App->camera->Reference.x, App->camera->Reference.y, App->camera->Reference.z);
@@ -43,11 +60,6 @@ bool ModuleMultiplayer::Start()
 	if (App->menu->IsEnabled())
 	{
 		App->menu->Disable();
-	}
-
-	if (App->player->IsEnabled() == false)
-	{
-		App->player->Enable();
 	}
 
 	objects = 100;
@@ -79,8 +91,6 @@ update_status ModuleMultiplayer::Update(float dt)
 		}
 	}
 
-
-
 	if (fadetowhite)
 	{
 		color_white += 0.005f;
@@ -105,6 +115,11 @@ update_status ModuleMultiplayer::Update(float dt)
 		Cubes[i].Render();
 	}
 
+	//SET SCORE OF THE PLAYERS INTO THE WINDOW TITLE
+	char title[80];
+	sprintf_s(title, " MULTIPLAYER - RED-> %i  //  BLUE-> %i", RedSelected, BlueSelected);
+	App->window->SetTitle(title);
+	
 	return UPDATE_CONTINUE; 
 }
 
@@ -134,7 +149,7 @@ void ModuleMultiplayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 				RedSelected += 1;
 			}
 		}
-		if (Map[i] == body1 && App->player->vehicle_Number2 == body2) //BLUE CAR
+		if (Map[i] == body1 && App->player2->vehicle == body2) //BLUE CAR
 		{
 			if (Cubes[i].color == Red)
 			{

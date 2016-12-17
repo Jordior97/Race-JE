@@ -120,6 +120,7 @@ update_status ModuleCamera3D::Update(float dt)
 			temp = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin();
 			player_pos.Set(temp.getX(), temp.getY(), temp.getZ()); //position of the car respect to the world.
 			App->player->vehicle->GetTransform(&vehicle_info);
+
 			//From the transform matrix of the car, we extract the rotation matrix of it.
 			X = vec3(vehicle_info[0], vehicle_info[1], vehicle_info[2]);
 			Y = vec3(vehicle_info[4], vehicle_info[5], vehicle_info[6]);
@@ -218,7 +219,7 @@ void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool Rota
 		this->Position += Z * 0.05f;
 	}
 
-	//CalculateViewMatrix();
+	CalculateViewMatrix();
 }
 
 // -----------------------------------------------------------------
@@ -230,7 +231,7 @@ void ModuleCamera3D::LookAt(const vec3 &Spot)
 	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
 	Y = cross(Z, X);
 
-	//CalculateViewMatrix();
+	CalculateViewMatrix();
 }
 
 
@@ -247,6 +248,7 @@ void ModuleCamera3D::MoveAt(const vec3 &Movement)
 {
 	Position = Movement;
 	Reference = Movement;
+
 	CalculateViewMatrix();
 }
 
