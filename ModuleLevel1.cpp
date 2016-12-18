@@ -9,7 +9,7 @@
 
 ModuleLevel1::ModuleLevel1(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
-	objects = 5;
+	objects = 23;
 }
 
 ModuleLevel1::~ModuleLevel1()
@@ -96,21 +96,112 @@ void ModuleLevel1::CreateIntroLevel()
 	Map[0] = App->physics->CreateStraight(Cubes[0], 100, 20, 2, EAST, false, this);
 	Cubes[0].color.Set(0.1294f, 0.9176f, 1.0f);
 	ActualPos.Set(12.5f, 1, 0);
-	Map[1] = App->physics->CreateStraight(Cubes[1], 100, 5, 2, EAST, false, this);
+	Map[1] = App->physics->CreateStraight(Cubes[1], 100, 5, 4, EAST, false, this);
 	Cubes[1].color.Set(0.7294f, 0, 0);
 	ActualPos.Set(40, 1, 0);
 	Map[2] = App->physics->CreateStraight(Cubes[2], 100, 50, 2, EAST, false, this);
 	Cubes[2].color.Set(0.4196f, 0.349f, 0.2666f);
 	ActualPos.Set(-12.5f, 1, 0);
-	Map[3] = App->physics->CreateStraight(Cubes[3], 100, 5, 2, EAST, false, this);
+	Map[3] = App->physics->CreateStraight(Cubes[3], 100, 5, 4, EAST, false, this);
 	Cubes[3].color.Set(0.7294f, 0, 0);
 	ActualPos.Set(-40, 1, 0);
 	Map[4] = App->physics->CreateStraight(Cubes[4], 100, 50, 2, EAST, false, this);
 	Cubes[4].color.Set(0.4196f, 0.349f, 0.2666f);
 
+	ActualPos.Set(0, 5, 110);
+	Cubes[5].size.Set(20, 2, 30);
+	Cubes[5].SetPos(ActualPos.x, ActualPos.y, ActualPos.z);
+	Cubes[5].SetRotation(20, { -1, 0, 0 });
+	Map[5] = App->physics->AddBox(Cubes[5], false, 0);
+	Cubes[5].color.Set(0.1294f, 0.9176f, 1.0f);
+
+	ActualPos.Set(-12.5f, 5, 110);
+	Cubes[6].size.Set(5, 4, 30.5f);
+	Cubes[6].SetPos(ActualPos.x, ActualPos.y, ActualPos.z);
+	Cubes[6].SetRotation(20, { -1, 0, 0 });
+	Map[6] = App->physics->AddBox(Cubes[6], false, 0);
+	Cubes[6].color.Set(0.7294f, 0, 0);
+
+	ActualPos.Set(12.5f, 5, 110);
+	Cubes[7].size.Set(5, 4, 30.5f);
+	Cubes[7].SetPos(ActualPos.x, ActualPos.y, ActualPos.z);
+	Cubes[7].SetRotation(20, { -1, 0, 0 });
+	Map[7] = App->physics->AddBox(Cubes[7], false, 0);
+	Cubes[7].color.Set(0.7294f, 0, 0);
+
+
+
+	ActualPos.Set(0, 10.089f, 123.73f);
+	Map[8] = App->physics->CreateStraight(Cubes[8], 20, 20, 2, EAST, false, this);
+	Cubes[8].color.Set(0.1294f, 0.9176f, 1.0f);
+
+	ActualPos.Set(-12.5f, 10.089f, 123.73f);
+	Map[9] = App->physics->CreateStraight(Cubes[9], 20, 5, 4, EAST, false, this);
+	Cubes[9].color.Set(0.7294f, 0, 0);
+
+	ActualPos.Set(-25, 10.089f, 138.73f);
+	Map[10] = App->physics->CreateStraight(Cubes[10], 5, 20, 4, EAST, false, this);
+	Cubes[10].color.Set(0.7294f, 0, 0);
+
+	ActualPos.Set(12.5f, 10.089f, 123.73f);
+	Map[11] = App->physics->CreateStraight(Cubes[11], 20, 5, 4, EAST, false, this);
+	Cubes[11].color.Set(0.7294f, 0, 0);
+
+	ActualPos.Set(0, 10.089f, 143.73f);
+	Map[12] = App->physics->CreateStraight(Cubes[12], 30, 70, 2, EAST, false, this);
+	Cubes[12].color.Set(0.1294f, 0.9176f, 1.0f);
+
+	ActualPos.Set(25, 10.089f, 138.73f);
+	Map[13] = App->physics->CreateStraight(Cubes[13], 5, 20, 4, EAST, false, this);
+	Cubes[13].color.Set(0.7294f, 0, 0);
+
 	ActualPos.Set(0, 1, 100);
-	Map[4] = App->physics->CreateStraight(Cubes[4], 100, 50, 2, EAST, false, this);
-	Cubes[4].color.Set(0.4196f, 0.349f, 0.2666f);
+	Map[14] = App->physics->CreateStraight(Cubes[14], 85, 130, 2, EAST, false, this);
+	Cubes[14].color.Set(0.4196f, 0.349f, 0.2666f);
+
+	
+	ActualPos.Set(0, 6.089f, 173.73f);
+	Map[15] = App->physics->CreateStraight(Cubes[15], 11, 70, 10, EAST, false, this);
+	Cubes[15].color.Set(0.4196f, 0.349f, 0.2666f);
+
+	
+	ActualPos.Set(37.5f, 10.089f, 138.73f);
+	Map[16] = App->physics->CreateStraight(Cubes[16], 45, 5, 4, EAST, false, this);
+	Cubes[16].color.Set(0.7294f, 0, 0);
+
+	ActualPos.Set(-37.5f, 10.089f, 138.73f);
+	Map[17] = App->physics->CreateStraight(Cubes[17], 45, 5, 4, EAST, false, this);
+	Cubes[17].color.Set(0.7294f, 0, 0);
+
+
+	portal.radius = 30;
+	portal.height = 10;
+	portal.SetRotation(90, { 0, 1, 0 });
+	portal.SetPos(0, 25.089f, 179);
+	portal_object = App->physics->AddCylinder(portal, 0);
+	portal.color.Set(0.3568f, 0.1529f, 0.7098f);
+
+	ActualPos.Set(40, 3, 100);
+	Map[18] = App->physics->CreateStraight(Cubes[18], 1, 50, 5, EAST, false, this);
+	Cubes[18].color = Yellow;
+
+	ActualPos.Set(-40, 3, 100);
+	Map[19] = App->physics->CreateStraight(Cubes[19], 1, 50, 5, EAST, false, this);
+	Cubes[19].color = Yellow;
+	
+	ActualPos.Set(0, 40, 185);
+	Map[22] = App->physics->CreateStraight(Cubes[22], 2, 130, 80, EAST, false, this);
+	Cubes[22].color.Set(0.7568f, 0.4313f, 0.2117f);
+
+	//
+	ActualPos.Set(-65, 40, 0);
+	Map[20] = App->physics->CreateStraight(Cubes[20], 200, 2, 80, EAST, false, this);
+	Cubes[20].color.Set(0.7568f, 0.4313f, 0.2117f);
+
+	ActualPos.Set(65, 40, 0);
+	Map[21] = App->physics->CreateStraight(Cubes[21], 200, 2, 80, EAST, false, this);
+	Cubes[21].color.Set(0.7568f, 0.4313f, 0.2117f);
+
 
 
 }
@@ -255,6 +346,10 @@ update_status ModuleLevel1::Update(float dt)
 		}
 
 	}
+
+	//PORTAL
+	portal_object->GetTransform(&(portal.transform));
+	portal.Render();
 
 	return UPDATE_CONTINUE;
 }

@@ -56,8 +56,8 @@ public:
 	bool fadetowhite = false;
 	float x2;*/
 
-	PhysBody3D* KinematicObject;
-	Cube KinematicShape;
+	PhysBody3D* portal_object;
+	Cylinder portal;
 	bool testillo = false;
 
 private:
