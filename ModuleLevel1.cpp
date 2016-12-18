@@ -199,19 +199,19 @@ void ModuleLevel1::CreateIntroLevel()
 
 	//
 	ActualPos.Set(-65, 40, 0);
-	Map[20] = App->physics->CreateStraight(Cubes[20], 200, 2, 80, EAST, false, this);
-	Cubes[20].color.Set(0.7568f, 0.4313f, 0.2117f);
+	Map[23] = App->physics->CreateStraight(Cubes[23], 200, 2, 80, EAST, false, this);
+	Cubes[23].color.Set(0.7568f, 0.4313f, 0.2117f);
 
 	ActualPos.Set(65, 40, 0);
-	Map[21] = App->physics->CreateStraight(Cubes[21], 200, 2, 80, EAST, false, this);
-	Cubes[21].color.Set(0.7568f, 0.4313f, 0.2117f);
+	Map[24] = App->physics->CreateStraight(Cubes[21], 200, 2, 80, EAST, false, this);
+	Cubes[24].color.Set(0.7568f, 0.4313f, 0.2117f);
 
 
 
 }
 void ModuleLevel1::CreateFirstLevel()
 {
-	ActualPos.Set(200, 0, 0);
+	ActualPos.Set(200, 0, 0);//TODO - PONERLOS DESDE 25!!!
 	App->physics->CreateUPER(Cubes[22], Cubes[23], Cubes[24], 30, 10, 7, EAST, this);
 	Map[22] = upper.getFirst()->data;
 	Map[23] = upper.getFirst()->next->data;
