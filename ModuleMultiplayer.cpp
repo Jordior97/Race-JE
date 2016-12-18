@@ -17,6 +17,8 @@ ModuleMultiplayer::~ModuleMultiplayer()
 
 bool ModuleMultiplayer::Start()
 {	
+	timer.Start();
+
 	if (App->menu->IsEnabled())
 	{
 		App->menu->Disable();
@@ -111,8 +113,16 @@ update_status ModuleMultiplayer::Update(float dt)
 
 	//SET SCORE OF THE PLAYERS INTO THE WINDOW TITLE
 	char title[80];
-	sprintf_s(title, " MULTIPLAYER - RED-> %i  //  BLUE-> %i", RedSelected, BlueSelected);
+	int countdown = timer.Read()/1000;
+	int result_time = 10 - countdown;
+	sprintf_s(title, " MULTIPLAYER - RED-> %i  //  BLUE-> %i Time: %is", RedSelected, BlueSelected, result_time);
 	App->window->SetTitle(title);
+
+	if (result_time <= 0) 
+	{
+		CheckWinner();
+	}
+	
 	
 	return UPDATE_CONTINUE; 
 }
@@ -181,6 +191,33 @@ void ModuleMultiplayer::CreateMap(int num_rows, int num_columns)
 			Map[k]->collision_listeners.add(this);
 			k++;
 		}
+	}
+}
+
+void ModuleMultiplayer::CheckWinner()
+{
+	if (RedSelected > BlueSelected)
+	{
+		char title[20];
+		sprintf_s(title, "RED PLAYER WINS!");
+		App->window->SetTitle(title);
+		//RedWins();
+	}
+
+	else if (BlueSelected > RedSelected)
+	{
+		char title[20];
+		sprintf_s(title, "BLUE PLAYER WINS!");
+		App->window->SetTitle(title);
+		//BlueWins();
+	}
+
+	else
+	{
+		char title[20];
+		sprintf_s(title, "DRAW!");
+		App->window->SetTitle(title);
+		//Draw();
 	}
 }
 

@@ -4,6 +4,9 @@
 #include "Globals.h"
 #include "Primitive.h"
 #include "p2List.h"
+#include "Timer.h"
+
+#define MATCH_TIME 60;
 
 struct PhysBody3D;
 enum Direction;
@@ -20,6 +23,7 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 	void CreateMap(int num_rows, int num_columns);
+	void CheckWinner();
 
 public:
 	uint RedSelected = 0;
@@ -31,4 +35,7 @@ public:
 	int time;
 	int actualtime;
 	bool test;
+
+	Timer timer;
+
 };
