@@ -365,7 +365,7 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D* bodyA, PhysBody3D* bodyB, c
 	hinge->setDbgDrawSize(2.0f);
 }
 
-PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, float lenght, float width, float height, Direction type, bool isRotation, float angle, ModuleScene* scene)
+PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, float lenght, float width, float height, Direction type, bool iskinematic, ModuleScene* scene)
 {
 	PhysBody3D* tm;
 
@@ -398,7 +398,15 @@ PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, float lenght, float widt
 		scene->ActualPos.Set(scene->ActualPos.x, scene->ActualPos.y, scene->ActualPos.z - lenght / 2 + 1);
 	}
 
-	tm = AddBox(cube, false, 0);
+	if (iskinematic)
+	{
+		tm = AddBox(cube, false, 100);
+	}
+	else
+	{
+		tm = AddBox(cube, false, 0);
+	}
+
 
 	return tm;
 }

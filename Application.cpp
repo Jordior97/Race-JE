@@ -37,8 +37,9 @@ Application::Application()
 	AddModule(level1);
 	AddModule(custom);
 	AddModule(multiplayer);
-
+	multiplayer->Disable_whitout();
 	player->Disable_whitout();
+	custom->Disable_whitout();
 	player2->Disable_whitout();
 
 	// Renderer last!

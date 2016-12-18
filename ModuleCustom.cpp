@@ -12,7 +12,7 @@
 
 ModuleCustom::ModuleCustom(Application * app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
-	objects = 4;
+	objects = 1;
 }
 
 ModuleCustom::~ModuleCustom()
@@ -44,14 +44,9 @@ bool ModuleCustom::Start()
 
 	//CUSTOM MAP
 	ActualPos.Set(150, 0, 0);
-	Map[0] = App->physics->CreateStraight(Cubes[0], 6, 12, 2, EAST, false, 0, this);
+	Map[0] = App->physics->CreateStraight(Cubes[0], 6, 12, 2, EAST, false, this);
 	Save_dir = EAST;
 
-
-	App->physics->CreateUPER(Cubes[1], Cubes[2], Cubes[3], 30, 15, 15, NORTH, this);
-	Map[1] = upper.getFirst()->data;
-	Map[2] = upper.getFirst()->next->data;
-	Map[3] = upper.getFirst()->next->next->data;
 
 	/*App->physics->CreateCurve(Cubes[1], Cubes[2], Cubes[3], 30, 15, NORTH, EAST, this);
 	Map[1] = curve.getFirst()->data;
@@ -166,7 +161,7 @@ update_status ModuleCustom::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		objects += 1;
-		Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, EAST, false, 0, this);
+		Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, Save_dir, false, this);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
@@ -177,7 +172,7 @@ update_status ModuleCustom::Update(float dt)
 		objects += 1;
 		objects += 1;
 		objects += 1;
-		App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 10, 10, Save_dir, this);
+		App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 12, 10, Save_dir, this);
 		Map[objects - 3] = upper.getFirst()->data;
 		Map[objects - 2] = upper.getFirst()->next->data;
 		Map[objects - 1] = upper.getFirst()->next->next->data;
@@ -187,7 +182,7 @@ update_status ModuleCustom::Update(float dt)
 		objects += 1;
 		objects += 1;
 		objects += 1;
-		App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 10, 10, Save_dir, this);
+		App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 12, 10, Save_dir, this);
 		Map[objects - 3] = downer.getFirst()->data;
 		Map[objects - 2] = downer.getFirst()->next->data;
 		Map[objects - 1] = downer.getFirst()->next->next->data;

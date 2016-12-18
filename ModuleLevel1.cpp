@@ -9,7 +9,7 @@
 
 ModuleLevel1::ModuleLevel1(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
-	objects = 1;
+	objects = 5;
 }
 
 ModuleLevel1::~ModuleLevel1()
@@ -33,7 +33,6 @@ bool ModuleLevel1::Start()
 		App->player->Enable();
 	}
 
-	CreateFirstLevel();
 
 	App->player->vehicle->SetPos(0, 5, 5);
 
@@ -51,62 +50,30 @@ bool ModuleLevel1::Start()
 	plane.axis = true;
 	plane.color = Black;
 
-	/*KinematicShape.SetPos(20, 20, -5);
-	KinematicShape.size.Set(5, 2, 5);
-	KinematicObject = App->physics->AddBox(KinematicShape, 0);*/
-	/*App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
-
-	/*App->camera->Move(vec3(0.0f, 30.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
-	//CreateMap(10, 10);*/
-
-	/*StickShape.SetPos(0, 2.5, 0);
-	StickShape.size.Set(2, 5, 2);
-	Stick = App->physics->AddBox(StickShape, 0);
-
-	KinematicShape.SetPos(20, 100, 20);
-	KinematicShape.size.Set(5, 2, 5);
-	KinematicObject = App->physics->AddBox(KinematicShape, 0);
-
-	vec3 vec1(4, 2.5, 0);
-	vec3 vec2(0, 0, 0);
-
-	vec3 axis(1, 0, 0);
-	vec3 axis1(0, 1, 0);
-	vec3 axis2(0, 0, 1);
-
-	blow = App->physics->AddBlow(4, 5, 0);
-	App->physics->AddConstraintHinge(Stick, blow, vec1, vec2, axis, axis);
-	blow->SetAngVel(50, 0, 0);*/
-
-	/*s.size = vec3(5, 3, 1);
-	s.SetPos(0, 2.5f, 20);
-	sensor = App->physics->AddBox(s, 0.0f);
-	sensor->SetAsSensor(true);
-	sensor->collision_listeners.add(this);
-
-	//Multiplayer Splatoon
-	CreateMap(10, 10);
-
-	//Custom Map
-	ActualPos.x = 150;
-	ActualPos.y = 0;
-	ActualPos.z = 0;
-	Map[0] = App->physics->CreateStraight(Cubes[0], 6, NORTH, false, 0);
-	Save_dir = NORTH;
-
-
-	x2 = 0.0f;
-	return ret;
+	/*return ret;
 
 	LOG("Loading Level1");
 
 	button_press = App->audio->LoadFx("Music&Fx/ButtonPress.wav");
 
 
-
 	x1 = 1.0f;
 	fadetoblack = false;*/
+
+	//TODO - LEVELINTRO
+	CreateIntroLevel();
+
+	//TODO - LEVEL 1
+	//CreateFirstLevel();
+
+	//TODO - LEVEL 2
+	//CreateSecondLevel();
+
+	//TODO - LEVEL 3
+	//CreateThreeLevel();
+
+	//TODO - LEVEL 4
+	//CreateFourLevel();
 
 	test = true;
 	time = GetTickCount();
@@ -123,7 +90,31 @@ bool ModuleLevel1::CleanUp()
 	return true;
 }
 
-void ModuleLevel1::CreateFirstLevel()
+void ModuleLevel1::CreateIntroLevel()
+{
+	ActualPos.Set(0, 1, 0);
+	Map[0] = App->physics->CreateStraight(Cubes[0], 100, 20, 2, EAST, false, this);
+	Cubes[0].color.Set(0.1294f, 0.9176f, 1.0f);
+	ActualPos.Set(12.5f, 1, 0);
+	Map[1] = App->physics->CreateStraight(Cubes[1], 100, 5, 2, EAST, false, this);
+	Cubes[1].color.Set(0.7294f, 0, 0);
+	ActualPos.Set(40, 1, 0);
+	Map[2] = App->physics->CreateStraight(Cubes[2], 100, 50, 2, EAST, false, this);
+	Cubes[2].color.Set(0.4196f, 0.349f, 0.2666f);
+	ActualPos.Set(-12.5f, 1, 0);
+	Map[3] = App->physics->CreateStraight(Cubes[3], 100, 5, 2, EAST, false, this);
+	Cubes[3].color.Set(0.7294f, 0, 0);
+	ActualPos.Set(-40, 1, 0);
+	Map[4] = App->physics->CreateStraight(Cubes[4], 100, 50, 2, EAST, false, this);
+	Cubes[4].color.Set(0.4196f, 0.349f, 0.2666f);
+
+	ActualPos.Set(0, 1, 100);
+	Map[4] = App->physics->CreateStraight(Cubes[4], 100, 50, 2, EAST, false, this);
+	Cubes[4].color.Set(0.4196f, 0.349f, 0.2666f);
+
+
+}
+/*void ModuleLevel1::CreateFirstLevel()
 {
 	ActualPos.Set(0, 0, 0);
 	App->physics->CreateUPER(Cubes[0], Cubes[1], Cubes[2], 30, 10, 7, EAST, this);
@@ -146,7 +137,42 @@ void ModuleLevel1::CreateFirstLevel()
 	Map[9] = curve.getFirst()->next->data;
 	Map[10] = curve.getFirst()->next->next->data;
 
-}
+}*/
+
+/*void ModuleLevel1::CreateSecondLevel()
+{
+	ActualPos.Set(0, 1, 0);
+
+	Map[0] = App->physics->CreateStraight(Cubes[0], 20, 10, 2, EAST, false, this);
+	Map[1] = App->physics->CreateStraight(Cubes[1], 20, 10, 2, EAST, true, this);
+	/*Cubes[1].SetPos(ActualPos.x, ActualPos.y, ActualPos.z);
+	Cubes[1].size.Set(20, 2, 10);
+	Map[1] = App->physics->AddBox(Cubes[1], false, 100);
+	ActualPos.x += 10;*/
+
+
+
+	/*App->physics->CreateUPER(Cubes[0], Cubes[1], Cubes[2], 30, 10, 7, EAST, this);
+	Map[0] = upper.getFirst()->data;
+	Map[1] = upper.getFirst()->next->data;
+	Map[2] = upper.getFirst()->next->next->data;
+
+	App->physics->CreateCurve(Cubes[3], Cubes[4], Cubes[5], 30, 10, 2, SOUTH, EAST, this);
+	Map[3] = curve.getFirst()->data;
+	Map[4] = curve.getFirst()->next->data;
+	Map[5] = curve.getFirst()->next->next->data;
+
+	Map[6] = App->physics->CreateStraight(Cubes[6], 15, 10, 2, SOUTH, false, 0, this);
+	ActualPos.y -= 7;
+
+	Map[7] = App->physics->CreateStraight(Cubes[7], 20, 10, 2, EAST, false, 0, this);
+
+	App->physics->CreateCurve(Cubes[8], Cubes[9], Cubes[10], 30, 10, 2, NORTH, EAST, this);
+	Map[8] = curve.getFirst()->data;
+	Map[9] = curve.getFirst()->next->data;
+	Map[10] = curve.getFirst()->next->next->data;
+
+}*/
 
 // Update
 update_status ModuleLevel1::Update(float dt)
@@ -170,32 +196,11 @@ update_status ModuleLevel1::Update(float dt)
 		}
 	}
 
+
+
 	/*sensor->GetTransform(&s.transform);
 	s.Render();*/
-
-	//KINEMATIC OBJECT ----------
-	/*if (KinematicObject->GetPos().z >= 20)
-	{
-		testillo = true;
-	}
-
-	else if (KinematicObject->GetPos().z <= 0)
-	{
-		testillo = false;
-	}
-
-	if (testillo == true)
-	{
-		KinematicObject->Move(0, 0, -1.0f);
-	}
-	else
-	{
-		KinematicObject->Move(0, 0, 1.0f);
-	}
-
-	KinematicObject->GetTransform_special(&KinematicShape.transform);
-	KinematicShape.Render();*/
-	//---------------------------
+	//---------------------------*/
 
 	// WINDMILL ---------------------------
 	/*Stick->GetTransform(&StickShape.transform);
@@ -217,55 +222,56 @@ update_status ModuleLevel1::Update(float dt)
 	Left->GetTransform(&LeftShape.transform);
 	LeftShape.Render();*/
 	//---------------------------
-
-	for (int i = 0; i < 11; i++)
+	//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
+	/*if (Map[1]->GetPos().x >= 20)
 	{
-		Map[i]->GetTransform(&(Cubes[i].transform));
-		Cubes[i].Render();
+		testillo = true;
 	}
 
+	else if (Map[1]->GetPos().x <= -20)
+	{
+		testillo = false;
+	}
 
+	if (testillo == true)
+	{
+		Map[1]->Move(-1.0f, 0, 0);
+	}
+	else
+	{
+		Map[1]->Move(1.0f, 0, 0);
+	}*/
+	for (int i = 0; i < objects; i++)
+	{
+		if (Map[i]->GetRigidBody()->isKinematicObject())
+		{
+			Map[i]->SetKinematic_Transform(&Cubes[i].transform);
+			Cubes[i].Render();
+		}
+		else
+		{
+			Map[i]->GetTransform(&(Cubes[i].transform));
+			Cubes[i].Render();
+		}
+
+	}
 
 	return UPDATE_CONTINUE;
 }
 
-/*void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	for (int i = 0; i < MAX_OBJECTS; i++)
+	if (body1 == Map[1] && body2 == App->player->vehicle)
 	{
-		if (SplatoonMap[i] == body1 && App->player->vehicle == body2)//Car Red
-		{
-			if (SplatoonShapes[i].color == Blue)
-			{
-				SplatoonShapes[i].color = Red;
-				RedSelected += 1;
-				if (BlueSelected > 0)BlueSelected -= 1;
-			}
-			if (SplatoonShapes[i].color == White)
-			{
-				SplatoonShapes[i].color = Red;
-				RedSelected += 1;
-			}
-		}
-		if (SplatoonMap[i] == body1 && App->player->vehicle_Number2 == body2)//Car Blue
-		{
-			if (SplatoonShapes[i].color == Red)
-			{
-				SplatoonShapes[i].color = Blue;
-				BlueSelected += 1;
-				if (RedSelected > 0)RedSelected -= 1;
-			}
-
-			if (SplatoonShapes[i].color == White)
-			{
-				SplatoonShapes[i].color = Blue;
-				BlueSelected += 1;
-			}
-		}
+		LOG("HIT");
 	}
-	LOG("HIT");
-}
+	if (body2 == Map[1] && body1 == App->player->vehicle)
+	{
+		LOG("HIT");
+	}
 
+}
+/*
 void ModuleLevel1::CreateMap(int num_rows, int num_columns)
 {
 	vec3 size(5, 5, 5);

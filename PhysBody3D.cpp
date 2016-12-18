@@ -35,12 +35,14 @@ void PhysBody3D::GetTransform(float* matrix) const
 	}
 }
 
-void PhysBody3D::GetTransform_special(float* matrix) const
+void PhysBody3D::SetKinematic_Transform(float* matrix) const
 {
 	if (body != NULL && matrix != NULL)
 	{
 		body->getWorldTransform().getOpenGLMatrix(matrix);
-		body->setGravity(btVector3(0, 0, 0));
+		//body->setGravity(btVector3(0, 0, 0));
+		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+		//body->setFriction(btScalar(5.0));
 	}
 }
 
@@ -99,4 +101,9 @@ void PhysBody3D::SetAsSensor(bool is_sensor)
 bool PhysBody3D::IsSensor() const
 {
 	return is_sensor;
+}
+
+btRigidBody* PhysBody3D::GetRigidBody()
+{
+	return body;
 }

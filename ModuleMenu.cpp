@@ -51,6 +51,10 @@ bool ModuleMenu::Start()
 
 	if (App->multiplayer->IsEnabled())
 	{
+		for (int i = 0; i < 100; i++)
+		{
+			App->physics->world->removeRigidBody(App->multiplayer->Map[i]->GetRigidBody());
+		}
 		App->multiplayer->Disable();
 	}
 
@@ -59,13 +63,7 @@ bool ModuleMenu::Start()
 		App->player->Disable();
 		//
 		
-		App->physics->world->removeRigidBody(App->player->vehicle->body);
-		App->physics->world->removeRigidBody(App->player2->vehicle->body);
-		for (int i = 0; i < 100; i++)
-		{
-			App->physics->world->removeRigidBody(App->multiplayer->Map[i]->body);
-		}
-
+		App->physics->world->removeRigidBody(App->player->vehicle->GetRigidBody());
 		//App->physics->world->removeVehicle((btActionInterface*)App->player->vehicle);
 		//delete App->player->vehicle;
 		/*delete App->player->vehicle;
@@ -88,8 +86,11 @@ bool ModuleMenu::Start()
 
 	if (App->player2->IsEnabled())
 	{
+		App->physics->world->removeRigidBody(App->player2->vehicle->GetRigidBody());
 		App->player2->Disable();
 	}
+
+
 
 
 	//Seting all bool to false

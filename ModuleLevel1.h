@@ -20,7 +20,10 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void CreateFirstLevel();
+	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	void CreateIntroLevel();
+	//void CreateFirstLevel();
+	//void CreateSecondLevel();
 
 public:
 
@@ -51,11 +54,11 @@ public:
 	PhysBody3D* sensor;
 
 	bool fadetowhite = false;
-	float x2;
+	float x2;*/
 
 	PhysBody3D* KinematicObject;
 	Cube KinematicShape;
-	bool testillo = false;*/
+	bool testillo = false;
 
 private:
 
