@@ -44,9 +44,12 @@ bool ModuleMultiplayer::Start()
 	App->player2->vehicle->SetPos(25, 12, 25);
 
 	//Set camera position
+	//App->camera->MoveAt(vec3(-20.0f, 100.0f, 0.0f));
+	//App->camera->LookAt(vec3(0, 0, 0));
+	//App->camera->state = WINNER;
+	App->camera->MoveAt(vec3(20, 120, 80));
+	App->camera->LookAt(vec3(20, 120, 0));
 
-	App->camera->MoveAt(vec3(-20.0f, 100.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
 	//Set reference position
 	ActualPos.x = 0;
 	ActualPos.y = 0;
@@ -63,6 +66,49 @@ bool ModuleMultiplayer::Start()
 	CreateMap(10, 10);
 	test = true;
 	time = GetTickCount();
+
+	//RED 
+	//R
+	RED[0].size.Set(3, 16, 2);
+	RED[0].SetPos(0, 149.5, 0); 
+	RED[1].size.Set(10, 3, 2);
+	RED[1].SetPos(3.5, 156, 0);
+	RED[2].size.Set(3, 9, 2);
+	RED[2].SetPos(7, 153, 0);
+	RED[3].size.Set(10, 3, 2);
+	RED[3].SetPos(3.5, 150, 0);
+	RED[4].size.Set(9, 3, 2);
+	RED[4].SetRotation(45, { 0,0,-1 });
+	RED[4].SetPos(6, 146, 0);
+
+	//E
+	RED[5].size.Set(3, 16, 2);
+	RED[5].SetPos(15, 149.5, 0);
+	RED[6].size.Set(10, 3, 2);
+	RED[6].SetPos(18.5, 156, 0);
+	RED[7].size.Set(7, 3, 2);
+	RED[7].SetPos(17, 150, 0);
+	RED[8].size.Set(10, 3, 2);
+	RED[8].SetPos(18.5, 143, 0);
+
+	//D
+	RED[9].size.Set(6, 3, 2);
+	RED[9].SetPos(31.5, 156, 0);
+	RED[10].size.Set(6, 3, 2);
+	RED[10].SetPos(31.5, 143, 0);
+	RED[11].size.Set(3, 9, 2);
+	RED[11].SetPos(37, 149.5, 0);
+	RED[12].size.Set(3, 16, 2);
+	RED[12].SetPos(30, 149.5, 0);
+	RED[13].size.Set(5, 3, 2);
+	RED[13].SetRotation(43, { 0,0,-1 });
+	RED[13].SetPos(35.5, 154.5, 0);
+	RED[14].size.Set(5, 3, 2);
+	RED[14].SetRotation(-43, { 0,0,-1 });
+	RED[14].SetPos(35.5, 144.5, 0);
+
+
+
 	return true;
 }
 
@@ -109,6 +155,13 @@ update_status ModuleMultiplayer::Update(float dt)
 	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
+	}
+
+
+	//RED Render
+	for (int i = 0; i < 15; i++)
+	{
+		RED[i].Render();
 	}
 
 	//SET SCORE OF THE PLAYERS INTO THE WINDOW TITLE

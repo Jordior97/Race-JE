@@ -38,4 +38,8 @@ public:
 
 	Timer timer;
 
+	Cube RED[23];
+	Cube BLUE[23];
+	Cube WINS[23];
+	Cube DRAW[23];
 };
