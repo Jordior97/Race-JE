@@ -22,8 +22,8 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void CreateIntroLevel();
-	//void CreateFirstLevel();
-	//void CreateSecondLevel();
+	void CreateFirstLevel();
+	void CreateSecondLevel();
 
 public:
 
@@ -55,6 +55,10 @@ public:
 
 	bool fadetowhite = false;
 	float x2;*/
+
+	bool SceneIntro;
+	bool Level_1;
+	bool Level_2;
 
 	PhysBody3D* portal_object;
 	Cylinder portal;

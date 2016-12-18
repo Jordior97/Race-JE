@@ -9,7 +9,7 @@
 
 ModuleLevel1::ModuleLevel1(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
-	objects = 23;
+	objects = 35;
 }
 
 ModuleLevel1::~ModuleLevel1()
@@ -64,16 +64,20 @@ bool ModuleLevel1::Start()
 	CreateIntroLevel();
 
 	//TODO - LEVEL 1
-	//CreateFirstLevel();
+	CreateFirstLevel();
 
 	//TODO - LEVEL 2
-	//CreateSecondLevel();
+	CreateSecondLevel();
 
 	//TODO - LEVEL 3
 	//CreateThreeLevel();
 
 	//TODO - LEVEL 4
 	//CreateFourLevel();
+
+	SceneIntro = true;
+	Level_1 = false;
+	Level_2 = false;
 
 	test = true;
 	time = GetTickCount();
@@ -205,65 +209,43 @@ void ModuleLevel1::CreateIntroLevel()
 
 
 }
-/*void ModuleLevel1::CreateFirstLevel()
+void ModuleLevel1::CreateFirstLevel()
 {
-	ActualPos.Set(0, 0, 0);
-	App->physics->CreateUPER(Cubes[0], Cubes[1], Cubes[2], 30, 10, 7, EAST, this);
-	Map[0] = upper.getFirst()->data;
-	Map[1] = upper.getFirst()->next->data;
-	Map[2] = upper.getFirst()->next->next->data;
+	ActualPos.Set(200, 0, 0);
+	App->physics->CreateUPER(Cubes[22], Cubes[23], Cubes[24], 30, 10, 7, EAST, this);
+	Map[22] = upper.getFirst()->data;
+	Map[23] = upper.getFirst()->next->data;
+	Map[24] = upper.getFirst()->next->next->data;
 
-	App->physics->CreateCurve(Cubes[3], Cubes[4], Cubes[5], 30, 10, 2, SOUTH, EAST, this);
-	Map[3] = curve.getFirst()->data;
-	Map[4] = curve.getFirst()->next->data;
-	Map[5] = curve.getFirst()->next->next->data;
+	App->physics->CreateCurve(Cubes[25], Cubes[26], Cubes[27], 30, 10, 2, SOUTH, EAST, this);
+	Map[25] = curve.getFirst()->data;
+	Map[26] = curve.getFirst()->next->data;
+	Map[27] = curve.getFirst()->next->next->data;
 
-	Map[6] = App->physics->CreateStraight(Cubes[6], 15, 10, 2, SOUTH, false, 0, this);
+	Map[28] = App->physics->CreateStraight(Cubes[28], 15, 10, 2, SOUTH, false, this);
 	ActualPos.y -= 7;
 
-	Map[7] = App->physics->CreateStraight(Cubes[7], 20, 10, 2, EAST, false, 0, this);
+	Map[29] = App->physics->CreateStraight(Cubes[29], 20, 10, 2, EAST, false, this);
 
-	App->physics->CreateCurve(Cubes[8], Cubes[9], Cubes[10], 30, 10, 2, NORTH, EAST, this);
-	Map[8] = curve.getFirst()->data;
-	Map[9] = curve.getFirst()->next->data;
-	Map[10] = curve.getFirst()->next->next->data;
+	App->physics->CreateCurve(Cubes[30], Cubes[31], Cubes[32], 30, 10, 2, NORTH, EAST, this);
+	Map[30] = curve.getFirst()->data;
+	Map[31] = curve.getFirst()->next->data;
+	Map[32] = curve.getFirst()->next->next->data;
 
-}*/
+}
 
-/*void ModuleLevel1::CreateSecondLevel()
+void ModuleLevel1::CreateSecondLevel()
 {
-	ActualPos.Set(0, 1, 0);
+	ActualPos.Set(0, 1, 200);
 
-	Map[0] = App->physics->CreateStraight(Cubes[0], 20, 10, 2, EAST, false, this);
-	Map[1] = App->physics->CreateStraight(Cubes[1], 20, 10, 2, EAST, true, this);
+	Map[33] = App->physics->CreateStraight(Cubes[33], 20, 10, 2, EAST, false, this);
+	Map[34] = App->physics->CreateStraight(Cubes[34], 20, 10, 2, EAST, true, this);
 	/*Cubes[1].SetPos(ActualPos.x, ActualPos.y, ActualPos.z);
 	Cubes[1].size.Set(20, 2, 10);
 	Map[1] = App->physics->AddBox(Cubes[1], false, 100);
 	ActualPos.x += 10;*/
 
-
-
-	/*App->physics->CreateUPER(Cubes[0], Cubes[1], Cubes[2], 30, 10, 7, EAST, this);
-	Map[0] = upper.getFirst()->data;
-	Map[1] = upper.getFirst()->next->data;
-	Map[2] = upper.getFirst()->next->next->data;
-
-	App->physics->CreateCurve(Cubes[3], Cubes[4], Cubes[5], 30, 10, 2, SOUTH, EAST, this);
-	Map[3] = curve.getFirst()->data;
-	Map[4] = curve.getFirst()->next->data;
-	Map[5] = curve.getFirst()->next->next->data;
-
-	Map[6] = App->physics->CreateStraight(Cubes[6], 15, 10, 2, SOUTH, false, 0, this);
-	ActualPos.y -= 7;
-
-	Map[7] = App->physics->CreateStraight(Cubes[7], 20, 10, 2, EAST, false, 0, this);
-
-	App->physics->CreateCurve(Cubes[8], Cubes[9], Cubes[10], 30, 10, 2, NORTH, EAST, this);
-	Map[8] = curve.getFirst()->data;
-	Map[9] = curve.getFirst()->next->data;
-	Map[10] = curve.getFirst()->next->next->data;
-
-}*/
+}
 
 // Update
 update_status ModuleLevel1::Update(float dt)
@@ -313,43 +295,86 @@ update_status ModuleLevel1::Update(float dt)
 	Left->GetTransform(&LeftShape.transform);
 	LeftShape.Render();*/
 	//---------------------------
-	//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
-	/*if (Map[1]->GetPos().x >= 20)
-	{
-		testillo = true;
-	}
 
-	else if (Map[1]->GetPos().x <= -20)
-	{
-		testillo = false;
-	}
 
-	if (testillo == true)
+	if (SceneIntro)
 	{
-		Map[1]->Move(-1.0f, 0, 0);
-	}
-	else
-	{
-		Map[1]->Move(1.0f, 0, 0);
-	}*/
-	for (int i = 0; i < objects; i++)
-	{
-		if (Map[i]->GetRigidBody()->isKinematicObject())
-		{
-			Map[i]->SetKinematic_Transform(&Cubes[i].transform);
-			Cubes[i].Render();
-		}
-		else
+		for (int i = 0; i < 22; i++)
 		{
 			Map[i]->GetTransform(&(Cubes[i].transform));
 			Cubes[i].Render();
 		}
+		//PORTAL
+		portal_object->GetTransform(&(portal.transform));
+		portal.Render();
+	}
+	if (Level_1)
+	{
+		for (int i = 22; i < 33; i++)
+		{
+			Map[i]->GetTransform(&(Cubes[i].transform));
+			Cubes[i].Render();
+		}
+	}
+	if (Level_2)
+	{
+		//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
+		if (Map[34]->GetPos().x >= 20)
+		{
+			testillo = true;
+		}
 
+		else if (Map[34]->GetPos().x <= -20)
+		{
+			testillo = false;
+		}
+
+		if (testillo == true)
+		{
+			Map[34]->Move(-1.0f, 0, 0);
+		}
+		else
+		{
+			Map[34]->Move(1.0f, 0, 0);
+		}
+		for (int i = 33; i < objects; i++)
+		{
+			if (Map[i]->GetRigidBody()->isKinematicObject())
+			{
+				Map[i]->SetKinematic_Transform(&Cubes[i].transform);
+				Cubes[i].Render();
+			}
+			else
+			{
+				Map[i]->GetTransform(&(Cubes[i].transform));
+				Cubes[i].Render();
+			}
+		}
 	}
 
-	//PORTAL
-	portal_object->GetTransform(&(portal.transform));
-	portal.Render();
+	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+	{
+		SceneIntro = !SceneIntro;
+		Level_1 = false;
+		Level_2 = false;
+		App->player->vehicle->SetPos(0, 5, 5);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
+	{
+		SceneIntro = false;
+		Level_1 = !Level_1;
+		Level_2 = false;
+		App->player->vehicle->SetPos(200, 3, 0);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_7) == KEY_DOWN)
+	{
+		SceneIntro = false;
+		Level_1 = false;
+		Level_2 = !Level_2;
+		App->player->vehicle->SetPos(0, 3, 200);
+	}
+
+
 
 	return UPDATE_CONTINUE;
 }
