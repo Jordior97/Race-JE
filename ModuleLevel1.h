@@ -24,6 +24,8 @@ public:
 	void CreateIntroLevel();
 	void CreateFirstLevel();
 	void CreateSecondLevel();
+	void CreateThreeLevel();
+	void CreateFourLevel();
 
 public:
 
@@ -59,10 +61,13 @@ public:
 	bool SceneIntro;
 	bool Level_1;
 	bool Level_2;
+	bool Level_3;
+	bool Level_4;
 
 	PhysBody3D* portal_object;
 	Cylinder portal;
-	bool testillo = false;
+
+	bool change_moviment;
 
 private:
 

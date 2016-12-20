@@ -27,13 +27,16 @@ public:
 
 	void SetAsSensor(bool is_sensor);
 	bool IsSensor() const;
+	bool IsKinematic() const;
 	btRigidBody* GetRigidBody();
 
-
+	bool is_kinematic = false;
+	bool one_direction;
 private:
 
 	btRigidBody* body = nullptr;
 	bool is_sensor = false;
+
 
 public:
 	p2List<Module*> collision_listeners;

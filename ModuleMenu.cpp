@@ -24,9 +24,9 @@ bool ModuleMenu::Start()
 	sprintf_s(title, "WELCOME TO OUR RACE GAME, select the GAME MODE:");
 	App->window->SetTitle(title);
 
-	button_press = App->audio->LoadFx("Music&Fx/ButtonPress.wav");
+	//button_press = App->audio->LoadFx("Music&Fx/test_voz.wav"); TODO POSAR EFECTE CORRECTE
 	//App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
-
+	//App->audio->VolumeMusic(64);
 	//Set plane
 	Plane p(0, 1, 0, 0);
 	plane = p;
@@ -64,24 +64,6 @@ bool ModuleMenu::Start()
 		//
 		
 		App->physics->world->removeRigidBody(App->player->vehicle->GetRigidBody());
-		//App->physics->world->removeVehicle((btActionInterface*)App->player->vehicle);
-		//delete App->player->vehicle;
-		/*delete App->player->vehicle;
-		//App->physics->world->removeVehicle((btActionInterface*)App->player->vehicle->body);
-		
-		App->physics->world->removeRigidBody(App->player2->vehicle->body);
-		App->physics->world->removeVehicle((btActionInterface*)App->player2->vehicle->body);
-		*/
-		//App->physics->world->removeVehicle((btActionInterface*)App->player2->vehicle);
-		/*for (p2List_item<PhysVehicle3D*>* item = App->physics->vehicles.getFirst(); item; item = item->next)
-			delete item->data;
-		//App->physics->world->removeRigidBody((btRigidBody*)App->player->vehicle);
-		App->physics->vehicles.clear();*/
-		//delete App->player->vehicle;
-		//delete App->player->vehicle;
-		//
-		/*while(App->physics->world->getDispatcher()->)
-		delete App->physics->world;*/
 	}
 
 	if (App->player2->IsEnabled())
@@ -256,18 +238,7 @@ bool ModuleMenu::Start()
 	Background.size.Set(200, 200, 2);
 	Background.SetPos(40, 120, -20);
 	changeColor_background = true;
-	/*int k = 0;
-	vec3 size(5, 5, 5);
-	for (int i = 1; i <= 10; i++)
-	{
-		for (int j = 1; j <= 10; j++)
-		{
-			Cube_Background[k].size.Set(140, 100, 2);
-			Cube_Background[k].SetPos(ActualPos.x + j*size.x, ActualPos.y - i*size.y, ActualPos.z);
-			Cube_Background[k].color = Blue;
-			k++;
-		}
-	}*/
+
 	color_state = 0;
 	return true;
 }
@@ -288,31 +259,6 @@ update_status ModuleMenu::Update(float dt)
 		if (actualtime >= time + 1500)
 		{
 			time = actualtime;
-			/*int k = 0;
-			for (int i = 1; i <= 10; i++)
-			{
-			for (int j = 1; j <= 10; j++)
-			{
-			if (color_state == 0)
-			{
-			Cube_Background[k].color = Red;
-			}
-			if (color_state == 1)
-			{
-			Cube_Background[k].color = Green;
-			}
-			if (color_state == 2)
-			{
-			Cube_Background[k].color = Blue;
-			}
-			k++;
-			}
-			}
-			color_state += 1;
-			if (color_state == 3)
-			{
-			color_state = 0;
-			}*/
 
 			if (color_state == 0)
 			{
@@ -516,11 +462,16 @@ update_status ModuleMenu::Update(float dt)
 		Cubes_Custom[i].Render();
 	}
 	Background.Render();
-	// REDNER TEST
-	/*for (int i = 0; i < 100; i++)
+
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 	{
-		Cube_Background[i].Render();
-	}*/
+		App->audio->FadeMusic(5);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	{
+		App->audio->PlayMusic("Music&Fx/Enya_test.ogg", 0.0f);
+	}
+
 
 	return UPDATE_CONTINUE;
 }

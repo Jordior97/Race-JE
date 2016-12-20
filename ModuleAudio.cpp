@@ -163,6 +163,24 @@ bool ModuleAudio::ResumeMusic()
 	return ret;
 }
 
+void ModuleAudio::VolumeMusic(int volume)
+{
+	if (music != NULL)
+	{
+		LOG("volume was    : %d\n", Mix_VolumeMusic(MIX_MAX_VOLUME / 2));
+		Mix_VolumeMusic(volume);
+		LOG("volume is now : %d\n", Mix_VolumeMusic(-1));
+	}
+}
+
+void ModuleAudio::FadeMusic(int ms)
+{
+	if (music != NULL)
+	{
+		Mix_FadeOutMusic((int)(ms * 1000.0f));
+	}
+}
+
 // Load WAV
 unsigned int ModuleAudio::LoadFx(const char* path)
 {

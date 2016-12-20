@@ -103,6 +103,11 @@ bool PhysBody3D::IsSensor() const
 	return is_sensor;
 }
 
+bool PhysBody3D::IsKinematic() const
+{
+	return is_kinematic;
+}
+
 btRigidBody* PhysBody3D::GetRigidBody()
 {
 	return body;

@@ -9,7 +9,7 @@
 
 ModuleLevel1::ModuleLevel1(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
-	objects = 35;
+	objects = 94;
 }
 
 ModuleLevel1::~ModuleLevel1()
@@ -34,7 +34,7 @@ bool ModuleLevel1::Start()
 	}
 
 
-	App->player->vehicle->SetPos(0, 5, 5);
+	App->player->vehicle->SetPos(0, 5, 225);
 
 	//Set camera mode to HISTORY MODE (3rd person view)
 	App->camera->state = HISTORY;
@@ -70,14 +70,16 @@ bool ModuleLevel1::Start()
 	CreateSecondLevel();
 
 	//TODO - LEVEL 3
-	//CreateThreeLevel();
+	CreateThreeLevel();
 
 	//TODO - LEVEL 4
-	//CreateFourLevel();
+	CreateFourLevel();
 
-	SceneIntro = true;
+	SceneIntro = false;
 	Level_1 = false;
 	Level_2 = false;
+	Level_3 = false;
+	Level_4 = true;
 
 	test = true;
 	time = GetTickCount();
@@ -236,16 +238,166 @@ void ModuleLevel1::CreateFirstLevel()
 
 void ModuleLevel1::CreateSecondLevel()
 {
-	ActualPos.Set(0, 1, 200);
-
-	Map[33] = App->physics->CreateStraight(Cubes[33], 20, 10, 2, EAST, false, this);
+	ActualPos.Set(0, 1, 260);
+	App->player->vehicle->SetPos(0, 3, 265);
+	Map[33] = App->physics->CreateStraight(Cubes[33], 50, 10, 2, EAST, false, this);
 	Map[34] = App->physics->CreateStraight(Cubes[34], 20, 10, 2, EAST, true, this);
-	/*Cubes[1].SetPos(ActualPos.x, ActualPos.y, ActualPos.z);
-	Cubes[1].size.Set(20, 2, 10);
-	Map[1] = App->physics->AddBox(Cubes[1], false, 100);
-	ActualPos.x += 10;*/
+	Map[34]->is_kinematic = true;
+	Map[34]->one_direction = false;
+	
+	App->physics->CreateCurve(Cubes[35], Cubes[36], Cubes[37], 30, 10, 2, SOUTH, EAST, this);
+	Map[35] = curve.getFirst()->data;
+	Map[36] = curve.getFirst()->next->data;
+	Map[37] = curve.getFirst()->next->next->data;
+
+	App->physics->CreateUPER(Cubes[38], Cubes[39], Cubes[40], 30, 10, 25, SOUTH, this);
+	Map[38] = upper.getFirst()->data;
+	Map[39] = upper.getFirst()->next->data;
+	Map[40] = upper.getFirst()->next->next->data;
+
+	App->physics->CreateCurve(Cubes[41], Cubes[42], Cubes[43], 20, 10, 2, WEST, SOUTH, this);
+	Map[41] = curve.getFirst()->data;
+	Map[42] = curve.getFirst()->next->data;
+	Map[43] = curve.getFirst()->next->next->data;
+
+	Map[44] = App->physics->CreateStraight(Cubes[44], 20, 10, 2, WEST, true, this);
+	Map[44]->is_kinematic = true;
+	Map[44]->one_direction = false;
+	Map[45] = App->physics->CreateStraight(Cubes[45], 20, 10, 2, WEST, true, this);
+	Map[45]->is_kinematic = true;
+	Map[45]->one_direction = true;
+	Map[46] = App->physics->CreateStraight(Cubes[46], 20, 10, 2, WEST, true, this);
+	Map[46]->is_kinematic = true;
+	Map[46]->one_direction = false;
+	Map[47] = App->physics->CreateStraight(Cubes[47], 20, 10, 2, WEST, true, this);
+	Map[47]->is_kinematic = true;
+	Map[47]->one_direction = true;
+
+	App->physics->CreateCurve(Cubes[48], Cubes[49], Cubes[50], 12, 10, 2, SOUTH, WEST, this);
+	Map[48] = curve.getFirst()->data;
+	Map[49] = curve.getFirst()->next->data;
+	Map[50] = curve.getFirst()->next->next->data;
 
 }
+
+void ModuleLevel1::CreateThreeLevel()
+{
+	ActualPos.Set(-300, 1, 500);
+	App->player->vehicle->SetPos(-300, 3, 505);
+	Map[51] = App->physics->CreateStraight(Cubes[51], 25, 10, 2, EAST, false, this);
+
+	App->physics->CreateCurve(Cubes[52], Cubes[53], Cubes[54], 20, 10, 2, NORTH, EAST, this);
+	Map[52] = curve.getFirst()->data;
+	Map[53] = curve.getFirst()->next->data;
+	Map[54] = curve.getFirst()->next->next->data;
+
+	float relax_x = ActualPos.x;
+	float relax_z = ActualPos.z;
+	Map[55] = App->physics->CreateStraight(Cubes[55], 25, 10, 2, NORTH, false, this);
+	float relax_next_x = ActualPos.x;
+	float relax_next_z = ActualPos.z;
+	ActualPos.Set(relax_x, ActualPos.y, relax_z - 10.0f);
+	Map[56] = App->physics->CreateStraight(Cubes[56], 25, 10, 2, NORTH, false, this);
+	ActualPos.Set(relax_next_x, ActualPos.y, relax_next_z);
+
+	App->physics->CreateUPER(Cubes[57], Cubes[58], Cubes[59], 20, 10, 12, NORTH, this);
+	Map[57] = upper.getFirst()->data;
+	Map[58] = upper.getFirst()->next->data;
+	Map[59] = upper.getFirst()->next->next->data;
+
+	relax_x = ActualPos.x;
+	relax_z = ActualPos.z;
+	Map[60] = App->physics->CreateStraight(Cubes[60], 25, 10, 2, NORTH, false, this);
+	relax_next_x = ActualPos.x;
+	relax_next_z = ActualPos.z;
+	ActualPos.Set(relax_x, ActualPos.y, relax_z + 10.0f);
+	Map[61] = App->physics->CreateStraight(Cubes[61], 25, 10, 2, NORTH, false, this);
+	ActualPos.Set(relax_next_x, ActualPos.y, relax_next_z);
+
+	App->physics->CreateUPER(Cubes[62], Cubes[63], Cubes[64], 20, 10, 12, NORTH, this);
+	Map[62] = upper.getFirst()->data;
+	Map[63] = upper.getFirst()->next->data;
+	Map[64] = upper.getFirst()->next->next->data;
+
+	App->physics->CreateCurve(Cubes[65], Cubes[66], Cubes[67], 20, 10, 2, EAST, NORTH, this);
+	Map[65] = curve.getFirst()->data;
+	Map[66] = curve.getFirst()->next->data;
+	Map[67] = curve.getFirst()->next->next->data;
+
+	Map[68] = App->physics->CreateStraight(Cubes[68], 30, 10, 2, EAST, false, this);
+
+	App->physics->CreateDOWNER(Cubes[69], Cubes[70], Cubes[71], 20, 10, 24, EAST, this);
+	Map[69] = downer.getFirst()->data;
+	Map[70] = downer.getFirst()->next->data;
+	Map[71] = downer.getFirst()->next->next->data;
+
+	App->physics->CreateCurve(Cubes[72], Cubes[73], Cubes[74], 30, 10, 2, SOUTH, EAST, this);
+	Map[72] = curve.getFirst()->data;
+	Map[73] = curve.getFirst()->next->data;
+	Map[74] = curve.getFirst()->next->next->data;
+
+	Map[75] = App->physics->CreateStraight(Cubes[75], 20, 10, 2, SOUTH, false, this);
+	relax_x = ActualPos.x;
+	relax_z = ActualPos.z;
+	Map[76] = App->physics->CreateStraight(Cubes[76], 10, 10, 2, SOUTH, false, this);
+
+	relax_next_x = ActualPos.x;
+	float relax_next_y = ActualPos.y;
+	relax_next_z = ActualPos.z;
+	ActualPos.Set(relax_x, ActualPos.y + 9.5f, relax_z - 24.0f);
+
+	App->physics->CreateDOWNER(Cubes[77], Cubes[78], Cubes[79], 5, 10, 10, EAST, this);
+	Map[77] = downer.getFirst()->data;
+	Map[78] = downer.getFirst()->next->data;
+	Map[79] = downer.getFirst()->next->next->data;
+	ActualPos.Set(relax_next_x, relax_next_y, relax_next_z);
+	Map[80] = App->physics->CreateStraight(Cubes[80], 20, 10, 2, SOUTH, false, this);
+
+	relax_x = ActualPos.x;
+	relax_z = ActualPos.z;
+	Map[81] = App->physics->CreateStraight(Cubes[81], 10, 10, 2, SOUTH, false, this);
+
+	relax_next_x = ActualPos.x;
+	relax_next_y = ActualPos.y;
+	relax_next_z = ActualPos.z;
+	ActualPos.Set(relax_x - 10.0f, ActualPos.y + 9.5f, relax_z - 24.0f);
+
+	App->physics->CreateDOWNER(Cubes[82], Cubes[83], Cubes[84], 5, 10, 10, EAST, this);
+	Map[82] = downer.getFirst()->data;
+	Map[83] = downer.getFirst()->next->data;
+	Map[84] = downer.getFirst()->next->next->data;
+	ActualPos.Set(relax_next_x, relax_next_y, relax_next_z);
+	Map[85] = App->physics->CreateStraight(Cubes[85], 40, 10, 2, SOUTH, false, this);
+
+}
+
+void ModuleLevel1::CreateFourLevel()
+{
+	ActualPos.Set(-500, 1, -500);
+	App->player->vehicle->SetPos(-500, 3, -495);
+
+	Map[86] = App->physics->CreateStraight(Cubes[86], 40, 10, 2, EAST, false, this);
+	App->physics->CreateCurve(Cubes[87], Cubes[88], Cubes[89], 10, 10, 2, NORTH, EAST, this);
+	Map[87] = curve.getFirst()->data;
+	Map[88] = curve.getFirst()->next->data;
+	Map[89] = curve.getFirst()->next->next->data;
+
+	Map[90] = App->physics->CreateStraight(Cubes[90], 40, 10, 2, NORTH, false, this);
+	ActualPos.Set(ActualPos.x+10, ActualPos.y, ActualPos.z);
+	Map[91] = App->physics->CreateStraight(Cubes[91], 40, 10, 2, NORTH, false, this);
+	ActualPos.Set(ActualPos.x+10, ActualPos.y, ActualPos.z);
+	Map[92] = App->physics->CreateStraight(Cubes[92], 40, 10, 2, NORTH, false, this);
+	Map[93] = App->physics->CreateStraight(Cubes[93], 40, 10, 2, NORTH, false, this);
+	Map[94] = App->physics->CreateStraight(Cubes[94], 10, 10, 2, NORTH, true, this);
+	Map[94]->is_kinematic = true;
+
+
+
+
+
+
+}
+
 
 // Update
 update_status ModuleLevel1::Update(float dt)
@@ -319,27 +471,133 @@ update_status ModuleLevel1::Update(float dt)
 	if (Level_2)
 	{
 		//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
-		if (Map[34]->GetPos().x >= 20)
-		{
-			testillo = true;
-		}
-
-		else if (Map[34]->GetPos().x <= -20)
-		{
-			testillo = false;
-		}
-
-		if (testillo == true)
-		{
-			Map[34]->Move(-1.0f, 0, 0);
-		}
-		else
-		{
-			Map[34]->Move(1.0f, 0, 0);
-		}
 		for (int i = 33; i < objects; i++)
 		{
-			if (Map[i]->GetRigidBody()->isKinematicObject())
+			int position_before_kinetic = 0;
+			if (Map[i]->IsKinematic())
+			{
+				for (int k = i; k > 0; k--)
+				{
+					if (Map[k]->IsKinematic() == false)
+					{
+						position_before_kinetic = k;
+						break;
+					}
+				}
+
+				if (Map[i]->GetPos().x >= (Map[position_before_kinetic]->GetPos().x + 20))
+				{
+					Map[i]->one_direction = true;
+				}
+
+				else if (Map[i]->GetPos().x <= (Map[position_before_kinetic]->GetPos().x - 20))
+				{
+					Map[i]->one_direction = false;
+				}
+
+				if (Map[i]->one_direction == false)
+				{
+					Map[i]->Move(1.0f, 0, 0);
+					if (App->player->vehicle->GetPos().z > (Map[i]->GetPos().z - (Cubes[i].size.z / 2)) && App->player->vehicle->GetPos().z < (Map[i]->GetPos().z + (Cubes[i].size.z / 2)))
+					{
+						if (App->player->vehicle->GetPos().x >(Map[i]->GetPos().x - (Cubes[i].size.x / 2)) && App->player->vehicle->GetPos().x < (Map[i]->GetPos().x + (Cubes[i].size.x / 2)))
+						{
+							App->player->vehicle->Move(1.0f, 0, 0);
+						}
+					}
+				}
+
+				else if (Map[i]->one_direction == true)
+				{
+					Map[i]->Move(-1.0f, 0, 0);
+					if (App->player->vehicle->GetPos().z >(Map[i]->GetPos().z - (Cubes[i].size.z / 2)) && App->player->vehicle->GetPos().z < (Map[i]->GetPos().z + (Cubes[i].size.z / 2)))
+					{
+						if (App->player->vehicle->GetPos().x >(Map[i]->GetPos().x - (Cubes[i].size.x / 2)) && App->player->vehicle->GetPos().x < (Map[i]->GetPos().x + (Cubes[i].size.x / 2)))
+						{
+							App->player->vehicle->Move(-1.0f, 0, 0);
+						}
+					}
+				}
+			}
+		}
+
+		for (int i = 33; i < objects; i++)
+		{
+			if (Map[i]->IsKinematic())
+			{
+				Map[i]->SetKinematic_Transform(&Cubes[i].transform);
+				Cubes[i].Render();
+			}
+			else
+			{
+				Map[i]->GetTransform(&(Cubes[i].transform));
+				Cubes[i].Render();
+			}
+		}
+	}
+
+	if (Level_3)
+	{
+		for (int i = 51; i < objects; i++)
+		{
+
+			Map[i]->GetTransform(&(Cubes[i].transform));
+			Cubes[i].Render();
+		}
+	}
+
+	if (Level_4)
+	{
+		int position_before_kinetic = 0;
+		if (Map[94]->IsKinematic())
+		{
+			for (int k = 94; k > 0; k--)
+			{
+				if (Map[k]->IsKinematic() == false)
+				{
+					position_before_kinetic = k;
+					break;
+				}
+			}
+			//true	-> bajar
+			//false -> subir
+			if (Map[94]->GetPos().y >= (Map[position_before_kinetic]->GetPos().y + 20))
+			{
+				Map[94]->one_direction = true;
+			}
+
+			else if (Map[94]->GetPos().y <= (Map[position_before_kinetic]->GetPos().y))
+			{
+				Map[94]->one_direction = false;
+			}
+
+			if (Map[94]->one_direction == false)
+			{
+				Map[94]->Move(1.0f, 0, 0);
+				if (App->player->vehicle->GetPos().z > (Map[94]->GetPos().z - (Cubes[94].size.z / 2)) && App->player->vehicle->GetPos().z < (Map[94]->GetPos().z + (Cubes[94].size.z / 2)))
+				{
+					if (App->player->vehicle->GetPos().x >(Map[94]->GetPos().x - (Cubes[94].size.x / 2)) && App->player->vehicle->GetPos().x < (Map[94]->GetPos().x + (Cubes[94].size.x / 2)))
+					{
+						App->player->vehicle->Move(1.0f, 0, 0);
+					}
+				}
+			}
+
+			else if (Map[94]->one_direction == true)
+			{
+				Map[94]->Move(-1.0f, 0, 0);
+				if (App->player->vehicle->GetPos().z >(Map[94]->GetPos().z - (Cubes[94].size.z / 2)) && App->player->vehicle->GetPos().z < (Map[94]->GetPos().z + (Cubes[94].size.z / 2)))
+				{
+					if (App->player->vehicle->GetPos().x >(Map[94]->GetPos().x - (Cubes[94].size.x / 2)) && App->player->vehicle->GetPos().x < (Map[94]->GetPos().x + (Cubes[94].size.x / 2)))
+					{
+						App->player->vehicle->Move(0, -1.0f, 0);
+					}
+				}
+			}
+		}
+		for (int i = 86; i < objects; i++)
+		{
+			if (Map[i]->IsKinematic())
 			{
 				Map[i]->SetKinematic_Transform(&Cubes[i].transform);
 				Cubes[i].Render();
@@ -373,8 +631,6 @@ update_status ModuleLevel1::Update(float dt)
 		Level_2 = !Level_2;
 		App->player->vehicle->SetPos(0, 3, 200);
 	}
-
-
 
 	return UPDATE_CONTINUE;
 }
