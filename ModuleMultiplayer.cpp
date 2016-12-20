@@ -40,15 +40,15 @@ bool ModuleMultiplayer::Start()
 		App->player2->Enable();
 	}
 
-	App->player->vehicle->SetPos(-20, 12, -20);
-	App->player2->vehicle->SetPos(25, 12, 25);
+	App->player->vehicle->SetPos(-20, 5, -20);
+	App->player2->vehicle->SetPos(25, 5, -20);
 
 	//Set camera position
-	//App->camera->MoveAt(vec3(-20.0f, 100.0f, 0.0f));
-	//App->camera->LookAt(vec3(0, 0, 0));
+	App->camera->MoveAt(vec3(-10.0f, 100.0f, 0.0f));
+	App->camera->LookAt(vec3(0, 0, 0));
 	//App->camera->state = WINNER;
-	App->camera->MoveAt(vec3(20, 120, 80));
-	App->camera->LookAt(vec3(20, 120, 0));
+	//App->camera->MoveAt(vec3(20, 120, 80));
+	//App->camera->LookAt(vec3(20, 120, 0));
 
 	//Set reference position
 	ActualPos.x = 0;
@@ -60,10 +60,10 @@ bool ModuleMultiplayer::Start()
 		App->menu->Disable();
 	}
 
-	objects = 100;
+	objects = 225;
 
 	//Create Multiplayer Map
-	CreateMap(10, 10);
+	CreateMap(15, 15);
 	test = true;
 	time = GetTickCount();
 
@@ -136,7 +136,7 @@ update_status ModuleMultiplayer::Update(float dt)
 	if (fadetowhite)
 	{
 		color_white += 0.005f;
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < objects; i++)
 		{
 			Cubes[i].color.Set(color_white, color_white, color_white);
 		}
@@ -144,7 +144,7 @@ update_status ModuleMultiplayer::Update(float dt)
 		{
 			fadetowhite = false;
 			color_white = 0.0f;
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < objects; i++)
 			{
 				Cubes[i].color = White;
 			}
@@ -158,11 +158,11 @@ update_status ModuleMultiplayer::Update(float dt)
 	}
 
 
-	//RED Render
+	/*//RED Render
 	for (int i = 0; i < 15; i++)
 	{
 		RED[i].Render();
-	}
+	}*/
 
 	//SET SCORE OF THE PLAYERS INTO THE WINDOW TITLE
 	char title[80];
@@ -191,26 +191,9 @@ void ModuleMultiplayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{
 		if (Map[i] == body1 && App->player->vehicle == body2) //RED CAR
 		{
-			if (Cubes[i].color == Blue)
+			if (Cubes[i].color == ElectricRed)
 			{
-				Cubes[i].color = Red;
-				RedSelected += 1;
-				if (BlueSelected > 0)
-				{
-					BlueSelected -= 1;
-				}
-			}
-			if (Cubes[i].color == White)
-			{
-				Cubes[i].color = Red;
-				RedSelected += 1;
-			}
-		}
-		if (Map[i] == body1 && App->player2->vehicle == body2) //BLUE CAR
-		{
-			if (Cubes[i].color == Red)
-			{
-				Cubes[i].color = Blue;
+				Cubes[i].color = ElectricBlue;
 				BlueSelected += 1;
 				if (RedSelected > 0)
 				{
@@ -220,8 +203,25 @@ void ModuleMultiplayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 			if (Cubes[i].color == White)
 			{
-				Cubes[i].color = Blue;
+				Cubes[i].color = ElectricBlue;
 				BlueSelected += 1;
+			}
+		}
+		if (Map[i] == body1 && App->player2->vehicle == body2) //BLUE CAR
+		{
+			if (Cubes[i].color == ElectricBlue)
+			{
+				Cubes[i].color = ElectricRed;
+				RedSelected += 1;
+				if (BlueSelected > 0)
+				{
+					BlueSelected -= 1;
+				}
+			}
+			if (Cubes[i].color == White)
+			{
+				Cubes[i].color = ElectricRed;
+				RedSelected += 1;
 			}
 		}
 	}

@@ -2,9 +2,11 @@
 
 #include "PhysBody3D.h"
 #include "glmath.h"
+#include "p2DynArray.h"
 
 class btRaycastVehicle;
 struct PhysBody3D;
+struct Color;
 
 struct Wheel
 {
@@ -24,8 +26,16 @@ struct VehicleInfo
 {
 	~VehicleInfo();
 
+	uint extra_parts;
+	vec3* extra_parts_size;
+	vec3* extra_parts_offset;
+	Color* color;
+
 	vec3 chassis_size;
 	vec3 chassis_offset;
+
+
+
 	float mass;
 	float suspensionStiffness; // default to 5.88 / 10.0 offroad / 50.0 sports car / 200.0 F1 car
 	float suspensionCompression; // default to 0.83

@@ -21,8 +21,31 @@ bool ModulePlayer::Start()
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2, 1, 4);
+	car.extra_parts = 4;
+	car.extra_parts_size = new vec3[car.extra_parts];
+	car.extra_parts_offset = new vec3[car.extra_parts];
+	car.color = new Color[car.extra_parts];
+
+	car.chassis_size.Set(2, 1.2, 4);
 	car.chassis_offset.Set(0, 1.2, 0);
+
+	car.extra_parts_size[0].Set(car.chassis_size.x, 1.2, 1);
+	car.extra_parts_offset[0].Set(0, 1.2, 1.5);
+	car.color[0] = ElectricBlue;
+
+	car.extra_parts_size[1].Set(0.5, 1, 3);
+	car.extra_parts_offset[1].Set(0.5, 1.2, 0);
+	car.color[1] = White;
+
+	car.extra_parts_size[2].Set(0.5, 1, 3);
+	car.extra_parts_offset[2].Set(-0.5, 1.2, 0);
+	car.color[2] = White;
+
+	car.extra_parts_size[3].Set(car.chassis_size.x, 1.2, 1);
+	car.extra_parts_offset[3].Set(0, 1.2, -1.5);
+	car.color[3] = ElectricBlue;
+
+
 	car.mass = 400.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
@@ -96,7 +119,7 @@ bool ModulePlayer::Start()
 	car.wheels[3].brake = true;
 	car.wheels[3].steering = false;
 
-	vehicle = new PhysVehicle3D(App->physics->AddVehicle(car));
+	vehicle = App->physics->AddVehicle(car);
 
 	return true;
 }

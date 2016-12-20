@@ -8,6 +8,8 @@ Color Black = Color(0.0f, 0.0f, 0.0f);
 Color White = Color(1.0f, 1.0f, 1.0f);
 Color Yellow = Color(1.0f, 1.0f, 0.0f);
 Color Purpule = Color(1.0f, 0.0f, 1.0f);
+Color ElectricBlue = Color(0.2f, 0.6f, 1.0f);
+Color ElectricRed = Color(1.0f, 0.2f, 0.2f);
 
 bool Color::operator==(Color test)
 {
