@@ -311,7 +311,6 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	// -------------------------------------------
 
 
-
 	btTransform startTransform;
 	startTransform.setIdentity();
 
@@ -907,52 +906,44 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 }
 
 
-PhysBody3D* ModulePhysics3D::AddBlow(int x, int y, int z)
+/*PhysBody3D* ModulePhysics3D::AddBlow(const WindmillInfo& info, float x, float y, float z)
 {
-	btTransform t;  //position and rotation
-	t.setIdentity();
-	t.setOrigin(btVector3(0, 0, 0));
-	btCompoundShape* windmill = new btCompoundShape();
+	btCompoundShape* comShape = new btCompoundShape();
+	shapes.add(comShape);
 
-	btSphereShape* ball = new btSphereShape(1);
-	btBoxShape* up = new btBoxShape(btVector3(0.5, 1, 0.5));
-	btBoxShape* down = new btBoxShape(btVector3(0.5, 1, 0.5));
-	btBoxShape* left = new btBoxShape(btVector3(0.5, 0.5, 1));
-	btBoxShape* right = new btBoxShape(btVector3(0.5, 0.5, 1));
 
-	windmill->addChildShape(t, ball);
-	t.setIdentity();
+	p2DynArray<btCollisionShape*> ExtraShapes;
+	btTransform t;
+	for (int i = 0; i < 4; i++)
+	{
+		ExtraShapes.PushBack(new btBoxShape(btVector3(info.size[i].x*0.5, info.size[i].y*0.5, info.size[i].z*0.5)));
+		t.setIdentity();
+		t.setOrigin(btVector3(x + info.position[i].x, y + info.position[i].y, z + info.position[i].z));
 
-	t.setOrigin(btVector3(0, 2, 0));
-	windmill->addChildShape(t, up);
+		comShape->addChildShape(t, ExtraShapes[i]);
+	}
 
-	t.setOrigin(btVector3(0, -2, 0));
-	windmill->addChildShape(t, down);
 
-	t.setOrigin(btVector3(0, 0, -2));
-	windmill->addChildShape(t, left);
-
-	t.setOrigin(btVector3(0, 0, 2));
-	windmill->addChildShape(t, right);
-
-	btVector3 inertia(0, 0, 0);
-	btScalar masses[5] = { 1, 0.5, 0.5, 0.5, 0.5 };
-	windmill->calculatePrincipalAxisTransform(masses, t, inertia);
-
+	btVector3 localInertia(0, 0, 0);
+	if (info.mass != 0.f)
+		comShape->calculateLocalInertia(info.mass, localInertia);
+	
 	t.setIdentity();
 	t.setOrigin(btVector3(x, y, z));  //put it to x,y,z coordinates
-
-	btMotionState* motion = new btDefaultMotionState(t);  //set the position (and motion)
-	btRigidBody::btRigidBodyConstructionInfo info(1 * 2, motion, windmill, inertia);  //create the constructioninfo, you can create multiple bodies with the same info
 	
-	btRigidBody* body = new btRigidBody(info);
-	PhysBody3D* pbody = new PhysBody3D(body);
+	btDefaultMotionState* myMotionState = new btDefaultMotionState(t);
+	motions.add(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(info.mass, myMotionState, comShape, localInertia);
 
+	btRigidBody* body = new btRigidBody(rbInfo);
+	PhysBody3D* pbody = new PhysBody3D(body);	
+
+	body->setUserPointer(pbody);
 	world->addRigidBody(body);
 	bodies.add(pbody);
-	return pbody;
-}
 
+	return pbody;
+}*/
 // ---------------------------------------------------------
 
 

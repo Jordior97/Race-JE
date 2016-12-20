@@ -3,12 +3,11 @@
 #include "Globals.h"
 #include "p2List.h"
 #include "Primitive.h"
-
+#include "p2DynArray.h"
 #include "Bullet/include/btBulletDynamicsCommon.h"
 
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
-
 
 enum Direction
 {
@@ -23,6 +22,7 @@ class DebugDrawer;
 struct PhysBody3D;
 struct PhysVehicle3D;
 struct VehicleInfo;
+struct WindmillInfo;
 
 class ModulePhysics3D : public Module
 {
@@ -51,7 +51,7 @@ public:
 	void CreateDOWNER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float width, float height, Direction type, ModuleScene* scene);
 	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float width, float height, Direction type, Direction type_of_come, ModuleScene* scene);
 	
-	PhysBody3D* AddBlow(int x, int y, int z);
+	PhysBody3D* AddBlow(const WindmillInfo& info, float x, float y, float z);
 	
 
 	btDiscreteDynamicsWorld*			world;

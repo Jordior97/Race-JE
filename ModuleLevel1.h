@@ -10,6 +10,30 @@ struct PhysBody3D;
 enum Direction;
 struct PhysMotor3D;
 
+struct Windmill
+{
+public:
+	PhysBody3D* Stick;
+	Cube StickShape;
+
+	PhysBody3D* Ball;
+	Sphere BallShape;
+
+	PhysBody3D* Up;
+	Cube UpShape;
+
+	PhysBody3D* Down;
+	Cube DownShape;
+
+	PhysBody3D* Left;
+	Cube LeftShape;
+
+	PhysBody3D* Right;
+	Cube RightShape;
+
+	void Render();
+};
+
 class ModuleLevel1 : public ModuleScene
 {
 public:
@@ -27,7 +51,11 @@ public:
 	void CreateThreeLevel();
 	void CreateFourLevel();
 
+	void CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h);
+
 public:
+
+	Windmill windmill;
 
 	/*uint objects = 0;
 	PhysBody3D* Map[MAX_OBJECTS];
@@ -46,7 +74,7 @@ public:
 	PhysBody3D* Stick;
 	Cube StickShape;
 
-	PhysBody3D* blow;
+
 
 	PhysBody3D* KinematicObject;
 	Cube KinematicShape;
