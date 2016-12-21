@@ -60,7 +60,7 @@ bool ModuleLevel1::Start()
 
 	x1 = 1.0f;
 	fadetoblack = false;*/
-
+	//TODO TODO TODO -> Posar-ho de una manera per cridar a les funcions nomes quan et pases en anterior nivell
 	//TODO - LEVELINTRO
 	CreateIntroLevel();
 
@@ -74,13 +74,13 @@ bool ModuleLevel1::Start()
 	CreateThirdLevel();
 
 	//TODO - LEVEL 4
-	//CreateFourthLevel();
+	CreateFourthLevel();
 
 	SceneIntro = false;
 	Level_1 = false;
 	Level_2 = false;
-	Level_3 = true;
-	Level_4 = false;
+	Level_3 = false;
+	Level_4 = true;
 
 	test = true;
 	time = GetTickCount();
@@ -245,6 +245,7 @@ void ModuleLevel1::CreateSecondLevel()
 	Map[34] = App->physics->CreateStraight(Cubes[34], 20, 10, 2, EAST, true, this);
 	Map[34]->is_kinematic = true;
 	Map[34]->one_direction = false;
+	Map[34]->SetKinematic_Transform();
 	
 	App->physics->CreateCurve(Cubes[35], Cubes[36], Cubes[37], 30, 10, 2, SOUTH, EAST, this);
 	Map[35] = curve.getFirst()->data;
@@ -264,15 +265,19 @@ void ModuleLevel1::CreateSecondLevel()
 	Map[44] = App->physics->CreateStraight(Cubes[44], 20, 10, 2, WEST, true, this);
 	Map[44]->is_kinematic = true;
 	Map[44]->one_direction = false;
+	Map[44]->SetKinematic_Transform();
 	Map[45] = App->physics->CreateStraight(Cubes[45], 20, 10, 2, WEST, true, this);
 	Map[45]->is_kinematic = true;
 	Map[45]->one_direction = true;
+	Map[45]->SetKinematic_Transform();
 	Map[46] = App->physics->CreateStraight(Cubes[46], 20, 10, 2, WEST, true, this);
 	Map[46]->is_kinematic = true;
 	Map[46]->one_direction = false;
+	Map[46]->SetKinematic_Transform();
 	Map[47] = App->physics->CreateStraight(Cubes[47], 20, 10, 2, WEST, true, this);
 	Map[47]->is_kinematic = true;
 	Map[47]->one_direction = true;
+	Map[47]->SetKinematic_Transform();
 
 	App->physics->CreateCurve(Cubes[48], Cubes[49], Cubes[50], 12, 10, 2, SOUTH, WEST, this);
 	Map[48] = curve.getFirst()->data;
@@ -418,6 +423,8 @@ void ModuleLevel1::CreateFourthLevel()
 	ActualPos.Set(ActualPos.x, ActualPos.y-0.5f, ActualPos.z);
 	Map[94] = App->physics->CreateStraight(Cubes[94], 10, 10, 2, NORTH, true, this);
 	Map[94]->is_kinematic = true;
+	Map[94]->one_direction = false;
+	Map[94]->SetKinematic_Transform();
 
 
 	Cubes[96].size.Set(4, 1, 10);
@@ -457,9 +464,11 @@ void ModuleLevel1::CreateFourthLevel()
 	Map[110] = App->physics->CreateStraight(Cubes[110], 20, 15, 2, NORTH, true, this);
 	Map[110]->is_kinematic = true;
 	Map[110]->one_direction = false;
+	Map[110]->SetKinematic_Transform();
 	Map[111] = App->physics->CreateStraight(Cubes[111], 20, 15, 2, NORTH, true, this);
 	Map[111]->is_kinematic = true;
 	Map[111]->one_direction = true;
+	Map[111]->SetKinematic_Transform();
 	Map[112] = App->physics->CreateStraight(Cubes[112], 10, 15, 2, NORTH, false, this);
 
 
@@ -622,20 +631,8 @@ update_status ModuleLevel1::Update(float dt)
 					}
 				}
 			}
-		}
-
-		for (int i = 33; i < 51; i++)
-		{
-			if (Map[i]->IsKinematic())
-			{
-				Map[i]->SetKinematic_Transform(&Cubes[i].transform);
-				Cubes[i].Render();
-			}
-			else
-			{
-				Map[i]->GetTransform(&(Cubes[i].transform));
-				Cubes[i].Render();
-			}
+			Map[i]->GetTransform(&(Cubes[i].transform));
+			Cubes[i].Render();
 		}
 	}
 
@@ -725,16 +722,8 @@ update_status ModuleLevel1::Update(float dt)
 		}
 		for (int i = 86; i < objects; i++)
 		{
-			if (Map[i]->IsKinematic())
-			{
-				Map[i]->SetKinematic_Transform(&Cubes[i].transform);
-				Cubes[i].Render();
-			}
-			else
-			{
-				Map[i]->GetTransform(&(Cubes[i].transform));
-				Cubes[i].Render();
-			}
+			Map[i]->GetTransform(&(Cubes[i].transform));
+			Cubes[i].Render();
 		}
 
 		//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
