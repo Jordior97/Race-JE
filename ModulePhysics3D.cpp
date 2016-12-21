@@ -417,7 +417,7 @@ PhysBody3D* ModulePhysics3D::CreateStraight(Cube& cube, float lenght, float widt
 
 	if (iskinematic)
 	{
-		tm = AddBox(cube, false, 100);
+		tm = AddBox(cube, false, 0);
 	}
 	else
 	{

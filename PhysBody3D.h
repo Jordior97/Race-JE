@@ -17,7 +17,7 @@ public:
 	void Push(float x, float y, float z);
 	void Torque(float x, float y, float z);
 	void GetTransform(float* matrix) const;
-	void SetKinematic_Transform(float* matrix) const;
+	void SetKinematic_Transform();
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
 	vec3 GetPos() const;
