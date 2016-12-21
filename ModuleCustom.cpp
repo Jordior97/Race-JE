@@ -28,77 +28,20 @@ bool ModuleCustom::Start()
 	sprintf_s(title, "CUSTOM LEVEL - Design your own circuit and play it!");
 	App->window->SetTitle(title);
 
-	//Set plane
-	Plane p(0, 1, 0, 0);
-	plane = p;
-	plane.axis = true;
-	plane.color = Black;
 
 	if (App->menu->IsEnabled())
 	{
 		App->menu->Disable();
 	}
 	//TODO
-	App->camera->MoveAt(vec3(130, 20, 0));
-	App->camera->LookAt(vec3(150, 0, 0));
+	App->camera->MoveAt(vec3(-900, 20, 1000));
+	App->camera->LookAt(vec3(-910, 0, 1000));
 
 	//CUSTOM MAP
-	ActualPos.Set(150, 0, 0);
+	ActualPos.Set(-900, 0, 1000);
 	Map[0] = App->physics->CreateStraight(Cubes[0], 6, 12, 2, EAST, false, this);
 	Save_dir = EAST;
 
-
-	/*App->physics->CreateCurve(Cubes[1], Cubes[2], Cubes[3], 30, 15, NORTH, EAST, this);
-	Map[1] = curve.getFirst()->data;
-	Map[2] = curve.getFirst()->next->data;
-	Map[3] = curve.getFirst()->next->next->data;
-
-	ActualPos.Set(50, 0, 50);
-	App->physics->CreateCurve(Cubes[4], Cubes[5], Cubes[6], 30, 15, NORTH, WEST, this);
-	Map[4] = curve.getFirst()->data;
-	Map[5] = curve.getFirst()->next->data;
-	Map[6] = curve.getFirst()->next->next->data;
-
-	ActualPos.Set(150, 0, 100);
-	App->physics->CreateCurve(Cubes[7], Cubes[8], Cubes[9], 30, 15, EAST, NORTH, this);
-	Map[7] = curve.getFirst()->data;
-	Map[8] = curve.getFirst()->next->data;
-	Map[9] = curve.getFirst()->next->next->data;
-
-	ActualPos.Set(150, 0, 150);
-	App->physics->CreateCurve(Cubes[10], Cubes[11], Cubes[12], 30, 15, EAST, SOUTH, this);
-	Map[10] = curve.getFirst()->data;
-	Map[11] = curve.getFirst()->next->data;
-	Map[12] = curve.getFirst()->next->next->data;
-
-	ActualPos.Set(150, 0, 200);
-	App->physics->CreateCurve(Cubes[13], Cubes[14], Cubes[15], 30, 15, SOUTH, EAST, this);
-	Map[13] = curve.getFirst()->data;
-	Map[14] = curve.getFirst()->next->data;
-	Map[15] = curve.getFirst()->next->next->data;
-
-	ActualPos.Set(150, 0, 250);
-	App->physics->CreateCurve(Cubes[16], Cubes[17], Cubes[18], 30, 15, SOUTH, WEST, this);
-	Map[16] = curve.getFirst()->data;
-	Map[17] = curve.getFirst()->next->data;
-	Map[18] = curve.getFirst()->next->next->data;
-
-	ActualPos.Set(250, 0, 100);
-	App->physics->CreateCurve(Cubes[19], Cubes[20], Cubes[21], 30, 15, WEST, NORTH, this);
-	Map[19] = curve.getFirst()->data;
-	Map[20] = curve.getFirst()->next->data;
-	Map[21] = curve.getFirst()->next->next->data;
-
-	ActualPos.Set(250, 0, 175);
-	App->physics->CreateCurve(Cubes[22], Cubes[23], Cubes[24], 30, 15, WEST, SOUTH, this);
-	Map[22] = curve.getFirst()->data;
-	Map[23] = curve.getFirst()->next->data;
-	Map[24] = curve.getFirst()->next->next->data;*/
-
-	if (App->player->IsEnabled() == false)
-	{
-		App->player->Enable();
-	}
 
 	test = true;
 	time = GetTickCount();
@@ -115,8 +58,15 @@ bool ModuleCustom::CleanUp() //NEED CORRECTION !!!
 
 update_status ModuleCustom::Update(float dt)
 {
-	plane.Render();
-
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT)
+	{
+		if (App->player->IsEnabled() == false)
+		{
+			App->player->Enable();
+			App->player->vehicle->SetPos(-900, 0, 1000);
+			App->camera->state = HISTORY;
+		}
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
 	{

@@ -56,7 +56,7 @@ bool ModuleMenu::Start()
 
 	if (App->player->IsEnabled())
 	{
-		App->physics->world->removeRigidBody(App->player2->vehicle->GetRigidBody());
+		App->physics->world->removeRigidBody(App->player->vehicle->GetRigidBody());
 		App->player->Disable();
 	}
 
@@ -78,6 +78,7 @@ bool ModuleMenu::Start()
 	App->camera->MoveAt(vec3(47, 110, 100));
 	//App->camera->Move(vec3(47, 110, 100));
 	App->camera->LookAt(vec3(47, 110, 0));
+	App->camera->state = INTRO;
 
 	//STORY
 	//S
