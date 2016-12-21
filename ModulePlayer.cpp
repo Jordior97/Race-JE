@@ -128,7 +128,6 @@ bool ModulePlayer::Start()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
-	//delete vehicles;
 	return true;
 }
 

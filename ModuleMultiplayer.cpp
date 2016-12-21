@@ -19,6 +19,8 @@ bool ModuleMultiplayer::Start()
 {	
 	timer.Start();
 
+	mult_state = WINNER;
+	
 	if (App->menu->IsEnabled())
 	{
 		App->menu->Disable();
@@ -43,12 +45,13 @@ bool ModuleMultiplayer::Start()
 	App->player->vehicle->SetPos(-20, 5, -20);
 	App->player2->vehicle->SetPos(25, 5, -20);
 
-	//Set camera position
+	/*//Set camera position
 	App->camera->MoveAt(vec3(-10.0f, 100.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
-	//App->camera->state = WINNER;
-	//App->camera->MoveAt(vec3(20, 120, 80));
-	//App->camera->LookAt(vec3(20, 120, 0));
+	App->camera->LookAt(vec3(0, 0, 0));*/
+	
+	App->camera->MoveAt(vec3(20, 120, 80));
+	App->camera->LookAt(vec3(20, 120, 0));
+
 
 	//Set reference position
 	ActualPos.x = 0;
@@ -60,54 +63,89 @@ bool ModuleMultiplayer::Start()
 		App->menu->Disable();
 	}
 
-	objects = 225;
-
+	
 	//Create Multiplayer Map
-	CreateMap(15, 15);
+	CreateMap(20, 20);
 	test = true;
 	time = GetTickCount();
 
-	//RED 
+	//Red 
 	//R
-	RED[0].size.Set(3, 16, 2);
-	RED[0].SetPos(0, 149.5, 0); 
-	RED[1].size.Set(10, 3, 2);
-	RED[1].SetPos(3.5, 156, 0);
-	RED[2].size.Set(3, 9, 2);
-	RED[2].SetPos(7, 153, 0);
-	RED[3].size.Set(10, 3, 2);
-	RED[3].SetPos(3.5, 150, 0);
-	RED[4].size.Set(9, 3, 2);
-	RED[4].SetRotation(45, { 0,0,-1 });
-	RED[4].SetPos(6, 146, 0);
+	Red[0].size.Set(3, 16, 2);
+	Red[0].SetPos(0, 149.5, 0);
+	Red[1].size.Set(10, 3, 2);
+	Red[1].SetPos(3.5, 156, 0);
+	Red[2].size.Set(3, 9, 2);
+	Red[2].SetPos(7, 153, 0);
+	Red[3].size.Set(10, 3, 2);
+	Red[3].SetPos(3.5, 150, 0);
+	Red[4].size.Set(9, 3, 2);
+	Red[4].SetRotation(45, { 0,0,-1 });
+	Red[4].SetPos(6, 146, 0);
 
 	//E
-	RED[5].size.Set(3, 16, 2);
-	RED[5].SetPos(15, 149.5, 0);
-	RED[6].size.Set(10, 3, 2);
-	RED[6].SetPos(18.5, 156, 0);
-	RED[7].size.Set(7, 3, 2);
-	RED[7].SetPos(17, 150, 0);
-	RED[8].size.Set(10, 3, 2);
-	RED[8].SetPos(18.5, 143, 0);
+	Red[5].size.Set(3, 16, 2);
+	Red[5].SetPos(15, 149.5, 0);
+	Red[6].size.Set(10, 3, 2);
+	Red[6].SetPos(18.5, 156, 0);
+	Red[7].size.Set(7, 3, 2);
+	Red[7].SetPos(17, 150, 0);
+	Red[8].size.Set(10, 3, 2);
+	Red[8].SetPos(18.5, 143, 0);
 
 	//D
-	RED[9].size.Set(6, 3, 2);
-	RED[9].SetPos(31.5, 156, 0);
-	RED[10].size.Set(6, 3, 2);
-	RED[10].SetPos(31.5, 143, 0);
-	RED[11].size.Set(3, 9, 2);
-	RED[11].SetPos(37, 149.5, 0);
-	RED[12].size.Set(3, 16, 2);
-	RED[12].SetPos(30, 149.5, 0);
-	RED[13].size.Set(5, 3, 2);
-	RED[13].SetRotation(43, { 0,0,-1 });
-	RED[13].SetPos(35.5, 154.5, 0);
-	RED[14].size.Set(5, 3, 2);
-	RED[14].SetRotation(-43, { 0,0,-1 });
-	RED[14].SetPos(35.5, 144.5, 0);
+	Red[9].size.Set(6, 3, 2);
+	Red[9].SetPos(31.5, 156, 0);
+	Red[10].size.Set(6, 3, 2);
+	Red[10].SetPos(31.5, 143, 0);
+	Red[11].size.Set(3, 9, 2);
+	Red[11].SetPos(37, 149.5, 0);
+	Red[12].size.Set(3, 16, 2);
+	Red[12].SetPos(30, 149.5, 0);
+	Red[13].size.Set(5, 3, 2);
+	Red[13].SetRotation(43, { 0,0,-1 });
+	Red[13].SetPos(35.5, 154.5, 0);
+	Red[14].size.Set(5, 3, 2);
+	Red[14].SetRotation(-43, { 0,0,-1 });
+	Red[14].SetPos(35.5, 144.5, 0);
 
+	//Wins
+	//W
+	Wins[0].size.Set(5, 25, 2);
+	Wins[0].SetRotation(-20, { 0,0,-1 });
+	Wins[0].SetPos(-18, 115, 0);
+	Wins[1].size.Set(4, 10, 2);
+	Wins[1].SetRotation(15, { 0,0,-1 });
+	Wins[1].SetPos(-12, 110, 0);
+	Wins[2].size.Set(4, 10, 2);
+	Wins[2].SetRotation(-15, { 0,0,-1 });
+	Wins[2].SetPos(-7, 110, 0);
+	Wins[3].size.Set(5, 25, 2);
+	Wins[3].SetRotation(20, { 0,0,-1 });
+	Wins[3].SetPos(-1, 115, 0);
+	//I
+	Wins[4].size.Set(5, 25, 2);
+	Wins[4].SetPos(12, 115, 0);
+	//N
+	Wins[5].size.Set(5, 25, 2);
+	Wins[5].SetPos(22, 115, 0);
+	Wins[6].size.Set(5, 25, 2);
+	Wins[6].SetPos(35, 115, 0);
+	Wins[7].size.Set(5, 25, 2);
+	Wins[7].SetRotation(-28, { 0,0,-1 });
+	Wins[7].SetPos(28.5, 115, 0);
+	//S
+	Wins[8].size.Set(5, 12.5, 2);
+	Wins[8].SetPos(45, 121.25, 0);
+	Wins[9].size.Set(5, 12.5, 2);
+	Wins[9].SetPos(60, 108.75, 0);
+	Wins[10].size.Set(20, 5, 2);
+	Wins[10].SetPos(52.5, 125, 0);
+	Wins[11].size.Set(20, 5, 2);
+	Wins[11].SetPos(52.5, 105, 0);
 
+	Wins[12].size.Set(20, 4, 2);
+	Wins[12].SetPos(52.5, 115, 0);
 
 	return true;
 }
@@ -135,7 +173,7 @@ update_status ModuleMultiplayer::Update(float dt)
 
 	if (fadetowhite)
 	{
-		color_white += 0.005f;
+		color_white += 0.02f;
 		for (int i = 0; i < objects; i++)
 		{
 			Cubes[i].color.Set(color_white, color_white, color_white);
@@ -157,23 +195,54 @@ update_status ModuleMultiplayer::Update(float dt)
 		Cubes[i].Render();
 	}
 
-
-	/*//RED Render
-	for (int i = 0; i < 15; i++)
+	if (mult_state == WINNER)
 	{
-		RED[i].Render();
-	}*/
+		//RED Render
+		if (RedWinner == true)
+		{
+			for (int i = 0; i < 15; i++)
+			{
+				Red[i].Render();
+			}
+			for (int i = 0; i < 13; i++)
+			{
+				Wins[i].Render();
+			}
+		}
 
-	//SET SCORE OF THE PLAYERS INTO THE WINDOW TITLE
-	char title[80];
-	int countdown = timer.Read()/1000;
-	int result_time = 10 - countdown;
-	sprintf_s(title, " MULTIPLAYER - RED-> %i  //  BLUE-> %i Time: %is", RedSelected, BlueSelected, result_time);
-	App->window->SetTitle(title);
+		//BLUE Render
+		if (BlueWinner == true)
+		{
+			for (int i = 0; i < 0; i++)
+			{
+				Blue[i].Render();
+			}
+			for (int i = 0; i < 13; i++)
+			{
+				Wins[i].Render();
+			}
+		}
 
-	if (result_time <= 0) 
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+		{
+			Restart();
+			mult_state = IN_GAME;
+		}
+	}
+
+	else if (mult_state == IN_GAME)
 	{
-		CheckWinner();
+		//SET SCORE OF THE PLAYERS INTO THE WINDOW TITLE
+		char title[80];
+		int countdown = timer.Read() / 1000;
+		int result_time = 10 - countdown;
+		sprintf_s(title, "RED-> %i  //  BLUE-> %i Time: %is", RedSelected, BlueSelected, result_time);
+		App->window->SetTitle(title);
+
+		if (result_time <= 0)
+		{
+			CheckWinner();
+		}
 	}
 	
 	
@@ -182,6 +251,7 @@ update_status ModuleMultiplayer::Update(float dt)
 
 bool ModuleMultiplayer::CleanUp()
 {
+
 	return true;
 }
 
@@ -229,6 +299,7 @@ void ModuleMultiplayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 void ModuleMultiplayer::CreateMap(int num_rows, int num_columns)
 {
+	objects = num_rows* num_columns;
 	vec3 size(5, 5, 5);
 	ActualPos.Set(-num_rows*0.5*size.x, 0, -num_columns*0.5*size.z);
 	int k = 0;
@@ -249,12 +320,14 @@ void ModuleMultiplayer::CreateMap(int num_rows, int num_columns)
 
 void ModuleMultiplayer::CheckWinner()
 {
+	mult_state = WINNER;
+
 	if (RedSelected > BlueSelected)
 	{
-		char title[20];
-		sprintf_s(title, "RED PLAYER WINS!");
+		char title[50];
+		sprintf_s(title, "RED PLAYER WINS! Press R to Restart.");
 		App->window->SetTitle(title);
-		//RedWins();
+		RedWinner = true;
 	}
 
 	else if (BlueSelected > RedSelected)
@@ -262,7 +335,7 @@ void ModuleMultiplayer::CheckWinner()
 		char title[20];
 		sprintf_s(title, "BLUE PLAYER WINS!");
 		App->window->SetTitle(title);
-		//BlueWins();
+		BlueWinner = true;
 	}
 
 	else
@@ -270,7 +343,42 @@ void ModuleMultiplayer::CheckWinner()
 		char title[20];
 		sprintf_s(title, "DRAW!");
 		App->window->SetTitle(title);
-		//Draw();
+		IsDraw = true;
 	}
+	App->camera->MoveAt(vec3(20, 120, 80));
+	App->camera->LookAt(vec3(20, 120, 0));
+}
+
+
+void ModuleMultiplayer::Restart()
+{
+	timer.Start();
+
+	//Reset players
+	mat4x4 identity;
+
+	App->player->vehicle->SetTransform(identity.M);
+	App->player->vehicle->SetAngVel(0, 0, 0);
+	App->player->vehicle->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+
+	App->player2->vehicle->SetTransform(identity.M);
+	App->player2->vehicle->SetAngVel(0, 0, 0);
+	App->player2->vehicle->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+
+	App->player->vehicle->SetPos(-20, 5, -20);
+	App->player2->vehicle->SetPos(25, 5, -20);
+
+	//Set camera position
+	App->camera->MoveAt(vec3(-10.0f, 100.0f, 0.0f));
+	App->camera->LookAt(vec3(0, 0, 0));
+
+	//Set score to 0
+	RedSelected = 0;
+	BlueSelected = 0;
+	RedWinner = false;
+	BlueWinner = false;
+	IsDraw = false;
+
+	fadetowhite = true;
 }
 

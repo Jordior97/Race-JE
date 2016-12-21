@@ -61,9 +61,6 @@ bool ModuleMenu::Start()
 	if (App->player->IsEnabled())
 	{
 		App->player->Disable();
-		//
-		
-		App->physics->world->removeRigidBody(App->player->vehicle->GetRigidBody());
 	}
 
 	if (App->player2->IsEnabled())

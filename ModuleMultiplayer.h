@@ -10,6 +10,7 @@
 
 struct PhysBody3D;
 enum Direction;
+enum MultState { IN_GAME, WINNER };
 
 class ModuleMultiplayer : public ModuleScene
 {
@@ -24,6 +25,7 @@ public:
 
 	void CreateMap(int num_rows, int num_columns);
 	void CheckWinner();
+	void Restart();
 
 public:
 	uint RedSelected = 0;
@@ -38,8 +40,16 @@ public:
 
 	Timer timer;
 
-	Cube RED[23];
-	Cube BLUE[23];
-	Cube WINS[23];
-	Cube DRAW[23];
+	//Winners Interface
+	Cube Red[15];
+	Cube Blue[23];
+	Cube Wins[13];
+	Cube Draw[23];
+
+	bool RedWinner = false;
+	bool BlueWinner = true;
+	bool IsDraw = false;
+
+	MultState mult_state;
+	uint red = 0;
 };

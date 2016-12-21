@@ -5,7 +5,7 @@
 #include "Primitive.h"
 
 #define OBJECTS 64
-#define MAX_OBJECTS 300
+#define MAX_OBJECTS 500
 
 struct PhysBody3D;
 enum Direction;
