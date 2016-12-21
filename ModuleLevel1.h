@@ -25,12 +25,6 @@ public:
 	PhysBody3D* Down;
 	Cylinder DownShape;
 
-	PhysBody3D* Left;
-	Cylinder LeftShape;
-
-	PhysBody3D* Right;
-	Cylinder RightShape;
-
 	void Render();
 };
 
@@ -56,6 +50,8 @@ public:
 public:
 
 	Windmill windmill;
+	Windmill windmill_2;
+	Windmill windmill_3;
 
 	/*uint objects = 0;
 	PhysBody3D* Map[MAX_OBJECTS];

@@ -10,7 +10,7 @@
 
 ModuleLevel1::ModuleLevel1(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
-	objects = 94;
+	objects = 113;
 }
 
 ModuleLevel1::~ModuleLevel1()
@@ -35,7 +35,7 @@ bool ModuleLevel1::Start()
 	}
 
 
-	App->player->vehicle->SetPos(0, 5, 225);
+	//App->player->vehicle->SetPos(0, 5, 225);
 
 	//Set camera mode to HISTORY MODE (3rd person view)
 	App->camera->state = HISTORY;
@@ -79,8 +79,8 @@ bool ModuleLevel1::Start()
 	SceneIntro = false;
 	Level_1 = false;
 	Level_2 = false;
-	Level_3 = false;
-	Level_4 = true;
+	Level_3 = true;
+	Level_4 = false;
 
 	test = true;
 	time = GetTickCount();
@@ -374,10 +374,10 @@ void ModuleLevel1::CreateThreeLevel()
 
 void ModuleLevel1::CreateFourLevel()
 {
-	ActualPos.Set(-500, 20, -500);
-	App->player->vehicle->SetPos(-500, 25, -495);
+	ActualPos.Set(-500, 30, -500);
+	App->player->vehicle->SetPos(-500, 33, -495);
 
-	Map[86] = App->physics->CreateStraight(Cubes[86], 40, 10, 2, EAST, false, this);
+	Map[86] = App->physics->CreateStraight(Cubes[86], 30, 10, 2, EAST, false, this);
 	App->physics->CreateCurve(Cubes[87], Cubes[88], Cubes[89], 10, 10, 2, NORTH, EAST, this);
 	Map[87] = curve.getFirst()->data;
 	Map[88] = curve.getFirst()->next->data;
@@ -385,15 +385,72 @@ void ModuleLevel1::CreateFourLevel()
 
 	Map[90] = App->physics->CreateStraight(Cubes[90], 40, 10, 2, NORTH, false, this);
 	
-	CreateWindmill(windmill, ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 9, 2, 9);
-
+	float pos_x = ActualPos.x;
+	float pos_z = ActualPos.z;
+	CreateWindmill(windmill, ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
+	//
+	Cubes[95].size.Set(4, 1, 10);
+	Cubes[95].SetPos(pos_x, 30.5f, pos_z);
+	Cubes[95].SetRotation(20, { 0,0,1 });
+	Map[95] = App->physics->AddBox(Cubes[95], false, 0);
+	//
 	ActualPos.Set(ActualPos.x+10, ActualPos.y, ActualPos.z);
 	Map[91] = App->physics->CreateStraight(Cubes[91], 40, 10, 2, NORTH, false, this);
-	ActualPos.Set(ActualPos.x+10, ActualPos.y, ActualPos.z);
+	ActualPos.Set(ActualPos.x, ActualPos.y, ActualPos.z);
+	pos_x = ActualPos.x;
+	pos_z = ActualPos.z;
+	CreateWindmill(windmill_2, ActualPos.x + 6, ActualPos.y + 5, ActualPos.z - 15, 2, 20);
+	ActualPos.Set(ActualPos.x + 10, ActualPos.y, ActualPos.z);
 	Map[92] = App->physics->CreateStraight(Cubes[92], 40, 10, 2, NORTH, false, this);
 	Map[93] = App->physics->CreateStraight(Cubes[93], 40, 10, 2, NORTH, false, this);
+	ActualPos.Set(ActualPos.x, ActualPos.y-0.5f, ActualPos.z);
 	Map[94] = App->physics->CreateStraight(Cubes[94], 10, 10, 2, NORTH, true, this);
 	Map[94]->is_kinematic = true;
+
+
+	Cubes[96].size.Set(4, 1, 10);
+	Cubes[96].SetPos(pos_x, 30.5f, pos_z);
+	Cubes[96].SetRotation(20, { 0,0,1 });
+	Map[96] = App->physics->AddBox(Cubes[96], false, 0);
+
+
+	ActualPos.Set(ActualPos.x, ActualPos.y + 40, ActualPos.z);
+	App->physics->CreateCurve(Cubes[97], Cubes[98], Cubes[99], 22, 15, 2, EAST, NORTH, this);
+	Map[97] = curve.getFirst()->data;
+	Map[98] = curve.getFirst()->next->data;
+	Map[99] = curve.getFirst()->next->next->data;
+	App->physics->CreateCurve(Cubes[100], Cubes[101], Cubes[102], 30, 15, 2, SOUTH, EAST, this);
+	Map[100] = curve.getFirst()->data;
+	Map[101] = curve.getFirst()->next->data;
+	Map[102] = curve.getFirst()->next->next->data;
+	ActualPos.Set(ActualPos.x, ActualPos.y - 10, ActualPos.z);
+	Map[103] = App->physics->CreateStraight(Cubes[103], 30, 10, 2, SOUTH, false, this);
+	ActualPos.Set(ActualPos.x, ActualPos.y - 10, ActualPos.z);
+	Map[104] = App->physics->CreateStraight(Cubes[104], 30, 10, 2, SOUTH, false, this);
+	pos_x = ActualPos.x;
+	pos_z = ActualPos.z;
+	Cubes[108].size.Set(4, 1, 10);
+	Cubes[108].SetPos(pos_x, ActualPos.y + 0.7f, pos_z);
+	Cubes[108].SetRotation(10, { 0,0,-1 });
+	Map[108] = App->physics->AddBox(Cubes[108], false, 0);
+	CreateWindmill(windmill_3, ActualPos.x - 6, ActualPos.y + 5, ActualPos.z - 15, 2, 20);
+	ActualPos.Set(ActualPos.x - 10, ActualPos.y, ActualPos.z);
+	App->physics->CreateCurve(Cubes[105], Cubes[106], Cubes[107], 35, 15, 2, EAST, SOUTH, this);
+	Map[105] = curve.getFirst()->data;
+	Map[106] = curve.getFirst()->next->data;
+	Map[107] = curve.getFirst()->next->next->data;
+	ActualPos.Set(ActualPos.x - 10, ActualPos.y - 10, ActualPos.z + 30);
+	Map[109] = App->physics->CreateStraight(Cubes[109], 30, 15, 2, NORTH, false, this);
+
+	Map[110] = App->physics->CreateStraight(Cubes[110], 20, 15, 2, NORTH, true, this);
+	Map[110]->is_kinematic = true;
+	Map[110]->one_direction = false;
+	Map[111] = App->physics->CreateStraight(Cubes[111], 20, 15, 2, NORTH, true, this);
+	Map[111]->is_kinematic = true;
+	Map[111]->one_direction = true;
+	Map[112] = App->physics->CreateStraight(Cubes[112], 10, 15, 2, NORTH, false, this);
+
+
 }
 
 void ModuleLevel1::CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h)
@@ -409,33 +466,19 @@ void ModuleLevel1::CreateWindmill(Windmill& windmill, float x, float y, float z,
 	windmill.UpShape.height = h;
 	windmill.UpShape.radius = w;
 	windmill.UpShape.SetRotation(90, vec3(0, 0, 1));
-	windmill.UpShape.SetPos(x, y + (w*0.5+ h*0.5)+2, z);
+	windmill.UpShape.SetPos(x, y + (w*0.5+ h*0.5), z);
 	windmill.Up = App->physics->AddCylinder(windmill.UpShape, 1);
 
 	windmill.DownShape.height = h;
 	windmill.DownShape.radius = w;
 	windmill.DownShape.SetRotation(90, vec3(0, 0, 1));
-	windmill.DownShape.SetPos(x, y - (w*0.5 + h*0.5) - 2, z);
+	windmill.DownShape.SetPos(x, y - (w*0.5 + h*0.5), z);
 	windmill.Down = App->physics->AddCylinder(windmill.DownShape, 1);
-
-	windmill.LeftShape.height = h;
-	windmill.LeftShape.radius = w;
-	windmill.LeftShape.SetRotation(90, vec3(0, 1, 0));
-	windmill.LeftShape.SetPos(x, y, z + (w*0.5 + h*0.5) + 2);
-	windmill.Left = App->physics->AddCylinder(windmill.LeftShape, 1);
-
-	windmill.RightShape.height = h;
-	windmill.RightShape.radius = w;
-	windmill.RightShape.SetRotation(90, vec3(0, 1, 0));
-	windmill.RightShape.SetPos(x, y, z - (w*0.5 + h*0.5) - 2);
-	windmill.Right = App->physics->AddCylinder(windmill.RightShape, 1);
 
 	vec3 vec1(w*2.5, 0, 0);
 	vec3 vec2(0, 0, 0);
-	vec3 vecUp(0, (w*0.5 + h*0.5) + 2, 0);
-	vec3 vecDown(0, -(w*0.5 + h*0.5) - 2, 0);
-	vec3 vecLeft(0, 0, -(w*0.5 + h*0.5) - 2);
-	vec3 vecRight(0, 0, (w*0.5 + h*0.5) + 2);
+	vec3 vecUp(0, (w*0.5 + h*0.5) + 3, 0);
+	vec3 vecDown(0, -(w*0.5 + h*0.5) - 3, 0);
 
 	vec3 axis(1, 0, 0);
 	vec3 axis_n(-1, 0, 0);
@@ -450,8 +493,6 @@ void ModuleLevel1::CreateWindmill(Windmill& windmill, float x, float y, float z,
 	App->physics->AddConstraintHinge(windmill.Stick, windmill.Ball, vec1, vec2, axis, axis);
 	App->physics->AddConstraintHinge(windmill.Ball, windmill.Up, vecUp, vec2, axis1, axis);
 	App->physics->AddConstraintHinge(windmill.Ball, windmill.Down, vecDown, vec2, axis1, axis);
-	App->physics->AddConstraintHinge(windmill.Ball, windmill.Left, vecRight, vec2, axis2_n, axis);
-	App->physics->AddConstraintHinge(windmill.Ball, windmill.Right, vecLeft, vec2, axis2, axis_n);
 
 }
 
@@ -478,56 +519,6 @@ update_status ModuleLevel1::Update(float dt)
 		}
 	}
 
-
-
-	/*sensor->GetTransform(&s.transform);
-	s.Render();*/
-	//---------------------------*/
-
-	// WINDMILL ---------------------------
-	/*Stick->GetTransform(&StickShape.transform);
-	StickShape.Render();*/
-
-	/*Ball->GetTransform(&Ballshape.transform);
-	Ballshape.Render();
-	Ball->Torque(0.5, 0, 0);
-
-	Up->GetTransform(&UpShape.transform);
-	UpShape.Render();
-
-	Down->GetTransform(&DownShape.transform);
-	DownShape.Render();
-
-	Right->GetTransform(&RightShape.transform);
-	RightShape.Render();
-
-	Left->GetTransform(&LeftShape.transform);
-	LeftShape.Render();*/
-
-	/*Cube windmill_shapes;
-	for (int i = 0; i < 4; i++)
-	{
-		windmill_shapes.size.Set(windmill1.size[i].x, windmill1.size[i].y, windmill1.size[i].z);
-		windmill->GetTransform(&windmill_shapes.transform);
-		windmill->Torque(0.5, 0, 0);
-		btQuaternion q = windmill->GetRigidBody()->getWorldTransform().getRotation();
-		btVector3 offset(windmill1.position[i].x, windmill1.position[i].y, windmill1.position[i].z);
-		offset = offset.rotate(q.getAxis(), q.getAngle());
-		
-		windmill_shapes.transform.M[12] += offset.getX();
-		windmill_shapes.transform.M[13] += offset.getY();
-		windmill_shapes.transform.M[14] += offset.getZ();
-		windmill_shapes.color = windmill1.color[i];
-
-		windmill_shapes.Render();
-	}*/
-	//windmill.Ball->GetRigidBody()->applyTorque(btVector3(20, 0, 0));
-	//windmill.Ball->SetAngVel(10, 0, 0);
-	/*windmill.Down->SetAngVel(0, 0, 0);
-	windmill.Right->SetAngVel(0, 0, 0);
-	windmill.Up->SetAngVel(0, 0, 0);
-	windmill.Left->SetAngVel(0, 0, 0);*/
-	windmill.Render();
 	//---------------------------
 
 
@@ -553,7 +544,7 @@ update_status ModuleLevel1::Update(float dt)
 	if (Level_2)
 	{
 		//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
-		for (int i = 33; i < objects; i++)
+		for (int i = 33; i < 51; i++)
 		{
 			int position_before_kinetic = 0;
 			if (Map[i]->IsKinematic())
@@ -603,7 +594,7 @@ update_status ModuleLevel1::Update(float dt)
 			}
 		}
 
-		for (int i = 33; i < objects; i++)
+		for (int i = 33; i < 51; i++)
 		{
 			if (Map[i]->IsKinematic())
 			{
@@ -620,7 +611,7 @@ update_status ModuleLevel1::Update(float dt)
 
 	if (Level_3)
 	{
-		for (int i = 51; i < objects; i++)
+		for (int i = 51; i < 86; i++)
 		{
 
 			Map[i]->GetTransform(&(Cubes[i].transform));
@@ -630,6 +621,14 @@ update_status ModuleLevel1::Update(float dt)
 
 	if (Level_4)
 	{
+		windmill.Ball->SetAngVel(6, 0, 0);
+		windmill.Render();
+		windmill_2.Ball->SetAngVel(-6, 0, 0);
+		windmill_2.Render();
+		windmill_3.Ball->SetAngVel(10, 0, 0);
+		windmill_3.Render();
+
+
 		int position_before_kinetic = 0;
 		if (Map[94]->IsKinematic())
 		{
@@ -643,36 +642,36 @@ update_status ModuleLevel1::Update(float dt)
 			}
 			//true	-> bajar
 			//false -> subir
-			if (Map[94]->GetPos().y >= (Map[position_before_kinetic]->GetPos().y + 20))
+			if (Map[94]->GetPos().y >= (Map[position_before_kinetic]->GetPos().y + 40))
 			{
 				Map[94]->one_direction = true;
 			}
 
-			else if (Map[94]->GetPos().y <= (Map[position_before_kinetic]->GetPos().y))
+			else if (Map[94]->GetPos().y <= (Map[position_before_kinetic]->GetPos().y - 0.5f))
 			{
 				Map[94]->one_direction = false;
 			}
 
 			if (Map[94]->one_direction == false)
 			{
-				Map[94]->Move(1.0f, 0, 0);
+				Map[94]->Move(0, 0.7f, 0);
 				if (App->player->vehicle->GetPos().z > (Map[94]->GetPos().z - (Cubes[94].size.z / 2)) && App->player->vehicle->GetPos().z < (Map[94]->GetPos().z + (Cubes[94].size.z / 2)))
 				{
 					if (App->player->vehicle->GetPos().x >(Map[94]->GetPos().x - (Cubes[94].size.x / 2)) && App->player->vehicle->GetPos().x < (Map[94]->GetPos().x + (Cubes[94].size.x / 2)))
 					{
-						App->player->vehicle->Move(1.0f, 0, 0);
+						App->player->vehicle->Move(0, 0.7f, 0);//TODO QUITARLO???
 					}
 				}
 			}
 
 			else if (Map[94]->one_direction == true)
 			{
-				Map[94]->Move(-1.0f, 0, 0);
+				Map[94]->Move(0, -0.7f, 0);
 				if (App->player->vehicle->GetPos().z >(Map[94]->GetPos().z - (Cubes[94].size.z / 2)) && App->player->vehicle->GetPos().z < (Map[94]->GetPos().z + (Cubes[94].size.z / 2)))
 				{
 					if (App->player->vehicle->GetPos().x >(Map[94]->GetPos().x - (Cubes[94].size.x / 2)) && App->player->vehicle->GetPos().x < (Map[94]->GetPos().x + (Cubes[94].size.x / 2)))
 					{
-						App->player->vehicle->Move(0, -1.0f, 0);
+						App->player->vehicle->Move(0, -0.7f, 0);
 					}
 				}
 			}
@@ -688,6 +687,56 @@ update_status ModuleLevel1::Update(float dt)
 			{
 				Map[i]->GetTransform(&(Cubes[i].transform));
 				Cubes[i].Render();
+			}
+		}
+
+		//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
+		for (int i = 108; i < 112; i++)
+		{
+			int position_before_kinetic = 0;
+			if (Map[i]->IsKinematic())
+			{
+				for (int k = i; k > 0; k--)
+				{
+					if (Map[k]->IsKinematic() == false)
+					{
+						position_before_kinetic = k;
+						break;
+					}
+				}
+				if (Map[i]->GetPos().z >= (Map[position_before_kinetic]->GetPos().z + 20))
+				{
+					Map[i]->one_direction = true;
+				}
+
+				else if (Map[i]->GetPos().z <= (Map[position_before_kinetic]->GetPos().z - 20))
+				{
+					Map[i]->one_direction = false;
+				}
+
+				if (Map[i]->one_direction == false)
+				{
+					Map[i]->Move(0, 0, 2.0f);
+					if (App->player->vehicle->GetPos().z > (Map[i]->GetPos().z - (Cubes[i].size.z / 2)) && App->player->vehicle->GetPos().z < (Map[i]->GetPos().z + (Cubes[i].size.z / 2)))
+					{
+						if (App->player->vehicle->GetPos().x >(Map[i]->GetPos().x - (Cubes[i].size.x / 2)) && App->player->vehicle->GetPos().x < (Map[i]->GetPos().x + (Cubes[i].size.x / 2)))
+						{
+							App->player->vehicle->Move(0, 0, 2.0f);
+						}
+					}
+				}
+
+				else if (Map[i]->one_direction == true)
+				{
+					Map[i]->Move(0, 0, -2.0f);
+					if (App->player->vehicle->GetPos().z >(Map[i]->GetPos().z - (Cubes[i].size.z / 2)) && App->player->vehicle->GetPos().z < (Map[i]->GetPos().z + (Cubes[i].size.z / 2)))
+					{
+						if (App->player->vehicle->GetPos().x >(Map[i]->GetPos().x - (Cubes[i].size.x / 2)) && App->player->vehicle->GetPos().x < (Map[i]->GetPos().x + (Cubes[i].size.x / 2)))
+						{
+							App->player->vehicle->Move(0, 0, -2.0f);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -760,10 +809,4 @@ void Windmill::Render()
 
 	Down->GetTransform(&DownShape.transform);
 	DownShape.Render();
-
-	Right->GetTransform(&RightShape.transform);
-	RightShape.Render();
-	
-	Left->GetTransform(&LeftShape.transform);
-	LeftShape.Render();
 }
