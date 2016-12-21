@@ -27,11 +27,11 @@ public:
 	void CheckWinner();
 	void ShowWinnerPanel();
 	void Restart();
+	void CreateInterfacePanels();
 
 public:
 	uint RedSelected = 0;
 	uint BlueSelected = 0;
-	PhysBody3D* Ground;
 
 	int objects;
 
@@ -44,14 +44,13 @@ public:
 
 	//Winners Interface
 	Cube Red[15];
-	Cube Blue[23];
+	Cube Blue[15];
 	Cube Wins[13];
-	Cube Draw[23];
+	Cube Draw[19];
 
 	bool RedWinner = false;
 	bool BlueWinner = false;
 	bool IsDraw = false;
 
 	MultState mult_state;
-	uint red = 0;
 };

@@ -46,10 +46,10 @@ bool ModulePlayer2::Start()
 	car.color[3] = ElectricRed;
 
 	car.mass = 400.0f;
-	car.suspensionStiffness = 15.88f;
+	car.suspensionStiffness = 5.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
-	car.maxSuspensionTravelCm = 1000.0f;
+	car.maxSuspensionTravelCm = 500.0f;
 	car.frictionSlip = 50.5;
 	car.maxSuspensionForce = 6000.0f;
 
