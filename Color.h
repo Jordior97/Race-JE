@@ -36,3 +36,4 @@ extern Color Yellow;
 extern Color Purpule;
 extern Color ElectricBlue;
 extern Color ElectricRed;
+extern Color Brown;

@@ -27,11 +27,7 @@ bool ModuleMenu::Start()
 	//button_press = App->audio->LoadFx("Music&Fx/test_voz.wav"); TODO POSAR EFECTE CORRECTE
 	//App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
 	//App->audio->VolumeMusic(64);
-	//Set plane
-	Plane p(0, 1, 0, 0);
-	plane = p;
-	plane.axis = false;
-	plane.color = Black;
+
 
 	//Set Mode Rects
 	History_Rect = { 195, 85, 705, 175 };
@@ -51,7 +47,7 @@ bool ModuleMenu::Start()
 
 	if (App->multiplayer->IsEnabled())
 	{
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 400; i++)
 		{
 			App->physics->world->removeRigidBody(App->multiplayer->Map[i]->GetRigidBody());
 		}
@@ -60,6 +56,7 @@ bool ModuleMenu::Start()
 
 	if (App->player->IsEnabled())
 	{
+		App->physics->world->removeRigidBody(App->player2->vehicle->GetRigidBody());
 		App->player->Disable();
 	}
 

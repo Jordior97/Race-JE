@@ -10,6 +10,7 @@ Color Yellow = Color(1.0f, 1.0f, 0.0f);
 Color Purpule = Color(1.0f, 0.0f, 1.0f);
 Color ElectricBlue = Color(0.2f, 0.6f, 1.0f);
 Color ElectricRed = Color(1.0f, 0.2f, 0.2f);
+Color Brown = Color(0.4, 0.2, 0);
 
 bool Color::operator==(Color test)
 {

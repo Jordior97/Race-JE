@@ -127,7 +127,7 @@ update_status ModuleCamera3D::Update(float dt)
 			Z = vec3(vehicle_info[8], vehicle_info[9], vehicle_info[10]);
 
 			//Then we look at the player pos from behind.
-			Look((camera_pos + player_pos) - Z * 10, vec_view + player_pos, true);
+			Look((camera_pos + player_pos) - Z * 11, vec_view + player_pos, true);
 			break;
 		}
 		case CUSTOM:

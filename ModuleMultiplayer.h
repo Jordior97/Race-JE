@@ -25,11 +25,13 @@ public:
 
 	void CreateMap(int num_rows, int num_columns);
 	void CheckWinner();
+	void ShowWinnerPanel();
 	void Restart();
 
 public:
 	uint RedSelected = 0;
 	uint BlueSelected = 0;
+	PhysBody3D* Ground;
 
 	int objects;
 
@@ -47,7 +49,7 @@ public:
 	Cube Draw[23];
 
 	bool RedWinner = false;
-	bool BlueWinner = true;
+	bool BlueWinner = false;
 	bool IsDraw = false;
 
 	MultState mult_state;
