@@ -18,7 +18,7 @@ public:
 	uint actualtime = 0;
 	PhysBody3D* ball;
 	Sphere ballShape;
-	uint attack_speed;
+	vec3 speed;
 	Color color;
 
 	void Render();
@@ -43,7 +43,7 @@ public:
 	void CreateFourthLevel();
 
 	void CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h);
-	void CreateCanon(CanonBall& canon, float x, float y, float z, float radius, float attack_speed, Color color);
+	void CreateCanon(CanonBall& canon, float x, float y, float z, float radius, vec3 speed, Color color);
 	void CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float y, float z, float sizeX, float sizeY, float sizeZ);
 
 public:
@@ -52,12 +52,16 @@ public:
 	Windmill windmill_3;
 	CanonBall canonball;
 	CanonBall canonball2;
+	CanonBall canonball3;
 
 	PhysBody3D* Sensor;
 	Cube sensor_shape;
 
 	PhysBody3D* Sensor2;
 	Cube sensor2_shape;
+
+	PhysBody3D* Sensor3;
+	Cube sensor3_shape;
 
 
 	/*uint objects = 0;

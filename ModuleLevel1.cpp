@@ -74,13 +74,13 @@ bool ModuleLevel1::Start()
 	CreateThirdLevel();
 
 	//TODO - LEVEL 4
-	CreateFourthLevel();
+	//CreateFourthLevel();
 
 	SceneIntro = false;
 	Level_1 = false;
 	Level_2 = false;
-	Level_3 = false;
-	Level_4 = true;
+	Level_3 = true;
+	Level_4 = false;
 
 	test = true;
 	time = GetTickCount();
@@ -325,6 +325,12 @@ void ModuleLevel1::CreateThirdLevel()
 	Map[63] = upper.getFirst()->next->data;
 	Map[64] = upper.getFirst()->next->next->data;
 
+	CreateCanon(canonball3, ActualPos.x, ActualPos.y + 4, ActualPos.z, 4, vec3(0, 0, 4000000), ElectricRed);
+	CreateSensor(&Sensor3, sensor3_shape, ActualPos.x - 200, 0, ActualPos.z, 5, 10, 10);
+	Sensor3->SetAsSensor(true);
+	Sensor3->collision_listeners.add(this);
+
+
 	App->physics->CreateCurve(Cubes[65], Cubes[66], Cubes[67], 20, 10, 2, EAST, NORTH, this);
 	Map[65] = curve.getFirst()->data;
 	Map[66] = curve.getFirst()->next->data;
@@ -352,7 +358,7 @@ void ModuleLevel1::CreateThirdLevel()
 	relax_next_z = ActualPos.z;
 	ActualPos.Set(relax_x, ActualPos.y + 9.5f, relax_z - 24.0f);
 
-	CreateCanon(canonball, ActualPos.x , ActualPos.y + 4, ActualPos.z + 4.5, 4, 2000, ElectricRed);
+	CreateCanon(canonball, ActualPos.x, ActualPos.y + 4, ActualPos.z + 4.5, 4, vec3(1000000, 0, 0), ElectricRed);
 	CreateSensor(&Sensor, sensor_shape, ActualPos.x, relax_next_y, ActualPos.z + 40, 10, 10, 5);
 	Sensor->SetAsSensor(true);
 	Sensor->collision_listeners.add(this);
@@ -373,7 +379,7 @@ void ModuleLevel1::CreateThirdLevel()
 	relax_next_z = ActualPos.z;
 	ActualPos.Set(relax_x - 10.0f, ActualPos.y + 9.5f, relax_z - 24.0f);
 
-	CreateCanon(canonball2, ActualPos.x, ActualPos.y + 4, ActualPos.z + 2, 4, 1000, ElectricRed);
+	CreateCanon(canonball2, ActualPos.x, ActualPos.y + 4, ActualPos.z + 2, 4, vec3(2000000,0,0), ElectricRed);
 	CreateSensor(&Sensor2, sensor2_shape, ActualPos.x, relax_next_y, ActualPos.z + 40, 10, 10, 5);
 	Sensor2->SetAsSensor(true);
 	Sensor2->collision_listeners.add(this);
@@ -517,15 +523,15 @@ void ModuleLevel1::CreateWindmill(Windmill& windmill, float x, float y, float z,
 
 }
 
-void ModuleLevel1::CreateCanon(CanonBall& canon, float x, float y, float z, float radius, float attack_speed, Color color)
+void ModuleLevel1::CreateCanon(CanonBall& canon, float x, float y, float z, float radius, vec3 speed, Color color)
 {
-	canon.attack_speed = attack_speed;
 	canon.ballShape.radius = radius;
 	canon.position = { x, y, z };
 	canon.ballShape.SetPos(x, y, z);
 	canon.ballShape.color = color;
 
-	canon.ball = App->physics->AddBody(canon.ballShape, 1000);
+	canon.ball = App->physics->AddBody(canon.ballShape, 100000);
+	canon.ball->SetAngVel(speed.x,speed.y,speed.z);
 }
 
 void ModuleLevel1::CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float y, float z, float sizeX, float sizeY, float sizeZ)
@@ -638,7 +644,7 @@ update_status ModuleLevel1::Update(float dt)
 
 	if (Level_3)
 	{
-		if (canonball.timer.Read() >= canonball.attack_speed + canonball.actualtime)
+		/*if (canonball.timer.Read() >= canonball.attack_speed + canonball.actualtime)
 		{
 			canonball.actualtime = canonball.timer.Read();
 			canonball.ball->GetRigidBody()->activate(true);
@@ -650,7 +656,7 @@ update_status ModuleLevel1::Update(float dt)
 			canonball2.actualtime = canonball2.timer.Read();
 			canonball2.ball->GetRigidBody()->activate(true);
 			canonball2.ball->Push(0, 0, 10000);
-		}
+		}*/
 		
 		for (int i = 51; i < 86; i++)
 		{
@@ -661,6 +667,7 @@ update_status ModuleLevel1::Update(float dt)
 
 		canonball.Render();
 		canonball2.Render();
+		canonball3.Render();
 	}
 
 	if (Level_4)
@@ -806,19 +813,15 @@ void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	if ((Sensor == body1 || Sensor == body2) && (canonball.ball == body1 || canonball.ball == body2))
 	{
-		canonball.timer.Start();
-		canonball.actualtime = 0;
-		canonball.ball->SetAngVel(0, 0, 0);
-		canonball.ball->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		canonball.ball->SetPos(canonball.position.getX(), canonball.position.getY(), canonball.position.getZ());
 	}
 	if ((Sensor2 == body1 || Sensor2 == body2) && (canonball2.ball == body1 || canonball2.ball == body2))
 	{
-		canonball2.timer.Start();
-		canonball2.actualtime = 0;
-		canonball2.ball->SetAngVel(0, 0, 0);
-		canonball2.ball->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 		canonball2.ball->SetPos(canonball2.position.getX(), canonball2.position.getY(), canonball2.position.getZ());
+	}
+	if ((Sensor3 == body1 || Sensor3 == body2) && (canonball3.ball == body1 || canonball3.ball == body2))
+	{
+		canonball3.ball->SetPos(canonball3.position.getX(), canonball3.position.getY(), canonball3.position.getZ());
 	}
 }
 
