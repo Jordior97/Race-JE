@@ -20,16 +20,16 @@ public:
 	Sphere BallShape;
 
 	PhysBody3D* Up;
-	Cube UpShape;
+	Cylinder UpShape;
 
 	PhysBody3D* Down;
-	Cube DownShape;
+	Cylinder DownShape;
 
 	PhysBody3D* Left;
-	Cube LeftShape;
+	Cylinder LeftShape;
 
 	PhysBody3D* Right;
-	Cube RightShape;
+	Cylinder RightShape;
 
 	void Render();
 };

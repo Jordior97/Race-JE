@@ -374,8 +374,8 @@ void ModuleLevel1::CreateThreeLevel()
 
 void ModuleLevel1::CreateFourLevel()
 {
-	ActualPos.Set(-500, 1, -500);
-	App->player->vehicle->SetPos(-500, 3, -495);
+	ActualPos.Set(-500, 20, -500);
+	App->player->vehicle->SetPos(-500, 25, -495);
 
 	Map[86] = App->physics->CreateStraight(Cubes[86], 40, 10, 2, EAST, false, this);
 	App->physics->CreateCurve(Cubes[87], Cubes[88], Cubes[89], 10, 10, 2, NORTH, EAST, this);
@@ -385,26 +385,7 @@ void ModuleLevel1::CreateFourLevel()
 
 	Map[90] = App->physics->CreateStraight(Cubes[90], 40, 10, 2, NORTH, false, this);
 	
-	/*windmill1.mass = 100;
-	windmill1.size[0].Set(2, 6, 2);
-	windmill1.position[0].Set(0, 10, 0); //up
-	windmill1.color[0] = Red;
-
-	windmill1.size[1].Set(2, 6, 2);
-	windmill1.position[1].Set(0, -10, 0); //down
-	windmill1.color[1] = Blue;
-
-	windmill1.size[2].Set(2, 2, 6);
-	windmill1.position[2].Set(0, 0, -10); //left
-	windmill1.color[2] = Green;
-
-	windmill1.size[3].Set(2, 2, 6);
-	windmill1.position[3].Set(0, 0, 10); // right
-	windmill1.color[3] = White;
-
-	windmill = App->physics->AddBlow(windmill1, ActualPos.x, ActualPos.y + 1000, ActualPos.z);
-	*/
-	CreateWindmill(windmill, ActualPos.x, ActualPos.y + 20, ActualPos.z, 2, 6);
+	CreateWindmill(windmill, ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 9, 2, 9);
 
 	ActualPos.Set(ActualPos.x+10, ActualPos.y, ActualPos.z);
 	Map[91] = App->physics->CreateStraight(Cubes[91], 40, 10, 2, NORTH, false, this);
@@ -417,46 +398,60 @@ void ModuleLevel1::CreateFourLevel()
 
 void ModuleLevel1::CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h)
 {
-	windmill.StickShape.SetPos(x - w - 2, y, z);
-	windmill.StickShape.size.Set(w, h*2, w);
+	windmill.StickShape.SetPos(x - w - 2, y - w, z);
+	windmill.StickShape.size.Set(w, w, w);
 	windmill.Stick = App->physics->AddBox(windmill.StickShape, false, 0);
 
-	windmill.BallShape.radius = w * 0.5;
+	windmill.BallShape.radius = w;
 	windmill.BallShape.SetPos(x, y, z);
 	windmill.Ball = App->physics->AddBody(windmill.BallShape, 1);
 	
-	windmill.UpShape.size.Set(w, h, w);
-	windmill.UpShape.SetPos(x, y + (w*0.5 + h*0.5) + 10, z);
-	windmill.Up = App->physics->AddBox(windmill.UpShape, false, 1);
+	windmill.UpShape.height = h;
+	windmill.UpShape.radius = w;
+	windmill.UpShape.SetRotation(90, vec3(0, 0, 1));
+	windmill.UpShape.SetPos(x, y + (w*0.5+ h*0.5)+2, z);
+	windmill.Up = App->physics->AddCylinder(windmill.UpShape, 1);
 
-	windmill.DownShape.size.Set(w, h, w);
-	windmill.DownShape.SetPos(x, y - (w*0.5 + h*0.5), z);
-	windmill.Down = App->physics->AddBox(windmill.DownShape, false, 1);
+	windmill.DownShape.height = h;
+	windmill.DownShape.radius = w;
+	windmill.DownShape.SetRotation(90, vec3(0, 0, 1));
+	windmill.DownShape.SetPos(x, y - (w*0.5 + h*0.5) - 2, z);
+	windmill.Down = App->physics->AddCylinder(windmill.DownShape, 1);
 
-	windmill.LeftShape.size.Set(w, w, h);
+	windmill.LeftShape.height = h;
+	windmill.LeftShape.radius = w;
+	windmill.LeftShape.SetRotation(90, vec3(0, 1, 0));
 	windmill.LeftShape.SetPos(x, y, z + (w*0.5 + h*0.5) + 2);
-	windmill.Left = App->physics->AddBox(windmill.LeftShape, false, 1);
+	windmill.Left = App->physics->AddCylinder(windmill.LeftShape, 1);
 
-	windmill.RightShape.size.Set(w, w, h);
+	windmill.RightShape.height = h;
+	windmill.RightShape.radius = w;
+	windmill.RightShape.SetRotation(90, vec3(0, 1, 0));
 	windmill.RightShape.SetPos(x, y, z - (w*0.5 + h*0.5) - 2);
-	windmill.Right = App->physics->AddBox(windmill.RightShape, false, 1);
+	windmill.Right = App->physics->AddCylinder(windmill.RightShape, 1);
 
-	vec3 vec1(5, 0, 0);
+	vec3 vec1(w*2.5, 0, 0);
 	vec3 vec2(0, 0, 0);
-	vec3 vecUp(0, 0, 0);
-	vec3 vecDown(0, -w, 0);
-	vec3 vecLeft(0, 0, -w);
-	vec3 vecRight(0, 0, w);
+	vec3 vecUp(0, (w*0.5 + h*0.5) + 2, 0);
+	vec3 vecDown(0, -(w*0.5 + h*0.5) - 2, 0);
+	vec3 vecLeft(0, 0, -(w*0.5 + h*0.5) - 2);
+	vec3 vecRight(0, 0, (w*0.5 + h*0.5) + 2);
 
 	vec3 axis(1, 0, 0);
-	vec3 axis1(0, 1, 0);
-	vec3 axis2(0, 0, 1);
+	vec3 axis_n(-1, 0, 0);
 
+	vec3 axis1(0, 1, 0);
+	vec3 axis1_n(0, -1, 0);
+
+	vec3 axis2(0, 0, 1);
+	vec3 axis2_n(0, 0, -1);
+
+	
 	App->physics->AddConstraintHinge(windmill.Stick, windmill.Ball, vec1, vec2, axis, axis);
-	App->physics->AddConstraintHinge(windmill.Ball, windmill.Up, vecUp, vec3(0, -5, 0), axis1, axis1);
-	App->physics->AddConstraintHinge(windmill.Ball, windmill.Down, vecUp, vec3(0, 5, 0), axis1, axis1);
-	App->physics->AddConstraintHinge(windmill.Ball, windmill.Right, vecUp, vec3(0, 0, 5), axis2, axis2);
-	App->physics->AddConstraintHinge(windmill.Ball, windmill.Left, vecUp, vec3(0, 0, -5), axis2, axis2);
+	App->physics->AddConstraintHinge(windmill.Ball, windmill.Up, vecUp, vec2, axis1, axis);
+	App->physics->AddConstraintHinge(windmill.Ball, windmill.Down, vecDown, vec2, axis1, axis);
+	App->physics->AddConstraintHinge(windmill.Ball, windmill.Left, vecRight, vec2, axis2_n, axis);
+	App->physics->AddConstraintHinge(windmill.Ball, windmill.Right, vecLeft, vec2, axis2, axis_n);
 
 }
 
@@ -527,11 +522,11 @@ update_status ModuleLevel1::Update(float dt)
 		windmill_shapes.Render();
 	}*/
 	//windmill.Ball->GetRigidBody()->applyTorque(btVector3(20, 0, 0));
-	windmill.Ball->SetAngVel(10, 0, 0);
-	windmill.Down->SetAngVel(0, 0, 0);
+	//windmill.Ball->SetAngVel(10, 0, 0);
+	/*windmill.Down->SetAngVel(0, 0, 0);
 	windmill.Right->SetAngVel(0, 0, 0);
 	windmill.Up->SetAngVel(0, 0, 0);
-	windmill.Left->SetAngVel(0, 0, 0);
+	windmill.Left->SetAngVel(0, 0, 0);*/
 	windmill.Render();
 	//---------------------------
 
