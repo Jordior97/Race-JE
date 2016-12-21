@@ -11,6 +11,24 @@ struct PhysBody3D;
 enum Direction;
 struct PhysMotor3D;
 
+struct Windmill
+{
+public:
+	PhysBody3D* Stick;
+	Cube StickShape;
+
+	PhysBody3D* Ball;
+	Sphere BallShape;
+
+	PhysBody3D* Up;
+	Cylinder UpShape;
+
+	PhysBody3D* Down;
+	Cylinder DownShape;
+
+	void Render();
+};
+
 class ModuleScene : public Module
 {
 public:

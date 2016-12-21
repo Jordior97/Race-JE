@@ -71,10 +71,10 @@ bool ModuleLevel1::Start()
 	CreateSecondLevel();
 
 	//TODO - LEVEL 3
-	CreateThreeLevel();
+	CreateThirdLevel();
 
 	//TODO - LEVEL 4
-	CreateFourLevel();
+	//CreateFourthLevel();
 
 	SceneIntro = false;
 	Level_1 = false;
@@ -281,7 +281,7 @@ void ModuleLevel1::CreateSecondLevel()
 
 }
 
-void ModuleLevel1::CreateThreeLevel()
+void ModuleLevel1::CreateThirdLevel()
 {
 	ActualPos.Set(-300, 1, 500);
 	App->player->vehicle->SetPos(-300, 3, 505);
@@ -347,6 +347,11 @@ void ModuleLevel1::CreateThreeLevel()
 	relax_next_z = ActualPos.z;
 	ActualPos.Set(relax_x, ActualPos.y + 9.5f, relax_z - 24.0f);
 
+	CreateCanon(canonball, ActualPos.x , ActualPos.y + 4, ActualPos.z + 4.5, 4, 2000, ElectricRed);
+	CreateSensor(&Sensor, sensor_shape, ActualPos.x, relax_next_y, ActualPos.z + 40, 10, 10, 5);
+	Sensor->SetAsSensor(true);
+	Sensor->collision_listeners.add(this);
+
 	App->physics->CreateDOWNER(Cubes[77], Cubes[78], Cubes[79], 5, 10, 10, EAST, this);
 	Map[77] = downer.getFirst()->data;
 	Map[78] = downer.getFirst()->next->data;
@@ -363,6 +368,13 @@ void ModuleLevel1::CreateThreeLevel()
 	relax_next_z = ActualPos.z;
 	ActualPos.Set(relax_x - 10.0f, ActualPos.y + 9.5f, relax_z - 24.0f);
 
+	CreateCanon(canonball2, ActualPos.x, ActualPos.y + 4, ActualPos.z + 2, 4, 1000, ElectricRed);
+	CreateSensor(&Sensor2, sensor2_shape, ActualPos.x, relax_next_y, ActualPos.z + 40, 10, 10, 5);
+	Sensor2->SetAsSensor(true);
+	Sensor2->collision_listeners.add(this);
+
+
+
 	App->physics->CreateDOWNER(Cubes[82], Cubes[83], Cubes[84], 5, 10, 10, EAST, this);
 	Map[82] = downer.getFirst()->data;
 	Map[83] = downer.getFirst()->next->data;
@@ -372,7 +384,7 @@ void ModuleLevel1::CreateThreeLevel()
 
 }
 
-void ModuleLevel1::CreateFourLevel()
+void ModuleLevel1::CreateFourthLevel()
 {
 	ActualPos.Set(-500, 30, -500);
 	App->player->vehicle->SetPos(-500, 33, -495);
@@ -496,6 +508,24 @@ void ModuleLevel1::CreateWindmill(Windmill& windmill, float x, float y, float z,
 
 }
 
+void ModuleLevel1::CreateCanon(CanonBall& canon, float x, float y, float z, float radius, float attack_speed, Color color)
+{
+	canon.attack_speed = attack_speed;
+	canon.ballShape.radius = radius;
+	canon.position = { x, y, z };
+	canon.ballShape.SetPos(x, y, z);
+	canon.ballShape.color = color;
+
+	canon.ball = App->physics->AddBody(canon.ballShape, 1000);
+}
+
+void ModuleLevel1::CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float y, float z, float sizeX, float sizeY, float sizeZ)
+{
+	shape.size.Set(sizeX, sizeY, sizeZ);
+	shape.SetPos(x, y, z);
+	*sensor = App->physics->AddBox(shape, false, 0);
+}
+
 
 // Update
 update_status ModuleLevel1::Update(float dt)
@@ -611,12 +641,29 @@ update_status ModuleLevel1::Update(float dt)
 
 	if (Level_3)
 	{
+		if (canonball.timer.Read() >= canonball.attack_speed + canonball.actualtime)
+		{
+			canonball.actualtime = canonball.timer.Read();
+			canonball.ball->GetRigidBody()->activate(true);
+			canonball.ball->Push(0, 0, 10000);
+		}
+
+		if (canonball2.timer.Read() >= canonball2.attack_speed + canonball2.actualtime)
+		{
+			canonball2.actualtime = canonball2.timer.Read();
+			canonball2.ball->GetRigidBody()->activate(true);
+			canonball2.ball->Push(0, 0, 10000);
+		}
+		
 		for (int i = 51; i < 86; i++)
 		{
 
 			Map[i]->GetTransform(&(Cubes[i].transform));
 			Cubes[i].Render();
 		}
+
+		canonball.Render();
+		canonball2.Render();
 	}
 
 	if (Level_4)
@@ -640,8 +687,8 @@ update_status ModuleLevel1::Update(float dt)
 					break;
 				}
 			}
-			//true	-> bajar
-			//false -> subir
+			//true	-> up
+			//false -> down
 			if (Map[94]->GetPos().y >= (Map[position_before_kinetic]->GetPos().y + 40))
 			{
 				Map[94]->one_direction = true;
@@ -659,7 +706,7 @@ update_status ModuleLevel1::Update(float dt)
 				{
 					if (App->player->vehicle->GetPos().x >(Map[94]->GetPos().x - (Cubes[94].size.x / 2)) && App->player->vehicle->GetPos().x < (Map[94]->GetPos().x + (Cubes[94].size.x / 2)))
 					{
-						App->player->vehicle->Move(0, 0.7f, 0);//TODO QUITARLO???
+						App->player->vehicle->Move(0, 0.7f, 0);//TODO remove it???
 					}
 				}
 			}
@@ -768,36 +815,23 @@ update_status ModuleLevel1::Update(float dt)
 
 void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
-	if (body1 == Map[1] && body2 == App->player->vehicle)
+	if ((Sensor == body1 || Sensor == body2) && (canonball.ball == body1 || canonball.ball == body2))
 	{
-		LOG("HIT");
+		canonball.timer.Start();
+		canonball.actualtime = 0;
+		canonball.ball->SetAngVel(0, 0, 0);
+		canonball.ball->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+		canonball.ball->SetPos(canonball.position.getX(), canonball.position.getY(), canonball.position.getZ());
 	}
-	if (body2 == Map[1] && body1 == App->player->vehicle)
+	if ((Sensor2 == body1 || Sensor2 == body2) && (canonball2.ball == body1 || canonball2.ball == body2))
 	{
-		LOG("HIT");
+		canonball2.timer.Start();
+		canonball2.actualtime = 0;
+		canonball2.ball->SetAngVel(0, 0, 0);
+		canonball2.ball->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+		canonball2.ball->SetPos(canonball2.position.getX(), canonball2.position.getY(), canonball2.position.getZ());
 	}
-
 }
-/*
-void ModuleLevel1::CreateMap(int num_rows, int num_columns)
-{
-	vec3 size(5, 5, 5);
-	ActualPos.Set(-num_rows*0.5*size.x, 0, -num_columns*0.5*size.z);
-	int k = 0;
-	for (int i = 1; i <= num_columns; i++)
-	{
-		for (int j = 1; j <= num_rows; j++)
-		{
-			SplatoonShapes[k].size = size;
-			SplatoonShapes[k].SetPos(ActualPos.x + j*size.x, ActualPos.y - 2.4, ActualPos.z + i*size.z);
-			SplatoonShapes[k].color = Black;
-			SplatoonMap[k] = App->physics->AddBox(SplatoonShapes[k], true, 0);
-			SplatoonMap[k]->SetAsSensor(true);
-			SplatoonMap[k]->collision_listeners.add(this);
-			k++;
-		}
-	}
-}*/
 
 void Windmill::Render()
 {
@@ -809,4 +843,10 @@ void Windmill::Render()
 
 	Down->GetTransform(&DownShape.transform);
 	DownShape.Render();
+}
+
+void CanonBall::Render()
+{
+	ball->GetTransform(&ballShape.transform);
+	ballShape.Render();
 }

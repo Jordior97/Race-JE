@@ -10,22 +10,19 @@ struct PhysBody3D;
 enum Direction;
 struct PhysMotor3D;
 
-struct Windmill
+struct CanonBall
 {
 public:
-	PhysBody3D* Stick;
-	Cube StickShape;
-
-	PhysBody3D* Ball;
-	Sphere BallShape;
-
-	PhysBody3D* Up;
-	Cylinder UpShape;
-
-	PhysBody3D* Down;
-	Cylinder DownShape;
+	btVector3 position;
+	Timer timer;
+	uint actualtime = 0;
+	PhysBody3D* ball;
+	Sphere ballShape;
+	uint attack_speed;
+	Color color;
 
 	void Render();
+	
 };
 
 class ModuleLevel1 : public ModuleScene
@@ -42,16 +39,26 @@ public:
 	void CreateIntroLevel();
 	void CreateFirstLevel();
 	void CreateSecondLevel();
-	void CreateThreeLevel();
-	void CreateFourLevel();
+	void CreateThirdLevel();
+	void CreateFourthLevel();
 
 	void CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h);
+	void CreateCanon(CanonBall& canon, float x, float y, float z, float radius, float attack_speed, Color color);
+	void CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float y, float z, float sizeX, float sizeY, float sizeZ);
 
 public:
-
 	Windmill windmill;
 	Windmill windmill_2;
 	Windmill windmill_3;
+	CanonBall canonball;
+	CanonBall canonball2;
+
+	PhysBody3D* Sensor;
+	Cube sensor_shape;
+
+	PhysBody3D* Sensor2;
+	Cube sensor2_shape;
+
 
 	/*uint objects = 0;
 	PhysBody3D* Map[MAX_OBJECTS];
