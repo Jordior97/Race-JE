@@ -987,6 +987,9 @@ update_status ModuleStory::Update(float dt)
 
 		if (App->player->vehicle->GetPos().y < 100)
 		{
+			DisableLevels(INTRO_SCENE);
+			App->player->Story_Position = { 0, 2, -80 };
+			App->player->actual_level = INTRO_SCENE;
 			App->menu->Enable();
 		}
 	}
