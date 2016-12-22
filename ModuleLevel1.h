@@ -104,6 +104,11 @@ private:
 	bool Level_4;
 	bool level_finish;
 
+	bool time_finnish;
+	bool play_final;
+	float fadetoblack_final;
+
+
 	bool change_moviment;
 
 

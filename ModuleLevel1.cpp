@@ -83,6 +83,9 @@ bool ModuleLevel1::Start()
 	Level_4 = false;
 	level_finish = false;
 
+	time_finnish = true;
+	play_final = true;
+
 	test = true;
 	time = GetTickCount();
 
@@ -562,7 +565,6 @@ void ModuleLevel1::CreateFourthLevel()
 void ModuleLevel1::CreateFinalLevel()
 {
 	ActualPos.Set(900, 2000, 1000);
-	//ActualPos.Set(-900, 900, -900);
 	//leveler
 	Map[124] = App->physics->CreateStraight(Cubes[124], 10, 10, 2, NORTH, false, this);
 	//map
@@ -976,8 +978,37 @@ update_status ModuleLevel1::Update(float dt)
 			Map[i]->GetTransform(&(Cubes[i].transform));
 			Cubes[i].Render();
 		}
+		if (play_final)
+		{
+			actualtime = GetTickCount();
+			if (time_finnish)
+			{
+				time = actualtime;
+				time_finnish = false;
+			}
 
-		//Temp and down
+			if (actualtime >= time + 5000 && time_finnish == false)//38s
+			{
+				time = actualtime;
+				Map[124]->SetPos(500, 0, 0);
+				play_final = false;
+			}
+		}
+
+		if (App->player->vehicle->GetPos().y < 700)
+		{
+			fadetoblack_final = 0.1f;
+			if (App->renderer3D->lights[0].ambient.r >= 0.0f) 
+			{
+				App->renderer3D->lights[0].Active(false);
+			}
+			else
+			{
+				App->renderer3D->lights[0].Active(true);
+				App->menu->Enable();
+			}
+
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)

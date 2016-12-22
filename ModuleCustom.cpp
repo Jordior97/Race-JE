@@ -52,7 +52,7 @@ bool ModuleCustom::Start()
 	return ret;
 }
 
-bool ModuleCustom::CleanUp() //NEED CORRECTION !!!
+bool ModuleCustom::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
@@ -77,6 +77,15 @@ update_status ModuleCustom::Update(float dt)
 		App->camera->LookAt(vec3(900, 100, 1000));
 		test_car = false;
 	}
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	{
+		for (int i = 1; i < objects; i++)
+		{
+			App->physics->world->removeRigidBody(Map[i]->GetRigidBody());
+		}
+		objects = 1;
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		if (App->player->IsEnabled() == false)
@@ -208,8 +217,11 @@ update_status ModuleCustom::Update(float dt)
 
 	for (int i = 0; i < objects; i++)
 	{
-		Map[i]->GetTransform(&(Cubes[i].transform));
-		Cubes[i].Render();
+		if (App->menu->IsEnabled() == false)
+		{
+			Map[i]->GetTransform(&(Cubes[i].transform));
+			Cubes[i].Render();
+		}
 	}
 	if (num_windmill > 0)
 	{

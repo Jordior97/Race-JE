@@ -41,6 +41,7 @@ Application::Application()
 	player->Disable_whitout();
 	custom->Disable_whitout();
 	player2->Disable_whitout();
+	level1->Disable_whitout();
 
 	// Renderer last!
 	AddModule(renderer3D);
