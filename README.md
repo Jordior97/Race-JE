@@ -1,36 +1,88 @@
-# Race JE
+﻿# Race Game JE
 
-Welcome to our game, it made with Bullet Physics.
+Welcome to our game : "SPACE MADNESS". It's made with Bullet Physics.
 
-###Objective
+###SPACE MADNESS v1.0
 
-Our goal is to make a map, where you drive a car and you have to overcome a number of obstacles.
+###INTRODUCTION
 
-###Release 0.2
-In this release we implemented 1 function, but now you can see a map complet with curves,uphill road, etc... 
-- void CreateDOWNER(), This fucntion creates a road to go down. ("need some adjustments.")
+This game has 3 different and intense Game Modes: STORY , MULTIPLAYER and CUSTOM.
 
-Corrections of Release 0.1:
-- Fixed error with function CreateCurves, now create curves correctly.
+In the menu you have to choose one of this options by clicking on them with the mouse (Left Button).
+ 
+- You can go back to the menu by holding "M" for 3 seconds.
 
-###Release 0.1
-In this release we implemented 3 functions:
-- PhysBody3D* CreateStraight(), This function creates a straight road.
-- void CreateUPER(), This function creates a uphill road. ("need some adjustments.")
-- void CreateCurve(), This function creates a curve.
+###STORY MODE -----------------------------
+You have been chosen to surpas a set of 4 Grand Tests that will determine if the Earth will be saved...
+or not.
 
-
-	In order to see what each function does, we have created a mini map with each function.
+##GOAL
+Complete the circuits without falling and avoiding all the obstacles to reach the Final Stage.
 
 ##CONTROLS
-- a: Move camera left
-- s: Move camera back
-- d: Move camera right
-- w: Move camera front
-- r: Move camera up
-- F: Move camera down
+- UP: move forward.
+- LEFT: move left.
+- DOWN: move backward.
+- RIGHT: move right.
+- Right CTRL: slow down.
+- E: restart the level.
 
-- Holding the right button you can move camera.
+--------------------------------------------
+
+###MULTIPLAYER MODE -----------------------------
+Compete with a friend in the Space Arena.
+
+##GOAL
+Paint more squares than your rival within the specified time. You can paint them only by riding over them.
+
+##CONTROLS
+Same controls for player 1 (but you can't restart the level).
+
+##PLAYER 2 CONTROLS:
+- W: forward.
+- A: move left.
+- S: move backward.
+- D: move right.
+- SPACE BAR: slow down.
+
+--------------------------------------------
+
+###CUSTOM MODE -----------------------------
+Use your imagination and creativity to create awesome circuits and play them!
+
+##GOAL
+To create and test your own map (with ramps, obstacles...).
+
+##CONTROLS
+- 1: create straight.
+- 2 + LEFT: create curve to the left.
+- 2 + RIGHT: create curve to the right.
+- 3: create Ramp Up.
+- 4: create Ramp Down.
+- 5: create a Windmill (only if the direction is North or South).
+- 6: create a Mobile Platform (only if the direction is  East or West).
+- ENTER (while editing): put the car on the start of the circuit.
+	*Closed circuit = you have to complete 3 laps on it.
+	*Open Circuit = reach the end of it.
+- ENTER (while riding): return to editing mode.
+
+--------------------------------------------
+
+###DEBUG MODE -----------------------------
+If you press F1 you will enter into the debug mode.
+
+##CONTROLS
+- P: "free cam" on: 	- W,A,S,D to move the camera.
+			- R: ascend.
+			- F: descend.
+			- Left SHIFT: speed up the camera.
+			- You can change the orientation of the camera by pressing and holding the mouse button.
+
+- 0: teleport to the Intro Scene.
+- 1, 2, 3, 4, 5: teleport to the respective levels.
+
+
+--------------------------------------------
 
 
 
