@@ -85,9 +85,9 @@ If you press F1 you will enter into the debug mode.
 
 --------------------------------------------
 
-
-
 ##THAT'S ALL FOLKS! HOPE YOU ENJOY IT!
+
+* Hinge Constraint is implemented in the Windmill obstacle
 
 
 Authors: 
