@@ -34,7 +34,7 @@ bool ModuleCustom::Start()
 		App->menu->Disable();
 	}
 	//TODO
-	App->camera->MoveAt(vec3(910, 120, 1030));
+	App->camera->MoveAt(vec3(960, 120, 960));
 	App->camera->LookAt(vec3(900, 100, 1000));
 
 	//CUSTOM MAP
@@ -71,6 +71,8 @@ update_status ModuleCustom::Update(float dt)
 		}
 		App->player->Disable();
 		App->camera->state = CUSTOM;
+		App->camera->MoveAt(vec3(960, 120, 960));
+		App->camera->LookAt(vec3(900, 100, 1000));
 		test_car = false;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
@@ -80,10 +82,9 @@ update_status ModuleCustom::Update(float dt)
 			vec3 calc = save_pos - ActualPos;
 			if (length(calc) >= 10)
 			{
-				save_pos = ActualPos;
 				num_laps = 0;
 				Sensor.size.Set(12, 5, 12);
-				Sensor.SetPos(save_pos.x, save_pos.y + 2, save_pos.z);
+				Sensor.SetPos(ActualPos.x, ActualPos.y + 2, ActualPos.z);
 				sensor_obj[0] = App->physics->AddBox(Sensor, false, 0);
 				sensor_obj[0]->SetAsSensor(true);
 				sensor_obj[0]->collision_listeners.add(this);
@@ -92,11 +93,11 @@ update_status ModuleCustom::Update(float dt)
 			{
 				num_laps = 1;
 				Sensor.size.Set(12, 5, 2);
-				Sensor.SetPos(save_pos.x, save_pos.y + 2, save_pos.z);
+				Sensor.SetPos(ActualPos.x, ActualPos.y + 2, ActualPos.z);
 				sensor_obj[0] = App->physics->AddBox(Sensor, false, 0);
 				sensor_obj[0]->SetAsSensor(true);
 				sensor_obj[0]->collision_listeners.add(this);
-				Sensor.SetPos(save_pos.x, save_pos.y + 2, save_pos.z + 10);
+				Sensor.SetPos(ActualPos.x, ActualPos.y + 2, ActualPos.z + 10);
 				sensor_obj[1] = App->physics->AddBox(Sensor, false, 0);
 				sensor_obj[1]->SetAsSensor(true);
 				sensor_obj[1]->collision_listeners.add(this);
@@ -212,20 +213,12 @@ update_status ModuleCustom::Update(float dt)
 	{
 		for (int i = 0; i < num_windmill; i++)
 		{
-			//windmill[i].Ball->SetAngVel(5, 0, 0);
 			float tessst = windmill[i].Ball->GetRigidBody()->getAngularVelocity().getX();
 			if (tessst < 5)
 			{
 				windmill[i].Ball->Torque(10, 0, 0);
 			}
-
 			windmill[i].Render();
-			/*if (windmill[i].Ball->GetRigidBody()->getAngularVelocity() < btVector3(10, 0, 0))
-			{
-				
-			}*/
-
-
 		}
 	}
 
@@ -464,8 +457,6 @@ void ModuleCustom::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			{
 				App->player->vehicle->SetPos(900, 105, 1005);
 				test_car = true;
-				App->camera->MoveAt(vec3(910, 120, 1030));
-				App->camera->LookAt(vec3(900, 100, 1000));
 				num_laps = 1;
 				//TODO stop contador
 			}
@@ -479,8 +470,6 @@ void ModuleCustom::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		if (num_laps == 0)
 		{
 			test_car = true;
-			App->camera->MoveAt(vec3(910, 120, 1030));
-			App->camera->LookAt(vec3(900, 100, 1000));
 			//TODO stop contador
 		}
 	}
