@@ -93,6 +93,8 @@ private:
 
 	float time_down_door = 0.05;
 
+	bool create_one_time = true;
+
 	bool SceneIntro = false;
 	bool Level_1 = false;
 	bool Level_2 = false;

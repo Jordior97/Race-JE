@@ -55,30 +55,29 @@ bool ModuleLevel1::Start()
 	//Set camera mode to HISTORY MODE (3rd person view)
 	App->camera->state = HISTORY;
 
-	//Set plane
-	Plane p(0, 1, 0, 0);
-	plane = p;
-	plane.axis = true;
-	plane.color = Black;
+	if (create_one_time)
+	{
+		//TODO - LEVELINTRO
+		CreateIntroLevel();
 
-	//TODO TODO TODO -> Posar-ho de una manera per cridar a les funcions nomes quan et pases en anterior nivell
-	//TODO - LEVELINTRO
-	CreateIntroLevel();
+		//TODO - LEVEL 1
+		CreateFirstLevel();
 
-	//TODO - LEVEL 1
-	CreateFirstLevel();
+		//TODO - LEVEL 2
+		CreateSecondLevel();
 
-	//TODO - LEVEL 2
-	CreateSecondLevel();
+		//TODO - LEVEL 3
+		CreateThirdLevel();
 
-	//TODO - LEVEL 3
-	CreateThirdLevel();
+		//TODO - LEVEL 4
+		CreateFourthLevel();
 
-	//TODO - LEVEL 4
-	CreateFourthLevel();
+		//TODO - LEVEL Final
+		CreateFinalLevel();
 
-	//TODO - LEVEL Final
-	CreateFinalLevel();
+		create_one_time = false;
+	}
+
 
 	time_finnish = true;
 	play_final = true;
@@ -720,8 +719,6 @@ void ModuleLevel1::RestartCar()
 // Update
 update_status ModuleLevel1::Update(float dt)
 {
-	plane.Render();
-
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
 	{
 		actualtime = GetTickCount();
@@ -1000,7 +997,7 @@ update_status ModuleLevel1::Update(float dt)
 				time_finnish = false;
 			}
 
-			if (actualtime >= time + 5000 && time_finnish == false)//38s
+			if (actualtime >= time + 38000 && time_finnish == false)//38s
 			{
 				time = actualtime;
 				Map[124]->SetPos(500, 0, 0);
@@ -1008,19 +1005,9 @@ update_status ModuleLevel1::Update(float dt)
 			}
 		}
 
-		if (App->player->vehicle->GetPos().y < 700)
+		if (App->player->vehicle->GetPos().y < 100)
 		{
-			fadetoblack_final = 0.1f;
-			if (App->renderer3D->lights[0].ambient.r >= 0.0f) 
-			{
-				App->renderer3D->lights[0].Active(false);
-			}
-			else
-			{
-				App->renderer3D->lights[0].Active(true);
-				App->menu->Enable();
-			}
-
+			App->menu->Enable();
 		}
 	}
 
@@ -1050,6 +1037,7 @@ update_status ModuleLevel1::Update(float dt)
 		Level_1 = true;
 		App->player->StopVehicle();
 		DisableLevels(LVL1);
+		App->audio->PlayFx(voice_lvl1);
 		App->player->vehicle->SetPos(200, 53, 5);
 		App->player->Story_Position = { 200, 55, 5 };
 	}
@@ -1058,6 +1046,7 @@ update_status ModuleLevel1::Update(float dt)
 		Level_2 = true;
 		App->player->StopVehicle();
 		DisableLevels(LVL2);
+		App->audio->PlayFx(voice_lvl2);
 		App->player->vehicle->SetPos(0, 33, 265);
 		App->player->Story_Position = { 0, 33, 265 };
 	}
@@ -1066,6 +1055,7 @@ update_status ModuleLevel1::Update(float dt)
 		Level_3 = true;
 		App->player->StopVehicle();
 		DisableLevels(LVL3);
+		App->audio->PlayFx(voice_lvl3);
 		App->player->vehicle->SetPos(-300, 33, 505);
 		App->player->Story_Position = { -300, 33, 505 };
 	}
@@ -1074,6 +1064,7 @@ update_status ModuleLevel1::Update(float dt)
 		Level_4 = true;
 		App->player->StopVehicle();
 		DisableLevels(LVL4);
+		App->audio->PlayFx(voice_lvl4);
 		App->player->vehicle->SetPos(-500, 103, -495);
 		App->player->Story_Position = { -500, 103, -495 };
 	}
@@ -1081,7 +1072,9 @@ update_status ModuleLevel1::Update(float dt)
 	{
 		level_finish = true;
 		App->player->StopVehicle();
+		App->audio->PlayFx(final_voice);
 		DisableLevels(FINAL);
+		App->audio->PlayFx(final_voice);
 		App->player->vehicle->SetPos(905, 2005, 1000);
 		App->player->Story_Position = { 905, 2005, 1000 };
 	}

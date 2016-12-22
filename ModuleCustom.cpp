@@ -391,10 +391,9 @@ update_status ModuleCustom::Update(float dt)
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
 	{
 		actualtime = GetTickCount();
-		App->menu->Enable();
 		if (test)
 		{
 			time = actualtime;
