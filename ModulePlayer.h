@@ -17,10 +17,13 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+	void StopVehicle();
 
 public:
 	PhysVehicle3D* vehicle;
 	float turn;
 	float acceleration;
 	float brake;
+	
+	vec3 Story_Position = { 0, 5, 5 };
 };

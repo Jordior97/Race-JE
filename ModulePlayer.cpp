@@ -131,6 +131,14 @@ bool ModulePlayer::CleanUp()
 	return true;
 }
 
+void ModulePlayer::StopVehicle()
+{
+	mat4x4 identity;
+	vehicle->SetTransform(identity.M);
+	vehicle->SetAngVel(0, 0, 0);
+	vehicle->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
+}
+
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
