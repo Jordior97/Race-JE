@@ -1044,6 +1044,10 @@ update_status ModuleStory::Update(float dt)
 			App->player->StopVehicle();
 			DisableLevels(LVL3);
 			App->audio->PlayFx(voice_lvl3);
+			for (uint i = 0; i < 3; i++)
+			{
+				canonball[i].ball->SetPos(canonball[i].position.getX(), canonball[i].position.getY(), canonball[i].position.getZ());
+			}
 			App->player->vehicle->SetPos(-300, 33, 505);
 			App->player->Story_Position = { -300, 33, 505 };
 			App->player->actual_level = LVL3;
