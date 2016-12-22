@@ -81,6 +81,9 @@ bool ModuleLevel1::Start()
 	test = true;
 	time = GetTickCount();
 
+
+	App->audio->PlayFx(App->audio->LoadFx("Music&Fx/Intro_story_new.wav"));
+
 	return true;
 }
 
@@ -258,7 +261,7 @@ void ModuleLevel1::CreateIntroLevel()
 
 void ModuleLevel1::CreateFirstLevel()
 {
-	ActualPos.Set(200, 0, 0);//TODO - PONERLOS DESDE 25!!!
+	ActualPos.Set(200, 50, 0);
 	App->physics->CreateUPER(Cubes[33], Cubes[34], Cubes[35], 30, 10, 7, EAST, this);
 	Map[33] = upper.getFirst()->data;
 	Map[34] = upper.getFirst()->next->data;
@@ -288,7 +291,7 @@ void ModuleLevel1::CreateFirstLevel()
 
 void ModuleLevel1::CreateSecondLevel()
 {
-	ActualPos.Set(0, 1, 260);
+	ActualPos.Set(0, 30, 260);
 	//App->player->vehicle->SetPos(0, 3, 265);
 	Map[44] = App->physics->CreateStraight(Cubes[44], 50, 10, 2, EAST, false, this);
 	Map[45] = App->physics->CreateStraight(Cubes[45], 20, 10, 2, EAST, true, this);
@@ -341,7 +344,7 @@ void ModuleLevel1::CreateSecondLevel()
 
 void ModuleLevel1::CreateThirdLevel()
 {
-	ActualPos.Set(-300, 1, 500);
+	ActualPos.Set(-300, 30, 500);
 	//App->player->vehicle->SetPos(-300, 3, 505);
 	Map[62] = App->physics->CreateStraight(Cubes[62], 25, 10, 2, EAST, false, this);
 
@@ -379,7 +382,7 @@ void ModuleLevel1::CreateThirdLevel()
 	Map[75] = upper.getFirst()->next->next->data;
 
 	CreateCanon(canonball3, ActualPos.x, ActualPos.y + 4, ActualPos.z, 4, vec3(0, 0, 4000000), ElectricRed);
-	CreateSensor(&Sensor3, sensor3_shape, ActualPos.x - 200, 0, ActualPos.z, 5, 10, 10);
+	CreateSensor(&Sensor3, sensor3_shape, ActualPos.x - 190, 20, ActualPos.z, 10, 10, 10);
 	Sensor3->SetAsSensor(true);
 	Sensor3->collision_listeners.add(this);
 
@@ -451,7 +454,7 @@ void ModuleLevel1::CreateThirdLevel()
 
 void ModuleLevel1::CreateFourthLevel()
 {
-	ActualPos.Set(-500, 30, -500);
+	ActualPos.Set(-500, 100, -500);
 	//App->player->vehicle->SetPos(-500, 33, -495);
 
 	Map[97] = App->physics->CreateStraight(Cubes[97], 30, 10, 2, EAST, false, this);
@@ -467,7 +470,7 @@ void ModuleLevel1::CreateFourthLevel()
 	CreateWindmill(windmill, ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
 	//
 	Cubes[106].size.Set(4, 1, 10);
-	Cubes[106].SetPos(pos_x, 30.5f, pos_z);
+	Cubes[106].SetPos(pos_x, 100.5f, pos_z);
 	Cubes[106].SetRotation(20, { 0,0,1 });
 	Map[106] = App->physics->AddBox(Cubes[106], false, 0);
 	//
@@ -488,7 +491,7 @@ void ModuleLevel1::CreateFourthLevel()
 
 
 	Cubes[107].size.Set(4, 1, 10);
-	Cubes[107].SetPos(pos_x, 30.5f, pos_z);
+	Cubes[107].SetPos(pos_x, 100.5f, pos_z);
 	Cubes[107].SetRotation(20, { 0,0,1 });
 	Map[107] = App->physics->AddBox(Cubes[107], false, 0);
 
@@ -939,6 +942,7 @@ void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{
 		if ((portal_sensor == body1 || portal_sensor == body2) && (App->player->vehicle == body1 || App->player->vehicle == body2))
 		{
+			//App->audio->PlayFx(App->audio->LoadFx("Music&Fx/second/Intro_story_new.wav"));
 			Level_1 = true;
 			App->player->StopVehicle();
 			App->player->Story_Position = { 200, 5, 5 };
