@@ -1019,7 +1019,7 @@ update_status ModuleLevel1::Update(float dt)
 	}
 
 
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 	{
 		RestartCar();
 	}
@@ -1040,6 +1040,7 @@ update_status ModuleLevel1::Update(float dt)
 		App->audio->PlayFx(voice_lvl1);
 		App->player->vehicle->SetPos(200, 53, 5);
 		App->player->Story_Position = { 200, 55, 5 };
+		App->player->actual_level = LVL1;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
@@ -1049,6 +1050,7 @@ update_status ModuleLevel1::Update(float dt)
 		App->audio->PlayFx(voice_lvl2);
 		App->player->vehicle->SetPos(0, 33, 265);
 		App->player->Story_Position = { 0, 33, 265 };
+		App->player->actual_level = LVL2;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 	{
@@ -1058,6 +1060,7 @@ update_status ModuleLevel1::Update(float dt)
 		App->audio->PlayFx(voice_lvl3);
 		App->player->vehicle->SetPos(-300, 33, 505);
 		App->player->Story_Position = { -300, 33, 505 };
+		App->player->actual_level = LVL3;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
 	{
@@ -1067,6 +1070,7 @@ update_status ModuleLevel1::Update(float dt)
 		App->audio->PlayFx(voice_lvl4);
 		App->player->vehicle->SetPos(-500, 103, -495);
 		App->player->Story_Position = { -500, 103, -495 };
+		App->player->actual_level = LVL4;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
 	{
@@ -1077,6 +1081,7 @@ update_status ModuleLevel1::Update(float dt)
 		App->audio->PlayFx(final_voice);
 		App->player->vehicle->SetPos(905, 2005, 1000);
 		App->player->Story_Position = { 905, 2005, 1000 };
+		App->player->actual_level = FINAL;
 	}
 
 	return UPDATE_CONTINUE;

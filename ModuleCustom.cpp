@@ -25,10 +25,6 @@ bool ModuleCustom::Start()
 
 	//Load MUS & FX
 	App->audio->PlayMusic("Music&Fx/Custom_music.ogg");
-	//SET CUSTOM MODE TITLE
-	char title[80];
-	sprintf_s(title, "CUSTOM LEVEL - Design your own circuit and play it!");
-	App->window->SetTitle(title);
 
 
 	if (App->menu->IsEnabled())
@@ -62,6 +58,30 @@ bool ModuleCustom::CleanUp()
 
 update_status ModuleCustom::Update(float dt)
 {
+	//SET CUSTOM MODE TITLE
+	if (App->player->IsEnabled() == false)
+	{
+		char title[80];
+		sprintf_s(title, "CUSTOM LEVEL - Design your own circuit and play it!");
+		App->window->SetTitle(title);
+	}
+	else
+	{
+		if (num_laps > 0)
+		{
+			char title[80];
+			sprintf_s(title, "CUSTOM LEVEL - Lap N: %i", num_laps);
+			App->window->SetTitle(title);
+		}
+		else
+		{
+			char title[80];
+			sprintf_s(title, "CUSTOM LEVEL - Complet Your Map");
+			App->window->SetTitle(title);
+		}
+
+	}
+
 
 	if (test_car)
 	{
@@ -83,7 +103,7 @@ update_status ModuleCustom::Update(float dt)
 		if (App->player->IsEnabled() == false)
 		{
 			vec3 calc = save_pos - ActualPos;
-			if (length(calc) >= 10)
+			if (length(calc) >= 20)
 			{
 				num_laps = 0;
 				Sensor.size.Set(12, 5, 12);
@@ -92,7 +112,7 @@ update_status ModuleCustom::Update(float dt)
 				sensor_obj[0]->SetAsSensor(true);
 				sensor_obj[0]->collision_listeners.add(this);
 			}
-			else if (length(calc) <= 10)
+			else if (length(calc) <= 20)
 			{
 				num_laps = 1;
 				Sensor.size.Set(12, 5, 2);
