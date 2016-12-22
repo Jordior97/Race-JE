@@ -51,6 +51,7 @@ bool ModuleStory::Start()
 	ActiveCurrentLevel();
 	DisableLevels(App->player->actual_level);
 
+
 	//Set camera mode to HISTORY MODE (3rd person view)
 	App->camera->state = HISTORY;
 
@@ -823,8 +824,8 @@ update_status ModuleStory::Update(float dt)
 			if (canonball[i].ball->GetRigidBody()->isActive() == false)
 			{
 				canonball[i].ball->GetRigidBody()->activate(true);
+				canonball[i].ball->SetAngVel(canonball[i].speed.x, canonball[i].speed.y, canonball[i].speed.z);
 			}
-			canonball[i].ball->SetAngVel(canonball[i].speed.x, canonball[i].speed.y, canonball[i].speed.z);
 			canonball[i].Render();
 		}
 		
@@ -1059,7 +1060,6 @@ update_status ModuleStory::Update(float dt)
 			App->player->StopVehicle();
 			App->audio->PlayFx(final_voice);
 			DisableLevels(FINAL);
-			App->audio->PlayFx(final_voice);
 			App->player->vehicle->SetPos(905, 2005, 1000);
 			App->player->Story_Position = { 905, 2005, 1000 };
 			App->player->actual_level = FINAL;
@@ -1166,7 +1166,7 @@ void ModuleStory::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		{
 			App->audio->PlayFx(success);
 			App->audio->PlayFx(final_voice);
-			Level_4 = true;
+			level_finish = true;
 			App->player->StopVehicle();
 			App->player->vehicle->SetPos(905, 2005, 1000);
 			App->player->Story_Position = { 905, 2005, 1000 };

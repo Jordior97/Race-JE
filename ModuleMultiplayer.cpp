@@ -44,12 +44,12 @@ bool ModuleMultiplayer::Start()
 	}
 
 	//Set players position
-	App->player->vehicle->SetPos(-20, 5, 0);
-	App->player2->vehicle->SetPos(25, 5, 0);
+	App->player->vehicle->SetPos(980, 5, 1000);
+	App->player2->vehicle->SetPos(1025, 5, 1000);
 
 	//Set camera position
-	App->camera->MoveAt(vec3(-20.0f, 100.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
+	App->camera->MoveAt(vec3(980.0f, 100.0f, 1000.0f));
+	App->camera->LookAt(vec3(1000, 0, 1000));
 
 	//Set reference position
 	ActualPos.x = 500;
@@ -129,7 +129,7 @@ update_status ModuleMultiplayer::Update(float dt)
 		char title[80];
 		int countdown = timer.Read() / 1000;
 		int result_time = 30 - countdown;
-		sprintf_s(title, "RED-> %i  //  BLUE-> %i Time: %is", RedSelected, BlueSelected, result_time);
+		sprintf_s(title, "RED(w,a,s,d) -> %i  //  BLUE(keys) -> %i    Time: %is", RedSelected, BlueSelected, result_time);
 		App->window->SetTitle(title);
 
 		if (result_time <= 0)
@@ -194,7 +194,7 @@ void ModuleMultiplayer::CreateMap(int num_rows, int num_columns)
 {
 	objects = num_rows* num_columns;
 	vec3 size(5, 5, 5);
-	ActualPos.Set(-num_rows*0.5*size.x, 0, -num_columns*0.5*size.z);
+	ActualPos.Set(-num_rows*0.5*size.x + 1000, 0, -num_columns*0.5*size.z + 1000);
 	int k = 0;
 	for (int i = 1; i <= num_columns; i++)
 	{
@@ -300,12 +300,12 @@ void ModuleMultiplayer::Restart()
 	App->player2->vehicle->SetAngVel(0, 0, 0);
 	App->player2->vehicle->GetRigidBody()->setLinearVelocity(btVector3(0, 0, 0));
 
-	App->player->vehicle->SetPos(-20, 5, 0);
-	App->player2->vehicle->SetPos(25, 5, 0);
+	App->player->vehicle->SetPos(980, 5, 1000);
+	App->player2->vehicle->SetPos(1025, 5, 1000);
 
 	//Set camera position
-	App->camera->MoveAt(vec3(-10.0f, 100.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
+	App->camera->MoveAt(vec3(980.0f, 100.0f, 1000.0f));
+	App->camera->LookAt(vec3(1000, 0, 1000));
 
 	//Set score to 0
 	RedSelected = 0;

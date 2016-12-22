@@ -239,7 +239,7 @@ bool ModuleMenu::Start()
 	}
 
 
-	Background.size.Set(200, 200, 2);
+	Background.size.Set(300, 200, 2);
 	Background.SetPos(40, 120, -20);
 	changeColor_background = true;
 
