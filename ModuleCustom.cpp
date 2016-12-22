@@ -23,6 +23,8 @@ bool ModuleCustom::Start()
 	LOG("Loading CUSTOM MODE");
 	bool ret = true;
 
+	//Load MUS & FX
+	App->audio->PlayMusic("Music&Fx/Custom_music.ogg");
 	//SET CUSTOM MODE TITLE
 	char title[80];
 	sprintf_s(title, "CUSTOM LEVEL - Design your own circuit and play it!");

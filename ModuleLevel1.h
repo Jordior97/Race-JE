@@ -9,7 +9,7 @@
 struct PhysBody3D;
 enum Direction;
 struct PhysMotor3D;
-enum Levels { INTRO_SCENE, LVL1, LVL2, LVL3, LVL4 };
+enum Levels { INTRO_SCENE, LVL1, LVL2, LVL3, LVL4, FINAL };
 
 struct CanonBall
 {
@@ -54,8 +54,12 @@ private:
 	//SOUND FX & VOICES ----------------
 	uint success;
 	uint portal_sound;
+	uint intro_voice;
 	uint voice_lvl1;
 	uint voice_lvl2;
+	uint voice_lvl3;
+	uint voice_lvl4;
+	uint final_voice;
 	// -------------------------
 
 	//OBSTACLES & SENSORS -----------

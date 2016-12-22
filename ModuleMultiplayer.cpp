@@ -19,6 +19,9 @@ bool ModuleMultiplayer::Start()
 {	
 	timer.Start();
 
+	//Load MUS & FX
+	App->audio->PlayMusic("Music&Fx/Multiplayer.ogg");
+	
 	mult_state = IN_GAME;
 	
 	if (App->menu->IsEnabled())
@@ -122,7 +125,7 @@ update_status ModuleMultiplayer::Update(float dt)
 		//SET SCORE OF THE PLAYERS INTO THE WINDOW TITLE
 		char title[80];
 		int countdown = timer.Read() / 1000;
-		int result_time = 60 - countdown;
+		int result_time = 30 - countdown;
 		sprintf_s(title, "RED-> %i  //  BLUE-> %i Time: %is", RedSelected, BlueSelected, result_time);
 		App->window->SetTitle(title);
 

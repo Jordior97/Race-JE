@@ -24,9 +24,10 @@ bool ModuleMenu::Start()
 	sprintf_s(title, "WELCOME TO OUR RACE GAME, select the GAME MODE:");
 	App->window->SetTitle(title);
 
-	//button_press = App->audio->LoadFx("Music&Fx/test_voz.wav"); TODO POSAR EFECTE CORRECTE
-	//App->audio->PlayMusic("Music&Fx/BackInBlack.ogg", 0.0f);
-	//App->audio->VolumeMusic(64);
+	//LOAD MUS & FX
+	button_press = App->audio->LoadFx("Music&Fx/ButtonPress.wav"); 
+	App->audio->PlayMusic("Music&Fx/Music_menu.ogg", 0.0f);
+	App->audio->VolumeMusic(64);
 
 
 	//Set Mode Rects
