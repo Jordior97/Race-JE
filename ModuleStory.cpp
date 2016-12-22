@@ -619,6 +619,7 @@ void ModuleStory::CreateCanon(CanonBall& canon, float x, float y, float z, float
 
 	canon.ball = App->physics->AddBody(canon.ballShape, 100000);
 	canon.speed = speed;
+	canon.ball->SetAngVel(canon.speed.x, canon.speed.y, canon.speed.z);
 }
 
 void ModuleStory::CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float y, float z, float sizeX, float sizeY, float sizeZ)
