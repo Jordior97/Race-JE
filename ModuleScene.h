@@ -49,6 +49,8 @@ public:
 	vec3 ActualPos;
 	Direction Save_dir;
 
+	int num_obj_custom = 1;
+
 	bool key_2 = false;
 
 	bool fadetowhite = false;

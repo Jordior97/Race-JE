@@ -30,18 +30,23 @@ bool ModuleCustom::Start()
 	if (App->menu->IsEnabled())
 	{
 		App->menu->Disable();
+		objects = num_obj_custom;
 	}
 	//TODO
 	App->camera->MoveAt(vec3(960, 120, 960));
 	App->camera->LookAt(vec3(900, 100, 1000));
 
-	//CUSTOM MAP
-	ActualPos.Set(900, 100, 1000);
-	save_pos = ActualPos;
-	Map[0] = App->physics->CreateStraight(Cubes[0], 30, 12, 2, EAST, false, this);
-	Save_dir = EAST;
+	if (create_one_time)
+	{
+		//CUSTOM MAP
+		ActualPos.Set(900, 100, 1000);
+		save_pos = ActualPos;
+		Map[0] = App->physics->CreateStraight(Cubes[0], 30, 12, 2, EAST, false, this);
+		Save_dir = EAST;
+		num_windmill = 0;
+		create_one_time = false;
+	}
 
-	num_windmill = 0;
 	test = true;
 	time = GetTickCount();
 
@@ -85,7 +90,7 @@ update_status ModuleCustom::Update(float dt)
 
 	if (test_car)
 	{
-		App->physics->world->removeRigidBody(App->player->vehicle->GetRigidBody());
+		App->player->vehicle->SetPos(5000, 2, 1000);
 		App->physics->world->removeRigidBody(sensor_obj[0]->GetRigidBody());
 		if (num_laps > 0)
 		{
@@ -137,20 +142,7 @@ update_status ModuleCustom::Update(float dt)
 
 	if (fadetowhite)
 	{
-		color_white += 0.005f;
-		for (int i = 0; i < 100; i++)
-		{
-			Cubes[i].color.Set(color_white, color_white, color_white);
-		}
-		if (color_white >= 1.0f)
-		{
-			fadetowhite = false;
-			color_white = 0.0f;
-			for (int i = 0; i < 100; i++)
-			{
-				Cubes[i].color = White;
-			}
-		}
+		fadetowhite = false;
 	}
 
 	for (int i = 0; i < objects; i++)
@@ -423,8 +415,13 @@ update_status ModuleCustom::Update(float dt)
 		if (actualtime >= time + 3000)
 		{
 			time = actualtime;
+			num_obj_custom = objects;
 			App->menu->Enable();
 		}
+	}
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_UP)
+	{
+		test = true;
 	}
 
 	return UPDATE_CONTINUE;

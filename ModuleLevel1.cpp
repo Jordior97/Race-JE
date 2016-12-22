@@ -734,6 +734,10 @@ update_status ModuleLevel1::Update(float dt)
 			App->menu->Enable();
 		}
 	}
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_UP)
+	{
+		test = true;
+	}
 	//---------------------------
 
 	if (SceneIntro)
