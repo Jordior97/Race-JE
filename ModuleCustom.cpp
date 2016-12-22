@@ -34,12 +34,13 @@ bool ModuleCustom::Start()
 		App->menu->Disable();
 	}
 	//TODO
-	App->camera->MoveAt(vec3(-910, 120, 1030));
-	App->camera->LookAt(vec3(-900, 100, 1000));
+	App->camera->MoveAt(vec3(910, 120, 1030));
+	App->camera->LookAt(vec3(900, 100, 1000));
 
 	//CUSTOM MAP
-	ActualPos.Set(-900, 100, 1000);
-	Map[0] = App->physics->CreateStraight(Cubes[0], 20, 12, 2, EAST, false, this);
+	ActualPos.Set(900, 100, 1000);
+	save_pos = ActualPos;
+	Map[0] = App->physics->CreateStraight(Cubes[0], 30, 12, 2, EAST, false, this);
 	Save_dir = EAST;
 
 	num_windmill = 0;
@@ -56,15 +57,57 @@ bool ModuleCustom::CleanUp() //NEED CORRECTION !!!
 	return true;
 }
 
+
 update_status ModuleCustom::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_REPEAT)
+
+	if (test_car)
+	{
+		App->physics->world->removeRigidBody(App->player->vehicle->GetRigidBody());
+		App->physics->world->removeRigidBody(sensor_obj[0]->GetRigidBody());
+		if (num_laps > 0)
+		{
+			App->physics->world->removeRigidBody(sensor_obj[1]->GetRigidBody());
+		}
+		App->player->Disable();
+		App->camera->state = CUSTOM;
+		test_car = false;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
 		if (App->player->IsEnabled() == false)
 		{
+			vec3 calc = save_pos - ActualPos;
+			if (length(calc) >= 10)
+			{
+				save_pos = ActualPos;
+				num_laps = 0;
+				Sensor.size.Set(12, 5, 12);
+				Sensor.SetPos(save_pos.x, save_pos.y + 2, save_pos.z);
+				sensor_obj[0] = App->physics->AddBox(Sensor, false, 0);
+				sensor_obj[0]->SetAsSensor(true);
+				sensor_obj[0]->collision_listeners.add(this);
+			}
+			else if (length(calc) <= 10)
+			{
+				num_laps = 1;
+				Sensor.size.Set(12, 5, 2);
+				Sensor.SetPos(save_pos.x, save_pos.y + 2, save_pos.z);
+				sensor_obj[0] = App->physics->AddBox(Sensor, false, 0);
+				sensor_obj[0]->SetAsSensor(true);
+				sensor_obj[0]->collision_listeners.add(this);
+				Sensor.SetPos(save_pos.x, save_pos.y + 2, save_pos.z + 10);
+				sensor_obj[1] = App->physics->AddBox(Sensor, false, 0);
+				sensor_obj[1]->SetAsSensor(true);
+				sensor_obj[1]->collision_listeners.add(this);
+			}
 			App->player->Enable();
-			App->player->vehicle->SetPos(-900, 105, 1005);
+			App->player->vehicle->SetPos(900, 105, 1020);
 			App->camera->state = HISTORY;
+		}
+		else
+		{
+			test_car = true;
 		}
 	}
 
@@ -157,10 +200,14 @@ update_status ModuleCustom::Update(float dt)
 				}
 			}
 		}
+	}
+
+
+	for (int i = 0; i < objects; i++)
+	{
 		Map[i]->GetTransform(&(Cubes[i].transform));
 		Cubes[i].Render();
 	}
-
 	if (num_windmill > 0)
 	{
 		for (int i = 0; i < num_windmill; i++)
@@ -170,169 +217,185 @@ update_status ModuleCustom::Update(float dt)
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	if (App->player->IsEnabled() == false)
 	{
-		objects += 1;
-		Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 16, 12, 2, Save_dir, false, this);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		key_2 = true;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		objects += 1;
-		objects += 1;
-		objects += 1;
-		App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 12, 10, Save_dir, this);
-		Map[objects - 3] = upper.getFirst()->data;
-		Map[objects - 2] = upper.getFirst()->next->data;
-		Map[objects - 1] = upper.getFirst()->next->next->data;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
-	{
-		objects += 1;
-		objects += 1;
-		objects += 1;
-		App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 12, 10, Save_dir, this);
-		Map[objects - 3] = downer.getFirst()->data;
-		Map[objects - 2] = downer.getFirst()->next->data;
-		Map[objects - 1] = downer.getFirst()->next->next->data;
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
-	{
-		if (Save_dir == NORTH)
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
 			objects += 1;
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, NORTH, false, this);
-
-			float pos_x = ActualPos.x;
-			float pos_z = ActualPos.z;
-			CreateWindmill(windmill[num_windmill++], ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
-			//
-			objects += 1;
-			Cubes[objects - 1].size.Set(4, 1, 12);
-			Cubes[objects - 1].SetPos(pos_x, ActualPos.y + 1, pos_z);
-			Cubes[objects - 1].SetRotation(20, { 0,0,1 });
-			Map[objects - 1] = App->physics->AddBox(Cubes[objects - 1], false, 0);
-			//
-			objects += 1;
-			ActualPos.Set(ActualPos.x + 10, ActualPos.y, ActualPos.z);
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, NORTH, false, this);
+			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 16, 12, 2, Save_dir, false, this);
 		}
-		else if (Save_dir == SOUTH)
+		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 		{
-			objects += 1;
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, SOUTH, false, this);
-
-			float pos_x = ActualPos.x;
-			float pos_z = ActualPos.z;
-			CreateWindmill(windmill[num_windmill++], ActualPos.x - 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
-			//
-			objects += 1;
-			Cubes[objects - 1].size.Set(4, 1, 12);
-			Cubes[objects - 1].SetPos(pos_x, ActualPos.y + 1, pos_z);
-			Cubes[objects - 1].SetRotation(20, { 0,0,-1 });
-			Map[objects - 1] = App->physics->AddBox(Cubes[objects - 1], false, 0);
-			//
-			objects += 1;
-			ActualPos.Set(ActualPos.x - 10, ActualPos.y, ActualPos.z);
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, SOUTH, false, this);
+			key_2 = true;
 		}
-		else
-		{
-			LOG("Can not put Windmill in this direction...");
-		}
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
-	{
-		if (Save_dir == EAST || Save_dir == WEST)
+		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 		{
 			objects += 1;
-			Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 16, 12, 2, Save_dir, true, this);
-			Map[objects - 1]->SetKinematic_Transform();
-			Map[objects - 1]->is_kinematic = true;
-			if(change_direction)
-				Map[objects - 1]->one_direction = false;
+			objects += 1;
+			objects += 1;
+			App->physics->CreateUPER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 12, 10, Save_dir, this);
+			Map[objects - 3] = upper.getFirst()->data;
+			Map[objects - 2] = upper.getFirst()->next->data;
+			Map[objects - 1] = upper.getFirst()->next->next->data;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+		{
+			if (ActualPos.y > 90)
+			{
+				objects += 1;
+				objects += 1;
+				objects += 1;
+				App->physics->CreateDOWNER(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 10, 12, 10, Save_dir, this);
+				Map[objects - 3] = downer.getFirst()->data;
+				Map[objects - 2] = downer.getFirst()->next->data;
+				Map[objects - 1] = downer.getFirst()->next->next->data;
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+		{
+			if (Save_dir == NORTH)
+			{
+				objects += 1;
+				Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, NORTH, false, this);
+
+				float pos_x = ActualPos.x;
+				float pos_z = ActualPos.z;
+				CreateWindmill(windmill[num_windmill++], ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
+				//
+				objects += 1;
+				Cubes[objects - 1].size.Set(4, 1, 12);
+				Cubes[objects - 1].SetPos(pos_x, ActualPos.y + 1, pos_z);
+				Cubes[objects - 1].SetRotation(20, { 0,0,1 });
+				Map[objects - 1] = App->physics->AddBox(Cubes[objects - 1], false, 0);
+				//
+				objects += 1;
+				ActualPos.Set(ActualPos.x + 10, ActualPos.y, ActualPos.z);
+				Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, NORTH, false, this);
+			}
+			else if (Save_dir == SOUTH)
+			{
+				objects += 1;
+				Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, SOUTH, false, this);
+
+				float pos_x = ActualPos.x;
+				float pos_z = ActualPos.z;
+				CreateWindmill(windmill[num_windmill++], ActualPos.x - 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
+				//
+				objects += 1;
+				Cubes[objects - 1].size.Set(4, 1, 12);
+				Cubes[objects - 1].SetPos(pos_x, ActualPos.y + 1, pos_z);
+				Cubes[objects - 1].SetRotation(20, { 0,0,-1 });
+				Map[objects - 1] = App->physics->AddBox(Cubes[objects - 1], false, 0);
+				//
+				objects += 1;
+				ActualPos.Set(ActualPos.x - 10, ActualPos.y, ActualPos.z);
+				Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, SOUTH, false, this);
+			}
 			else
-				Map[objects - 1]->one_direction = true;
-			change_direction = !change_direction;
+			{
+				LOG("Can not put Windmill in this direction...");
+			}
 		}
-		else
+
+		if (App->input->GetKey(SDL_SCANCODE_6) == KEY_DOWN)
 		{
-			LOG("Can not put kinetic in this direction...");
+			if (Save_dir == EAST || Save_dir == WEST)
+			{
+				objects += 1;
+				Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 16, 12, 2, Save_dir, true, this);
+				Map[objects - 1]->SetKinematic_Transform();
+				Map[objects - 1]->is_kinematic = true;
+				if (change_direction)
+					Map[objects - 1]->one_direction = false;
+				else
+					Map[objects - 1]->one_direction = true;
+				change_direction = !change_direction;
+			}
+			else
+			{
+				LOG("Can not put kinetic in this direction...");
+			}
+		}
+		if (key_2)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			{
+				if (Save_dir == NORTH)
+				{
+					Last_save_dir = NORTH;
+					Save_dir = WEST;
+				}
+				else if (Save_dir == WEST)
+				{
+					Last_save_dir = WEST;
+					Save_dir = SOUTH;
+				}
+				else if (Save_dir == SOUTH)
+				{
+					Last_save_dir = SOUTH;
+					Save_dir = EAST;
+				}
+				else if (Save_dir == EAST)
+				{
+					Last_save_dir = EAST;
+					Save_dir = NORTH;
+				}
+				objects += 1;
+				objects += 1;
+				objects += 1;
+				App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, 2, Save_dir, Last_save_dir, this);
+				Map[objects - 3] = curve.getFirst()->data;
+				Map[objects - 2] = curve.getFirst()->next->data;
+				Map[objects - 1] = curve.getFirst()->next->next->data;
+
+				//Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
+				key_2 = false;
+			}
+			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			{
+				if (Save_dir == NORTH)
+				{
+					Last_save_dir = NORTH;
+					Save_dir = EAST;
+				}
+				else if (Save_dir == EAST)
+				{
+					Last_save_dir = EAST;
+					Save_dir = SOUTH;
+				}
+				else if (Save_dir == SOUTH)
+				{
+					Last_save_dir = SOUTH;
+					Save_dir = WEST;
+				}
+				else if (Save_dir == WEST)
+				{
+					Last_save_dir = WEST;
+					Save_dir = NORTH;
+				}
+				objects += 1;
+				objects += 1;
+				objects += 1;
+				App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, 2, Save_dir, Last_save_dir, this);
+				Map[objects - 3] = curve.getFirst()->data;
+				Map[objects - 2] = curve.getFirst()->next->data;
+				Map[objects - 1] = curve.getFirst()->next->next->data;
+				//Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
+				key_2 = false;
+			}
 		}
 	}
-	if (key_2)
+	if (App->player->IsEnabled())
 	{
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		if (App->player->vehicle->GetPos().y <= 70)
 		{
-			if (Save_dir == NORTH)
-			{
-				Last_save_dir = NORTH;
-				Save_dir = WEST;
-			}
-			else if (Save_dir == WEST)
-			{
-				Last_save_dir = WEST;
-				Save_dir = SOUTH;
-			}
-			else if (Save_dir == SOUTH)
-			{
-				Last_save_dir = SOUTH;
-				Save_dir = EAST;
-			}
-			else if (Save_dir == EAST)
-			{
-				Last_save_dir = EAST;
-				Save_dir = NORTH;
-			}
-			objects += 1; 
-			objects += 1;
-			objects += 1;
-			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, 2, Save_dir, Last_save_dir, this);
-			Map[objects - 3] = curve.getFirst()->data;
-			Map[objects - 2] = curve.getFirst()->next->data;
-			Map[objects - 1] = curve.getFirst()->next->next->data;
-			
-			//Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
-			key_2 = false;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-		{
-			if (Save_dir == NORTH)
-			{
-				Last_save_dir = NORTH;
-				Save_dir = EAST;
-			}
-			else if (Save_dir == EAST)
-			{
-				Last_save_dir = EAST;
-				Save_dir = SOUTH;
-			}
-			else if (Save_dir == SOUTH)
-			{
-				Last_save_dir = SOUTH;
-				Save_dir = WEST;
-			}
-			else if (Save_dir == WEST)
-			{
-				Last_save_dir = WEST;
-				Save_dir = NORTH;
-			}
-			objects += 1;
-			objects += 1;
-			objects += 1;
-			App->physics->CreateCurve(Cubes[objects - 3], Cubes[objects - 2], Cubes[objects - 1], 20, 12, 2, Save_dir, Last_save_dir, this);
-			Map[objects - 3] = curve.getFirst()->data;
-			Map[objects - 2] = curve.getFirst()->next->data;
-			Map[objects - 1] = curve.getFirst()->next->next->data;
-			//Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
-			key_2 = false;
+			App->player->vehicle->SetPos(900, 102, 1005);
+			App->player->vehicle->Brake(50000);
 		}
 	}
+
+
 	return UPDATE_CONTINUE;
 }
 
@@ -379,3 +442,38 @@ void ModuleCustom::CreateWindmill(Windmill& windmill, float x, float y, float z,
 
 }
 
+void ModuleCustom::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+{
+	if (body1 == sensor_obj[0] && body2 == App->player->vehicle)
+	{
+		if (num_laps >= 1 && one_lap == true)
+		{
+			if (num_laps == 3)
+			{
+				App->player->vehicle->SetPos(900, 105, 1005);
+				test_car = true;
+				App->camera->MoveAt(vec3(910, 120, 1030));
+				App->camera->LookAt(vec3(900, 100, 1000));
+				num_laps = 1;
+				//TODO stop contador
+			}
+			else
+			{
+				num_laps++;
+				one_lap = false;
+			}
+
+		}
+		if (num_laps == 0)
+		{
+			test_car = true;
+			App->camera->MoveAt(vec3(910, 120, 1030));
+			App->camera->LookAt(vec3(900, 100, 1000));
+			//TODO stop contador
+		}
+	}
+	if (body1 == sensor_obj[1] && body2 == App->player->vehicle)
+	{
+		one_lap = true;
+	}
+}

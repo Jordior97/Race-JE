@@ -19,6 +19,7 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h);
 
 public:
@@ -37,7 +38,14 @@ private:
 	uint num_windmill;
 	float pos_x;
 	float pos_z;
-
+	vec3 save_pos;
 	bool change_direction = false;
+	uint num_laps;
+	bool one_lap = true;
+
+	bool test_car = false;
+	Cube Sensor;
+	PhysBody3D* sensor_obj[2];
+
 
 };
