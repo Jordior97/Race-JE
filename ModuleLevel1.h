@@ -4,8 +4,6 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#define FIRST_LEVEL_OBJECTS 7
-
 struct PhysBody3D;
 enum Direction;
 struct PhysMotor3D;
@@ -49,6 +47,8 @@ public:
 	void CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float y, float z, float sizeX, float sizeY, float sizeZ);
 
 	void DisableLevels(Levels active_level);
+	void ActiveCurrentLevel();
+	void RestartCar();
 
 private:
 	//SOUND FX & VOICES ----------------
@@ -63,12 +63,8 @@ private:
 	// -------------------------
 
 	//OBSTACLES & SENSORS -----------
-	Windmill windmill;
-	Windmill windmill_2;
-	Windmill windmill_3;
-	CanonBall canonball;
-	CanonBall canonball2;
-	CanonBall canonball3;
+	Windmill windmill[3];
+	CanonBall canonball[3];
 
 	PhysBody3D* portal_object;
 	Cylinder portal;
@@ -97,12 +93,12 @@ private:
 
 	float time_down_door = 0.05;
 
-	bool SceneIntro;
-	bool Level_1;
-	bool Level_2;
-	bool Level_3;
-	bool Level_4;
-	bool level_finish;
+	bool SceneIntro = false;
+	bool Level_1 = false;
+	bool Level_2 = false;
+	bool Level_3 = false;
+	bool Level_4 = false;
+	bool level_finish = false;
 
 	bool time_finnish;
 	bool play_final;

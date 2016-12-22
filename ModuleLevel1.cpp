@@ -24,6 +24,7 @@ bool ModuleLevel1::Start()
 
 	//Load MUS & FX
 	App->audio->PlayMusic("Music&Fx/Music_levels.ogg");
+	App->audio->VolumeMusic(64);
 	success = App->audio->LoadFx("Music&Fx/Correct.wav");
 	intro_voice = App->audio->LoadFx("Music&Fx/Voices/Intro_story_1.wav");
 	voice_lvl1 = App->audio->LoadFx("Music&Fx/Voices/Level1.wav");
@@ -47,9 +48,12 @@ bool ModuleLevel1::Start()
 	vec3 playerPos = App->player->Story_Position;
 	App->player->vehicle->SetPos(playerPos.x, playerPos.y, playerPos.z);
 
+	ActiveCurrentLevel();
+	DisableLevels(App->player->actual_level);
+
+
 	//Set camera mode to HISTORY MODE (3rd person view)
 	App->camera->state = HISTORY;
-
 
 	//Set plane
 	Plane p(0, 1, 0, 0);
@@ -75,13 +79,6 @@ bool ModuleLevel1::Start()
 
 	//TODO - LEVEL Final
 	CreateFinalLevel();
-
-	SceneIntro = true;
-	Level_1 = false;
-	Level_2 = false;
-	Level_3 = false;
-	Level_4 = false;
-	level_finish = false;
 
 	time_finnish = true;
 	play_final = true;
@@ -399,7 +396,8 @@ void ModuleLevel1::CreateThirdLevel()
 	Map[74] = upper.getFirst()->next->data;
 	Map[75] = upper.getFirst()->next->next->data;
 
-	CreateCanon(canonball3, ActualPos.x, ActualPos.y + 4, ActualPos.z, 4, vec3(0, 0, 4000000), ElectricRed);
+	CreateCanon(canonball[2], ActualPos.x, ActualPos.y + 4, ActualPos.z, 4, vec3(0, 0, 4000000), ElectricRed);
+	canonball[2].ball->collision_listeners.add(this);
 	CreateSensor(&Sensor3, sensor3_shape, ActualPos.x - 190, 20, ActualPos.z, 10, 10, 10);
 	Sensor3->SetAsSensor(true);
 	Sensor3->collision_listeners.add(this);
@@ -431,7 +429,8 @@ void ModuleLevel1::CreateThirdLevel()
 	relax_next_z = ActualPos.z;
 	ActualPos.Set(relax_x, ActualPos.y + 9.5f, relax_z - 24.0f);
 
-	CreateCanon(canonball, ActualPos.x, ActualPos.y + 4, ActualPos.z + 4.5, 4, vec3(1000000, 0, 0), ElectricRed);
+	CreateCanon(canonball[0], ActualPos.x, ActualPos.y + 4, ActualPos.z + 4.5, 4, vec3(1000000, 0, 0), ElectricRed);
+	canonball[0].ball->collision_listeners.add(this);
 	CreateSensor(&Sensor, sensor_shape, ActualPos.x, relax_next_y, ActualPos.z + 40, 10, 10, 5);
 	Sensor->SetAsSensor(true);
 	Sensor->collision_listeners.add(this);
@@ -452,7 +451,8 @@ void ModuleLevel1::CreateThirdLevel()
 	relax_next_z = ActualPos.z;
 	ActualPos.Set(relax_x - 10.0f, ActualPos.y + 9.5f, relax_z - 24.0f);
 
-	CreateCanon(canonball2, ActualPos.x, ActualPos.y + 4, ActualPos.z + 2, 4, vec3(2000000,0,0), ElectricRed);
+	CreateCanon(canonball[1], ActualPos.x, ActualPos.y + 4, ActualPos.z + 2, 4, vec3(2000000,0,0), ElectricRed);
+	canonball[1].ball->collision_listeners.add(this);
 	CreateSensor(&Sensor2, sensor2_shape, ActualPos.x, relax_next_y, ActualPos.z + 40, 10, 10, 5);
 	Sensor2->SetAsSensor(true);
 	Sensor2->collision_listeners.add(this);
@@ -485,7 +485,7 @@ void ModuleLevel1::CreateFourthLevel()
 	
 	float pos_x = ActualPos.x;
 	float pos_z = ActualPos.z;
-	CreateWindmill(windmill, ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
+	CreateWindmill(windmill[0], ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
 	//
 	Cubes[106].size.Set(4, 1, 10);
 	Cubes[106].SetPos(pos_x, 100.5f, pos_z);
@@ -497,7 +497,7 @@ void ModuleLevel1::CreateFourthLevel()
 	ActualPos.Set(ActualPos.x, ActualPos.y, ActualPos.z);
 	pos_x = ActualPos.x;
 	pos_z = ActualPos.z;
-	CreateWindmill(windmill_2, ActualPos.x + 6, ActualPos.y + 5, ActualPos.z - 15, 2, 20);
+	CreateWindmill(windmill[1], ActualPos.x + 6, ActualPos.y + 5, ActualPos.z - 15, 2, 20);
 	ActualPos.Set(ActualPos.x + 10, ActualPos.y, ActualPos.z);
 	Map[103] = App->physics->CreateStraight(Cubes[103], 40, 10, 2, NORTH, false, this);
 	Map[104] = App->physics->CreateStraight(Cubes[104], 40, 10, 2, NORTH, false, this);
@@ -524,9 +524,9 @@ void ModuleLevel1::CreateFourthLevel()
 	Map[111] = curve.getFirst()->data;
 	Map[112] = curve.getFirst()->next->data;
 	Map[113] = curve.getFirst()->next->next->data;
-	ActualPos.Set(ActualPos.x, ActualPos.y - 10, ActualPos.z);
+	ActualPos.Set(ActualPos.x, ActualPos.y - 5, ActualPos.z);
 	Map[114] = App->physics->CreateStraight(Cubes[114], 30, 10, 2, SOUTH, false, this);
-	ActualPos.Set(ActualPos.x, ActualPos.y - 10, ActualPos.z);
+	ActualPos.Set(ActualPos.x, ActualPos.y - 5, ActualPos.z);
 	Map[115] = App->physics->CreateStraight(Cubes[115], 30, 10, 2, SOUTH, false, this);
 	pos_x = ActualPos.x;
 	pos_z = ActualPos.z;
@@ -534,14 +534,14 @@ void ModuleLevel1::CreateFourthLevel()
 	Cubes[119].SetPos(pos_x, ActualPos.y + 0.7f, pos_z);
 	Cubes[119].SetRotation(10, { 0,0,-1 });
 	Map[119] = App->physics->AddBox(Cubes[119], false, 0);
-	CreateWindmill(windmill_3, ActualPos.x - 6, ActualPos.y + 5, ActualPos.z - 15, 2, 20);
+	CreateWindmill(windmill[2], ActualPos.x - 6, ActualPos.y + 5, ActualPos.z - 15, 2, 20);
 	ActualPos.Set(ActualPos.x - 10, ActualPos.y, ActualPos.z);
 	App->physics->CreateCurve(Cubes[116], Cubes[117], Cubes[118], 35, 15, 2, EAST, SOUTH, this);
 	Map[116] = curve.getFirst()->data;
 	Map[117] = curve.getFirst()->next->data;
 	Map[118] = curve.getFirst()->next->next->data;
 	ActualPos.Set(ActualPos.x - 10, ActualPos.y - 10, ActualPos.z + 30);
-	Map[120] = App->physics->CreateStraight(Cubes[120], 30, 15, 2, NORTH, false, this);
+	Map[120] = App->physics->CreateStraight(Cubes[120], 30, 30, 2, NORTH, false, this);
 
 	Map[121] = App->physics->CreateStraight(Cubes[121], 20, 15, 2, NORTH, true, this);
 	Map[121]->is_kinematic = true;
@@ -652,7 +652,7 @@ void ModuleLevel1::CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float
 
 void ModuleLevel1::DisableLevels(Levels active_level)
 {
-	if (INTRO != active_level && SceneIntro == true)
+	if (INTRO_SCENE != active_level && SceneIntro == true)
 	{
 		SceneIntro = false;
 	}
@@ -677,6 +677,43 @@ void ModuleLevel1::DisableLevels(Levels active_level)
 		level_finish = false;
 	}
 
+}
+
+void ModuleLevel1::ActiveCurrentLevel()
+{
+	if (App->player->actual_level == INTRO_SCENE)
+	{
+		SceneIntro = true;
+	}
+
+	if (App->player->actual_level == LVL1)
+	{
+		Level_1 = true;
+	}
+
+	if (App->player->actual_level == LVL2)
+	{
+		Level_2 = true;
+	}
+
+	if (App->player->actual_level == LVL3)
+	{
+		Level_3 = true;
+	}
+	if (App->player->actual_level == LVL4)
+	{
+		Level_4 = true;
+	}
+	if (App->player->actual_level == FINAL)
+	{
+		level_finish = true;
+	}
+}
+
+void ModuleLevel1::RestartCar()
+{
+	App->player->StopVehicle();
+	App->player->vehicle->SetPos(App->player->Story_Position.x, App->player->Story_Position.y, App->player->Story_Position.z);
 }
 
 
@@ -724,7 +761,7 @@ update_status ModuleLevel1::Update(float dt)
 		portal_s.Render();
 	}
 
-	if (Level_1)
+	else if (Level_1)
 	{
 		char title[30];
 		sprintf_s(title, "LEVEL 1 - THE BEGIN", App->player->vehicle->GetKmh());
@@ -737,7 +774,7 @@ update_status ModuleLevel1::Update(float dt)
 		sensorlvl1_s.Render();
 	}
 
-	if (Level_2)
+	else if (Level_2)
 	{
 		char title[30];
 		sprintf_s(title, "LEVEL 2 - THE PLATFORMS", App->player->vehicle->GetKmh());
@@ -797,26 +834,20 @@ update_status ModuleLevel1::Update(float dt)
 		}
 	}
 
-	if (Level_3)
+	else if (Level_3)
 	{
 		char title[30];
 		sprintf_s(title, "LEVEL 3 - THE CANONBALLS", App->player->vehicle->GetKmh());
 		App->window->SetTitle(title);
 
-		if (canonball.ball->GetRigidBody()->isActive() == false)
+		for (uint i = 0; i < 3; i++)
 		{
-			canonball.ball->GetRigidBody()->activate(true);
-			canonball.ball->SetAngVel(canonball.speed.x, canonball.speed.y, canonball.speed.z);
-		}
-		if (canonball2.ball->GetRigidBody()->isActive() == false)
-		{
-			canonball2.ball->GetRigidBody()->activate(true);
-			canonball2.ball->SetAngVel(canonball2.speed.x, canonball2.speed.y, canonball2.speed.z);
-		}
-		if (canonball3.ball->GetRigidBody()->isActive() == false)
-		{
-			canonball3.ball->GetRigidBody()->activate(true);
-			canonball3.ball->SetAngVel(canonball3.speed.x, canonball3.speed.y, canonball3.speed.z);
+			if (canonball[i].ball->GetRigidBody()->isActive() == false)
+			{
+				canonball[i].ball->GetRigidBody()->activate(true);
+				canonball[i].ball->SetAngVel(canonball[i].speed.x, canonball[i].speed.y, canonball[i].speed.z);
+			}
+			canonball[i].Render();
 		}
 		
 		for (int i = 62; i < 97; i++)
@@ -825,42 +856,26 @@ update_status ModuleLevel1::Update(float dt)
 			Map[i]->GetTransform(&(Cubes[i].transform));
 			Cubes[i].Render();
 		}
-
-		canonball.Render();
-		canonball2.Render();
-		canonball3.Render();
 		sensorlvl3_s.Render();
 	}
 
-	if (Level_4)
+	else if (Level_4)
 	{
 		char title[80];
 		sprintf_s(title, "LEVEL 4 - THE FINAL ROUND", App->player->vehicle->GetKmh());
 		App->window->SetTitle(title);
-		if (windmill.Ball->GetRigidBody()->isActive() == false)
+		for (uint i = 0; i < 3; i++)
 		{
-			windmill.Ball->GetRigidBody()->activate(true);
+			if (windmill[i].Ball->GetRigidBody()->isActive() == false)
+			{
+				windmill[i].Ball->GetRigidBody()->activate(true);
+			}
+			windmill[i].Render();
 		}
-
-		if (windmill_2.Ball->GetRigidBody()->isActive() == false)
-		{
-			windmill_2.Ball->GetRigidBody()->activate(true);
-		}
-		if (windmill_3.Ball->GetRigidBody()->isActive() == false)
-		{
-			windmill_3.Ball->GetRigidBody()->activate(true);
-		}
-
-		windmill.Ball->SetAngVel(6, 0, 0);
-		windmill_2.Ball->SetAngVel(-6, 0, 0);
-		windmill_3.Ball->SetAngVel(10, 0, 0);
-
-
-		windmill.Render();
-		windmill_2.Render();
-		windmill_3.Render();
+		windmill[0].Ball->SetAngVel(6, 0, 0);
+		windmill[1].Ball->SetAngVel(-6, 0, 0);
+		windmill[2].Ball->SetAngVel(10, 0, 0);
 		sensorlvl4_s.Render();
-
 
 		int position_before_kinetic = 0;
 		if (Map[105]->IsKinematic())
@@ -966,13 +981,11 @@ update_status ModuleLevel1::Update(float dt)
 		}
 	}
 
-	if (App->player->vehicle->GetPos().y < 8 && SceneIntro == false && level_finish == false)
+	else if (level_finish)
 	{
-		App->player->vehicle->SetPos(App->player->Story_Position.x, App->player->Story_Position.y, App->player->Story_Position.z);
-	}
-
-	if (level_finish)
-	{
+		char title[30];
+		sprintf_s(title, "666 - DAED ERA UOY");
+		App->window->SetTitle(title);
 		for (int i = 124; i < objects; i++)
 		{
 			Map[i]->GetTransform(&(Cubes[i].transform));
@@ -1011,9 +1024,17 @@ update_status ModuleLevel1::Update(float dt)
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	//WHEN PLAYER FALLS, HE WILL BE SET AT THE START OF THE LEVEL
+	if (App->player->vehicle->GetPos().y < 8 && SceneIntro == false && level_finish == false)
 	{
-		App->player->vehicle->SetPos(App->player->vehicle->GetPos().x, App->player->vehicle->GetPos().y + 10, App->player->vehicle->GetPos().z);
+		App->player->StopVehicle();
+		App->player->vehicle->SetPos(App->player->Story_Position.x, App->player->Story_Position.y, App->player->Story_Position.z);
+	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		RestartCar();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
@@ -1081,6 +1102,7 @@ void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			App->player->Story_Position = { 200, 55, 5 };
 			App->player->vehicle->SetPos(200, 55, 5);
 			DisableLevels(LVL1);
+			App->player->actual_level = LVL1;
 		}
 	}
 
@@ -1095,6 +1117,7 @@ void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			App->player->Story_Position = { 0, 33, 265 };
 			App->player->vehicle->SetPos(0, 33, 265);
 			DisableLevels(LVL2);
+			App->player->actual_level = LVL2;
 		}
 	}
 
@@ -1105,31 +1128,43 @@ void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			App->audio->PlayFx(success);
 			App->audio->PlayFx(voice_lvl3);
 			Level_3 = true;
-			canonball.ball->SetPos(canonball.position.getX(), canonball.position.getY(), canonball.position.getZ());
-			canonball2.ball->SetPos(canonball2.position.getX(), canonball2.position.getY(), canonball2.position.getZ());
-			canonball3.ball->SetPos(canonball3.position.getX(), canonball3.position.getY(), canonball3.position.getZ());
+			for (uint i = 0; i < 3; i++)
+			{
+				canonball[i].ball->SetPos(canonball[i].position.getX(), canonball[i].position.getY(), canonball[i].position.getZ());
+			}
 			App->player->StopVehicle();
 			App->player->Story_Position = { -300, 33, 505 };
 			App->player->vehicle->SetPos(-300, 33, 505);
 			DisableLevels(LVL3);
+			App->player->actual_level = LVL3;
 		}
 	}
 
 	if (Level_3)
 	{
 		//CANONBALL COLLISIONS
-		if ((Sensor == body1 || Sensor == body2) && (canonball.ball == body1 || canonball.ball == body2))
+		if ((Sensor == body1 || Sensor == body2) && (canonball[0].ball == body1 || canonball[0].ball == body2))
 		{
-			canonball.ball->SetPos(canonball.position.getX(), canonball.position.getY(), canonball.position.getZ());
+			canonball[0].ball->SetPos(canonball[0].position.getX(), canonball[0].position.getY(), canonball[0].position.getZ());
 		}
-		if ((Sensor2 == body1 || Sensor2 == body2) && (canonball2.ball == body1 || canonball2.ball == body2))
+		if ((Sensor2 == body1 || Sensor2 == body2) && (canonball[1].ball == body1 || canonball[1].ball == body2))
 		{
-			canonball2.ball->SetPos(canonball2.position.getX(), canonball2.position.getY(), canonball2.position.getZ());
+			canonball[1].ball->SetPos(canonball[1].position.getX(), canonball[1].position.getY(), canonball[1].position.getZ());
 		}
-		if ((Sensor3 == body1 || Sensor3 == body2) && (canonball3.ball == body1 || canonball3.ball == body2))
+		if ((Sensor3 == body1 || Sensor3 == body2) && (canonball[2].ball == body1 || canonball[2].ball == body2))
 		{
-			canonball3.ball->SetPos(canonball3.position.getX(), canonball3.position.getY(), canonball3.position.getZ());
+			canonball[2].ball->SetPos(canonball[2].position.getX(), canonball[2].position.getY(), canonball[2].position.getZ());
 		}
+
+		for (uint i = 0; i < 3; i++)
+		{
+			if ((canonball[i].ball == body1 || canonball[i].ball == body2) && (App->player->vehicle == body1 || App->player->vehicle == body2))
+			{
+				App->player->StopVehicle();
+				App->player->vehicle->SetPos(-300, 33, 505);
+			}
+		}
+
 
 		//LEVEL SENSOR
 		if ((SensorLvl3 == body1 || SensorLvl3 == body2) && (App->player->vehicle == body1 || App->player->vehicle == body2))
@@ -1138,9 +1173,10 @@ void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			App->audio->PlayFx(voice_lvl4);
 			Level_4 = true;
 			App->player->StopVehicle();
-			App->player->Story_Position = { -500, 33, -495 };
-			App->player->vehicle->SetPos(-500, 33, -495);
+			App->player->Story_Position = { -500, 103, -495 };
+			App->player->vehicle->SetPos(-500, 103, -495);
 			DisableLevels(LVL4);
+			App->player->actual_level = LVL4;
 		}
 	}
 
@@ -1155,6 +1191,7 @@ void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			App->player->vehicle->SetPos(905, 2005, 1000);
 			App->player->Story_Position = { 905, 2005, 1000 };
 			DisableLevels(FINAL);
+			App->player->actual_level = FINAL;
 		}
 	}
 }
