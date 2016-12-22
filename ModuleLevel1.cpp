@@ -827,14 +827,14 @@ update_status ModuleLevel1::Update(float dt)
 				}
 			}
 		}
-		for (int i = 97; i < objects; i++)
+		for (int i = 97; i < 124; i++)
 		{
 			Map[i]->GetTransform(&(Cubes[i].transform));
 			Cubes[i].Render();
 		}
 
 		//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
-		for (int i = 119; i < 123; i++)
+		for (int i = 119; i < 124; i++)
 		{
 			int position_before_kinetic = 0;
 			if (Map[i]->IsKinematic())
@@ -927,7 +927,7 @@ update_status ModuleLevel1::Update(float dt)
 		Level_2 = false;
 		Level_3 = false;
 		Level_4 = !Level_4;
-		App->player->vehicle->SetPos(-365, 39.5, -304);
+		App->player->vehicle->SetPos(-500, 33, -495);
 	}
 
 	return UPDATE_CONTINUE;
