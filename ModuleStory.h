@@ -24,11 +24,11 @@ public:
 	
 };
 
-class ModuleLevel1 : public ModuleScene
+class ModuleStory : public ModuleScene
 {
 public:
-	ModuleLevel1(Application* app, bool start_enabled = false);
-	~ModuleLevel1();
+	ModuleStory(Application* app, bool start_enabled = false);
+	~ModuleStory();
 
 	bool Start();
 	update_status Update(float dt);
@@ -91,7 +91,7 @@ private:
 	Cube sensor3_shape;
 	// ----------------------------
 
-	float time_down_door = 0.05;
+	float time_down_door = 0.04;
 
 	bool create_one_time = true;
 
@@ -105,11 +105,6 @@ private:
 	bool time_finnish;
 	bool play_final;
 	float fadetoblack_final;
-
-
-	bool change_moviment;
-
-
 
 	//Return to menu
 	int time;

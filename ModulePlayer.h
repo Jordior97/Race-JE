@@ -2,10 +2,9 @@
 #include "Module.h"
 #include "Globals.h"
 #include "p2Point.h"
-#include "ModuleLevel1.h"
+#include "ModuleStory.h"
 
 struct PhysVehicle3D;
-
 
 #define MAX_ACCELERATION 1000.0f
 #define TURN_DEGREES 30.0f * DEGTORAD
@@ -27,6 +26,6 @@ public:
 	float acceleration;
 	float brake;
 	
-	vec3 Story_Position = { 0, 5, 5 };
+	vec3 Story_Position = { 0, 2, -80 };
 	Levels actual_level = INTRO_SCENE;
 };

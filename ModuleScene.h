@@ -4,7 +4,6 @@
 #include "Globals.h"
 #include "Primitive.h"
 
-#define OBJECTS 64
 #define MAX_OBJECTS 500
 
 struct PhysBody3D;
@@ -50,8 +49,6 @@ public:
 	Direction Save_dir;
 
 	int num_obj_custom = 1;
-
-	bool key_2 = false;
 
 	bool fadetowhite = false;
 	float color_white = 0.0f;

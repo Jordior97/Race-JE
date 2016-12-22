@@ -1,6 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleLevel1.h"
+#include "ModuleStory.h"
 #include "Primitive.h"
 #include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
@@ -8,23 +8,23 @@
 #include "PhysVehicle3D.h"
 
 
-ModuleLevel1::ModuleLevel1(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
+ModuleStory::ModuleStory(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
 	objects = 133;
 }
 
-ModuleLevel1::~ModuleLevel1()
+ModuleStory::~ModuleStory()
 {}
 
 // Load assets
-bool ModuleLevel1::Start()
+bool ModuleStory::Start()
 {
 	LOG("Loading Level 1");
 	bool ret = true;
 
 	//Load MUS & FX
 	App->audio->PlayMusic("Music&Fx/Music_levels.ogg");
-	App->audio->VolumeMusic(64);
+	App->audio->VolumeMusic(50);
 	success = App->audio->LoadFx("Music&Fx/Correct.wav");
 	intro_voice = App->audio->LoadFx("Music&Fx/Voices/Intro_story_1.wav");
 	voice_lvl1 = App->audio->LoadFx("Music&Fx/Voices/Level1.wav");
@@ -51,28 +51,18 @@ bool ModuleLevel1::Start()
 	ActiveCurrentLevel();
 	DisableLevels(App->player->actual_level);
 
-
 	//Set camera mode to HISTORY MODE (3rd person view)
 	App->camera->state = HISTORY;
 
 	if (create_one_time)
 	{
-		//TODO - LEVELINTRO
+		App->audio->PlayFx(intro_voice);
+		
 		CreateIntroLevel();
-
-		//TODO - LEVEL 1
 		CreateFirstLevel();
-
-		//TODO - LEVEL 2
 		CreateSecondLevel();
-
-		//TODO - LEVEL 3
 		CreateThirdLevel();
-
-		//TODO - LEVEL 4
 		CreateFourthLevel();
-
-		//TODO - LEVEL Final
 		CreateFinalLevel();
 
 		create_one_time = false;
@@ -85,25 +75,19 @@ bool ModuleLevel1::Start()
 	test = true;
 	time = GetTickCount();
 
-	//App->audio->PlayFx(intro_voice);
-
 	return true;
 }
 
 // Load assets
-bool ModuleLevel1::CleanUp()
+bool ModuleStory::CleanUp()
 {
 	LOG("Unloading Level 1");
-
-
 	return true;
 }
 
-void ModuleLevel1::CreateIntroLevel()
+void ModuleStory::CreateIntroLevel()
 {
-	//App->player->vehicle->SetPos(0, 5, 5);
 	ActualPos.Set(0, 1, 0);
-	//App->player->vehicle->SetPos(0, 2, -80);
 	Map[0] = App->physics->CreateStraight(Cubes[0], 100, 20, 2, EAST, false, this);
 	Cubes[0].color.Set(0.1294f, 0.9176f, 1.0f);
 	ActualPos.Set(12.5f, 1, 0);
@@ -139,7 +123,6 @@ void ModuleLevel1::CreateIntroLevel()
 	Cubes[7].SetRotation(20, { -1, 0, 0 });
 	Map[7] = App->physics->AddBox(Cubes[7], false, 0);
 	Cubes[7].color.Set(0.7294f, 0, 0);
-
 
 
 	ActualPos.Set(0, 10.089f, 123.73f);
@@ -189,7 +172,7 @@ void ModuleLevel1::CreateIntroLevel()
 	portal.SetRotation(90, { 0, 1, 0 });
 	portal.SetPos(0, 25.089f, 179);
 	portal_object = App->physics->AddCylinder(portal, 0);
-	portal.color = White;//.Set(0.3568f, 0.1529f, 0.7098f);
+	portal.color = White;
 
 	portal_s.radius = 23;
 	portal_s.height = 15;
@@ -268,7 +251,7 @@ void ModuleLevel1::CreateIntroLevel()
 
 }
 
-void ModuleLevel1::CreateFirstLevel()
+void ModuleStory::CreateFirstLevel()
 {
 	ActualPos.Set(200, 50, 0);
 	App->physics->CreateUPER(Cubes[33], Cubes[34], Cubes[35], 30, 10, 7, EAST, this);
@@ -298,10 +281,9 @@ void ModuleLevel1::CreateFirstLevel()
 }
 
 
-void ModuleLevel1::CreateSecondLevel()
+void ModuleStory::CreateSecondLevel()
 {
 	ActualPos.Set(0, 30, 260);
-	//App->player->vehicle->SetPos(0, 3, 265);
 	Map[44] = App->physics->CreateStraight(Cubes[44], 50, 10, 2, EAST, false, this);
 	Map[45] = App->physics->CreateStraight(Cubes[45], 20, 10, 2, EAST, true, this);
 	Map[45]->is_kinematic = true;
@@ -356,10 +338,9 @@ void ModuleLevel1::CreateSecondLevel()
 	sensorlvl2_s.color = Green;
 }
 
-void ModuleLevel1::CreateThirdLevel()
+void ModuleStory::CreateThirdLevel()
 {
 	ActualPos.Set(-300, 30, 500);
-	//App->player->vehicle->SetPos(-300, 3, 505);
 	Map[62] = App->physics->CreateStraight(Cubes[62], 25, 10, 2, EAST, false, this);
 
 	App->physics->CreateCurve(Cubes[63], Cubes[64], Cubes[65], 20, 10, 2, NORTH, EAST, this);
@@ -469,10 +450,9 @@ void ModuleLevel1::CreateThirdLevel()
 	sensorlvl3_s.color = Green;
 }
 
-void ModuleLevel1::CreateFourthLevel()
+void ModuleStory::CreateFourthLevel()
 {
 	ActualPos.Set(-500, 100, -500);
-	//App->player->vehicle->SetPos(-500, 33, -495);
 
 	Map[97] = App->physics->CreateStraight(Cubes[97], 30, 10, 2, EAST, false, this);
 	App->physics->CreateCurve(Cubes[98], Cubes[99], Cubes[100], 10, 10, 2, NORTH, EAST, this);
@@ -485,12 +465,12 @@ void ModuleLevel1::CreateFourthLevel()
 	float pos_x = ActualPos.x;
 	float pos_z = ActualPos.z;
 	CreateWindmill(windmill[0], ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
-	//
+
 	Cubes[106].size.Set(4, 1, 10);
 	Cubes[106].SetPos(pos_x, 100.5f, pos_z);
 	Cubes[106].SetRotation(20, { 0,0,1 });
 	Map[106] = App->physics->AddBox(Cubes[106], false, 0);
-	//
+
 	ActualPos.Set(ActualPos.x+10, ActualPos.y, ActualPos.z);
 	Map[102] = App->physics->CreateStraight(Cubes[102], 40, 10, 2, NORTH, false, this);
 	ActualPos.Set(ActualPos.x, ActualPos.y, ActualPos.z);
@@ -561,12 +541,10 @@ void ModuleLevel1::CreateFourthLevel()
 	sensorlvl4_s.color = Green;
 }
 
-void ModuleLevel1::CreateFinalLevel()
+void ModuleStory::CreateFinalLevel()
 {
 	ActualPos.Set(900, 2000, 1000);
-	//leveler
 	Map[124] = App->physics->CreateStraight(Cubes[124], 10, 10, 2, NORTH, false, this);
-	//map
 	ActualPos.Set(910, 2000, 1000);
 	Map[125] = App->physics->CreateStraight(Cubes[125], 30, 10, 2, NORTH, false, this);
 	ActualPos.Set(880, 2000, 1000);
@@ -587,7 +565,7 @@ void ModuleLevel1::CreateFinalLevel()
 
 }
 
-void ModuleLevel1::CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h)
+void ModuleStory::CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h)
 {
 	windmill.StickShape.SetPos(x - w - 2, y - w, z);
 	windmill.StickShape.size.Set(w, w, w);
@@ -631,7 +609,7 @@ void ModuleLevel1::CreateWindmill(Windmill& windmill, float x, float y, float z,
 	App->physics->AddConstraintHinge(windmill.Ball, windmill.Down, vecDown, vec2, axis1, axis);
 }
 
-void ModuleLevel1::CreateCanon(CanonBall& canon, float x, float y, float z, float radius, vec3 speed, Color color)
+void ModuleStory::CreateCanon(CanonBall& canon, float x, float y, float z, float radius, vec3 speed, Color color)
 {
 	canon.ballShape.radius = radius;
 	canon.position = { x, y, z };
@@ -642,14 +620,14 @@ void ModuleLevel1::CreateCanon(CanonBall& canon, float x, float y, float z, floa
 	canon.speed = speed;
 }
 
-void ModuleLevel1::CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float y, float z, float sizeX, float sizeY, float sizeZ)
+void ModuleStory::CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float y, float z, float sizeX, float sizeY, float sizeZ)
 {
 	shape.size.Set(sizeX, sizeY, sizeZ);
 	shape.SetPos(x, y, z);
 	*sensor = App->physics->AddBox(shape, false, 0);
 }
 
-void ModuleLevel1::DisableLevels(Levels active_level)
+void ModuleStory::DisableLevels(Levels active_level)
 {
 	if (INTRO_SCENE != active_level && SceneIntro == true)
 	{
@@ -678,7 +656,7 @@ void ModuleLevel1::DisableLevels(Levels active_level)
 
 }
 
-void ModuleLevel1::ActiveCurrentLevel()
+void ModuleStory::ActiveCurrentLevel()
 {
 	if (App->player->actual_level == INTRO_SCENE)
 	{
@@ -709,7 +687,7 @@ void ModuleLevel1::ActiveCurrentLevel()
 	}
 }
 
-void ModuleLevel1::RestartCar()
+void ModuleStory::RestartCar()
 {
 	App->player->StopVehicle();
 	App->player->vehicle->SetPos(App->player->Story_Position.x, App->player->Story_Position.y, App->player->Story_Position.z);
@@ -717,7 +695,7 @@ void ModuleLevel1::RestartCar()
 
 
 // Update
-update_status ModuleLevel1::Update(float dt)
+update_status ModuleStory::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
 	{
@@ -780,7 +758,6 @@ update_status ModuleLevel1::Update(float dt)
 		char title[30];
 		sprintf_s(title, "LEVEL 2 - THE PLATFORMS", App->player->vehicle->GetKmh());
 		App->window->SetTitle(title);
-		//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
 		for (int i = 44; i < 62; i++)
 		{
 			int position_before_kinetic = 0;
@@ -846,8 +823,8 @@ update_status ModuleLevel1::Update(float dt)
 			if (canonball[i].ball->GetRigidBody()->isActive() == false)
 			{
 				canonball[i].ball->GetRigidBody()->activate(true);
-				canonball[i].ball->SetAngVel(canonball[i].speed.x, canonball[i].speed.y, canonball[i].speed.z);
 			}
+			canonball[i].ball->SetAngVel(canonball[i].speed.x, canonball[i].speed.y, canonball[i].speed.z);
 			canonball[i].Render();
 		}
 		
@@ -930,8 +907,6 @@ update_status ModuleLevel1::Update(float dt)
 			Map[i]->GetTransform(&(Cubes[i].transform));
 			Cubes[i].Render();
 		}
-
-		//MOVE KINETICS - DONT REMOVE THIS CODE - TODO
 		for (int i = 119; i < 124; i++)
 		{
 			int position_before_kinetic = 0;
@@ -1028,70 +1003,73 @@ update_status ModuleLevel1::Update(float dt)
 		RestartCar();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+	if (App->physics->debug == true)
 	{
-		SceneIntro = true;
-		App->player->StopVehicle();
-		DisableLevels(INTRO_SCENE);
-		App->player->vehicle->SetPos(0, 5, 5);
-		App->player->Story_Position = { 0, 5, 5 };
-	}
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		Level_1 = true;
-		App->player->StopVehicle();
-		DisableLevels(LVL1);
-		App->audio->PlayFx(voice_lvl1);
-		App->player->vehicle->SetPos(200, 53, 5);
-		App->player->Story_Position = { 200, 55, 5 };
-		App->player->actual_level = LVL1;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		Level_2 = true;
-		App->player->StopVehicle();
-		DisableLevels(LVL2);
-		App->audio->PlayFx(voice_lvl2);
-		App->player->vehicle->SetPos(0, 33, 265);
-		App->player->Story_Position = { 0, 33, 265 };
-		App->player->actual_level = LVL2;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		Level_3 = true;
-		App->player->StopVehicle();
-		DisableLevels(LVL3);
-		App->audio->PlayFx(voice_lvl3);
-		App->player->vehicle->SetPos(-300, 33, 505);
-		App->player->Story_Position = { -300, 33, 505 };
-		App->player->actual_level = LVL3;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
-	{
-		Level_4 = true;
-		App->player->StopVehicle();
-		DisableLevels(LVL4);
-		App->audio->PlayFx(voice_lvl4);
-		App->player->vehicle->SetPos(-500, 103, -495);
-		App->player->Story_Position = { -500, 103, -495 };
-		App->player->actual_level = LVL4;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
-	{
-		level_finish = true;
-		App->player->StopVehicle();
-		App->audio->PlayFx(final_voice);
-		DisableLevels(FINAL);
-		App->audio->PlayFx(final_voice);
-		App->player->vehicle->SetPos(905, 2005, 1000);
-		App->player->Story_Position = { 905, 2005, 1000 };
-		App->player->actual_level = FINAL;
+		if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
+		{
+			SceneIntro = true;
+			App->player->StopVehicle();
+			DisableLevels(INTRO_SCENE);
+			App->player->vehicle->SetPos(0, 2, -80);
+			App->player->Story_Position = { 0, 2, -80 };
+		}
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		{
+			Level_1 = true;
+			App->player->StopVehicle();
+			DisableLevels(LVL1);
+			App->audio->PlayFx(voice_lvl1);
+			App->player->vehicle->SetPos(200, 53, 5);
+			App->player->Story_Position = { 200, 55, 5 };
+			App->player->actual_level = LVL1;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+		{
+			Level_2 = true;
+			App->player->StopVehicle();
+			DisableLevels(LVL2);
+			App->audio->PlayFx(voice_lvl2);
+			App->player->vehicle->SetPos(0, 33, 265);
+			App->player->Story_Position = { 0, 33, 265 };
+			App->player->actual_level = LVL2;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
+		{
+			Level_3 = true;
+			App->player->StopVehicle();
+			DisableLevels(LVL3);
+			App->audio->PlayFx(voice_lvl3);
+			App->player->vehicle->SetPos(-300, 33, 505);
+			App->player->Story_Position = { -300, 33, 505 };
+			App->player->actual_level = LVL3;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
+		{
+			Level_4 = true;
+			App->player->StopVehicle();
+			DisableLevels(LVL4);
+			App->audio->PlayFx(voice_lvl4);
+			App->player->vehicle->SetPos(-500, 103, -495);
+			App->player->Story_Position = { -500, 103, -495 };
+			App->player->actual_level = LVL4;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+		{
+			level_finish = true;
+			App->player->StopVehicle();
+			App->audio->PlayFx(final_voice);
+			DisableLevels(FINAL);
+			App->audio->PlayFx(final_voice);
+			App->player->vehicle->SetPos(905, 2005, 1000);
+			App->player->Story_Position = { 905, 2005, 1000 };
+			App->player->actual_level = FINAL;
+		}
 	}
 
 	return UPDATE_CONTINUE;
 }
 
-void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+void ModuleStory::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 {
 	if (SceneIntro)
 	{

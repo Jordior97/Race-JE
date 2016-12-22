@@ -12,7 +12,7 @@
 #include "ModulePlayer.h"
 #include "ModulePlayer2.h"
 #include "ModuleMenu.h"
-#include "ModuleLevel1.h"
+#include "ModuleStory.h"
 #include "ModuleCustom.h"
 #include "ModuleMultiplayer.h"
 
@@ -28,7 +28,7 @@ public:
 	ModulePlayer* player;
 	ModulePlayer2* player2;
 	ModuleMenu* menu;
-	ModuleLevel1* level1;
+	ModuleStory* story;
 	ModuleCustom* custom;
 	ModuleMultiplayer* multiplayer;
 

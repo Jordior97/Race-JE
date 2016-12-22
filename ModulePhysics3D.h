@@ -51,15 +51,12 @@ public:
 	void CreateDOWNER(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float width, float height, Direction type, ModuleScene* scene);
 	void CreateCurve(Cube& cube, Cube& cube_1, Cube& cube_2, float lenght, float width, float height, Direction type, Direction type_of_come, ModuleScene* scene);
 	
-	PhysBody3D* AddBlow(const WindmillInfo& info, float x, float y, float z);
-	
 
 	btDiscreteDynamicsWorld*			world;
 	p2List<PhysVehicle3D*> vehicles;
+	bool debug;
 
 private:
-
-	bool debug;
 
 	btDefaultCollisionConfiguration*	collision_conf;
 	btCollisionDispatcher*				dispatcher;

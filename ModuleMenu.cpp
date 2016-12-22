@@ -49,9 +49,9 @@ bool ModuleMenu::Start()
 		App->custom->Disable();
 	}
 
-	if (App->level1->IsEnabled())
+	if (App->story->IsEnabled())
 	{
-		App->level1->Disable();
+		App->story->Disable();
 	}
 
 	if (App->multiplayer->IsEnabled())
@@ -346,8 +346,8 @@ update_status ModuleMenu::Update(float dt)
 
 			if (History)
 			{
-				App->level1->Enable();
-				App->level1->fadetowhite = true;
+				App->story->Enable();
+				App->story->fadetowhite = true;
 			}
 			if (Multiplayer)
 			{

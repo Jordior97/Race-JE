@@ -44,9 +44,7 @@ private:
 	bool change_direction = false;
 	bool one_lap = true;
 	bool test_car = false;
+	bool key_2 = false;
 
 	bool create_one_time = true;
-
-
-
 };

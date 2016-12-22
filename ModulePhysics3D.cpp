@@ -19,7 +19,7 @@
 
 ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	debug = true;
+	debug = false;
 
 	collision_conf = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collision_conf);
@@ -897,45 +897,6 @@ void ModulePhysics3D::CreateCurve(Cube & cube, Cube & cube_1, Cube & cube_2, flo
 	scene->curve.add(AddBox(cube_2, false, 0));
 }
 
-
-/*PhysBody3D* ModulePhysics3D::AddBlow(const WindmillInfo& info, float x, float y, float z)
-{
-	btCompoundShape* comShape = new btCompoundShape();
-	shapes.add(comShape);
-
-
-	p2DynArray<btCollisionShape*> ExtraShapes;
-	btTransform t;
-	for (int i = 0; i < 4; i++)
-	{
-		ExtraShapes.PushBack(new btBoxShape(btVector3(info.size[i].x*0.5, info.size[i].y*0.5, info.size[i].z*0.5)));
-		t.setIdentity();
-		t.setOrigin(btVector3(x + info.position[i].x, y + info.position[i].y, z + info.position[i].z));
-
-		comShape->addChildShape(t, ExtraShapes[i]);
-	}
-
-
-	btVector3 localInertia(0, 0, 0);
-	if (info.mass != 0.f)
-		comShape->calculateLocalInertia(info.mass, localInertia);
-	
-	t.setIdentity();
-	t.setOrigin(btVector3(x, y, z));  //put it to x,y,z coordinates
-	
-	btDefaultMotionState* myMotionState = new btDefaultMotionState(t);
-	motions.add(myMotionState);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(info.mass, myMotionState, comShape, localInertia);
-
-	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body);	
-
-	body->setUserPointer(pbody);
-	world->addRigidBody(body);
-	bodies.add(pbody);
-
-	return pbody;
-}*/
 // ---------------------------------------------------------
 
 

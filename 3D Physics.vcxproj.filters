@@ -87,16 +87,10 @@
     <ClInclude Include="ModulePlayer.h">
       <Filter>Sources\Modules\Game</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleFadeToBlack.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleMenu.h">
       <Filter>Sources\Modules\Game</Filter>
     </ClInclude>
     <ClInclude Include="ModuleCustom.h">
-      <Filter>Sources\Modules\Story</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleLevel1.h">
       <Filter>Sources\Modules\Story</Filter>
     </ClInclude>
     <ClInclude Include="ModuleScene.h">
@@ -107,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="ModulePlayer2.h">
       <Filter>Sources\Modules\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleStory.h">
+      <Filter>Sources\Modules\Story</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,16 +158,10 @@
     <ClCompile Include="ModulePlayer.cpp">
       <Filter>Sources\Modules\Game</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleFadeToBlack.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleMenu.cpp">
       <Filter>Sources\Modules\Game</Filter>
     </ClCompile>
     <ClCompile Include="ModuleCustom.cpp">
-      <Filter>Sources\Modules\Story</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleLevel1.cpp">
       <Filter>Sources\Modules\Story</Filter>
     </ClCompile>
     <ClCompile Include="ModuleMultiplayer.cpp">
@@ -178,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="ModulePlayer2.cpp">
       <Filter>Sources\Modules\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleStory.cpp">
+      <Filter>Sources\Modules\Story</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,8 +6,6 @@
 #include "p2List.h"
 #include "Timer.h"
 
-#define MATCH_TIME 60;
-
 struct PhysBody3D;
 enum Direction;
 enum MultState { IN_GAME, WINNER };

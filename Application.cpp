@@ -11,7 +11,7 @@ Application::Application()
 	player = new ModulePlayer(this);
 	player2 = new ModulePlayer2(this);
 	menu = new ModuleMenu(this);
-	level1 = new ModuleLevel1(this);
+	story = new ModuleStory(this);
 	custom = new ModuleCustom(this);
 	multiplayer = new ModuleMultiplayer(this);
 
@@ -34,14 +34,14 @@ Application::Application()
 	AddModule(player2);
 
 	// Scenes
-	AddModule(level1);
+	AddModule(story);
 	AddModule(custom);
 	AddModule(multiplayer);
 	multiplayer->Disable_whitout();
 	player->Disable_whitout();
 	custom->Disable_whitout();
 	player2->Disable_whitout();
-	level1->Disable_whitout();
+	story->Disable_whitout();
 
 	// Renderer last!
 	AddModule(renderer3D);

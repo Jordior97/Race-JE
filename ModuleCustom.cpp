@@ -75,13 +75,13 @@ update_status ModuleCustom::Update(float dt)
 		if (num_laps > 0)
 		{
 			char title[80];
-			sprintf_s(title, "CUSTOM LEVEL - Lap N: %i", num_laps);
+			sprintf_s(title, "CUSTOM LEVEL - Lap: %i", num_laps);
 			App->window->SetTitle(title);
 		}
 		else
 		{
 			char title[80];
-			sprintf_s(title, "CUSTOM LEVEL - Complet Your Map");
+			sprintf_s(title, "CUSTOM LEVEL - Complete Your Map");
 			App->window->SetTitle(title);
 		}
 
@@ -269,13 +269,13 @@ update_status ModuleCustom::Update(float dt)
 				float pos_x = ActualPos.x;
 				float pos_z = ActualPos.z;
 				CreateWindmill(windmill[num_windmill++], ActualPos.x + 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
-				//
+
 				objects += 1;
 				Cubes[objects - 1].size.Set(4, 1, 12);
 				Cubes[objects - 1].SetPos(pos_x, ActualPos.y + 1, pos_z);
 				Cubes[objects - 1].SetRotation(20, { 0,0,1 });
 				Map[objects - 1] = App->physics->AddBox(Cubes[objects - 1], false, 0);
-				//
+
 				objects += 1;
 				ActualPos.Set(ActualPos.x + 10, ActualPos.y, ActualPos.z);
 				Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, NORTH, false, this);
@@ -288,13 +288,13 @@ update_status ModuleCustom::Update(float dt)
 				float pos_x = ActualPos.x;
 				float pos_z = ActualPos.z;
 				CreateWindmill(windmill[num_windmill++], ActualPos.x - 6, ActualPos.y + 5, ActualPos.z + 15, 2, 20);
-				//
+
 				objects += 1;
 				Cubes[objects - 1].size.Set(4, 1, 12);
 				Cubes[objects - 1].SetPos(pos_x, ActualPos.y + 1, pos_z);
 				Cubes[objects - 1].SetRotation(20, { 0,0,-1 });
 				Map[objects - 1] = App->physics->AddBox(Cubes[objects - 1], false, 0);
-				//
+
 				objects += 1;
 				ActualPos.Set(ActualPos.x - 10, ActualPos.y, ActualPos.z);
 				Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 10, 12, 2, SOUTH, false, this);
@@ -357,7 +357,6 @@ update_status ModuleCustom::Update(float dt)
 				Map[objects - 2] = curve.getFirst()->next->data;
 				Map[objects - 1] = curve.getFirst()->next->next->data;
 
-				//Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
 				key_2 = false;
 			}
 			if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
@@ -389,7 +388,7 @@ update_status ModuleCustom::Update(float dt)
 				Map[objects - 3] = curve.getFirst()->data;
 				Map[objects - 2] = curve.getFirst()->next->data;
 				Map[objects - 1] = curve.getFirst()->next->next->data;
-				//Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 6, Save_dir, false, 0, this);
+
 				key_2 = false;
 			}
 		}
@@ -483,7 +482,6 @@ void ModuleCustom::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 				App->player->vehicle->SetPos(900, 105, 1005);
 				test_car = true;
 				num_laps = 1;
-				//TODO stop contador
 			}
 			else
 			{
@@ -495,7 +493,6 @@ void ModuleCustom::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		if (num_laps == 0)
 		{
 			test_car = true;
-			//TODO stop contador
 		}
 	}
 	if (body1 == sensor_obj[1] && body2 == App->player->vehicle)
