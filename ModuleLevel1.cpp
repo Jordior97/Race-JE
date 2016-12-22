@@ -65,21 +65,21 @@ bool ModuleLevel1::Start()
 	CreateIntroLevel();
 
 	//TODO - LEVEL 1
-	CreateFirstLevel();
+	//CreateFirstLevel();
 
 	//TODO - LEVEL 2
-	CreateSecondLevel();
+	//CreateSecondLevel();
 
 	//TODO - LEVEL 3
-	CreateThirdLevel();
+	//CreateThirdLevel();
 
 	//TODO - LEVEL 4
 	//CreateFourthLevel();
 
-	SceneIntro = false;
+	SceneIntro = true;
 	Level_1 = false;
 	Level_2 = false;
-	Level_3 = true;
+	Level_3 = false;
 	Level_4 = false;
 
 	test = true;
@@ -100,6 +100,7 @@ bool ModuleLevel1::CleanUp()
 void ModuleLevel1::CreateIntroLevel()
 {
 	ActualPos.Set(0, 1, 0);
+	App->player->vehicle->SetPos(0, 2, -80);
 	Map[0] = App->physics->CreateStraight(Cubes[0], 100, 20, 2, EAST, false, this);
 	Cubes[0].color.Set(0.1294f, 0.9176f, 1.0f);
 	ActualPos.Set(12.5f, 1, 0);
@@ -202,16 +203,55 @@ void ModuleLevel1::CreateIntroLevel()
 
 	//
 	ActualPos.Set(-65, 40, 0);
-	Map[23] = App->physics->CreateStraight(Cubes[23], 200, 2, 80, EAST, false, this);
-	Cubes[23].color.Set(0.7568f, 0.4313f, 0.2117f);
+	Map[20] = App->physics->CreateStraight(Cubes[20], 200, 2, 80, EAST, false, this);
+	Cubes[20].color.Set(0.7568f, 0.4313f, 0.2117f);
 
 	ActualPos.Set(65, 40, 0);
-	Map[24] = App->physics->CreateStraight(Cubes[21], 200, 2, 80, EAST, false, this);
-	Cubes[24].color.Set(0.7568f, 0.4313f, 0.2117f);
+	Map[21] = App->physics->CreateStraight(Cubes[21], 200, 2, 80, EAST, false, this);
+	Cubes[21].color.Set(0.7568f, 0.4313f, 0.2117f);
 
+	ActualPos.Set(0, 1, -106);
+	Map[23] = App->physics->CreateStraight(Cubes[23], 100, 20, 2, EAST, false, this);
+	Cubes[23].color.Set(0.1294f, 0.9176f, 1.0f);
 
+	ActualPos.Set(0, 10, -6);
+	Map[24] = App->physics->CreateStraight(Cubes[24], 6, 20, 20, EAST, false, this);
+	Cubes[24].color = Black;
+
+	ActualPos.Set(11, 10, -106);
+	Map[25] = App->physics->CreateStraight(Cubes[25], 106, 2, 20, EAST, false, this);
+	Cubes[25].color.Set(0.7568f, 0.4313f, 0.2117f);
+
+	ActualPos.Set(-11, 10, -106);
+	Map[26] = App->physics->CreateStraight(Cubes[26], 106, 2, 20, EAST, false, this);
+	Cubes[26].color.Set(0.7568f, 0.4313f, 0.2117f);
+
+	ActualPos.Set(0, 10, -106);
+	Map[27] = App->physics->CreateStraight(Cubes[27], 2, 20, 20, EAST, false, this);
+	Cubes[27].color.Set(0.7568f, 0.4313f, 0.2117f);
+
+	ActualPos.Set(0, 20, -106);
+	Map[28] = App->physics->CreateStraight(Cubes[28], 106, 20, 2, EAST, false, this);
+	Cubes[28].color.Set(0.7568f, 0.4313f, 0.2117f);
+
+	ActualPos.Set(0, 80, 0);
+	Map[29] = App->physics->CreateStraight(Cubes[29], 200, 150, 2, EAST, false, this);
+	Cubes[29].color.Set(0.647f, 0.9098f, 0.9882f);
+
+	ActualPos.Set(0, 50, -2);
+	Map[30] = App->physics->CreateStraight(Cubes[30], 2, 150, 60, EAST, false, this);
+	Cubes[30].color.Set(0.7568f, 0.4313f, 0.2117f);
+
+	ActualPos.Set(-40, 10, -2);
+	Map[31] = App->physics->CreateStraight(Cubes[31], 2, 60, 20, EAST, false, this);
+	Cubes[31].color.Set(0.7568f, 0.4313f, 0.2117f);
+
+	ActualPos.Set(40, 10, -2);
+	Map[32] = App->physics->CreateStraight(Cubes[32], 2, 60, 20, EAST, false, this);
+	Cubes[32].color.Set(0.7568f, 0.4313f, 0.2117f);
 
 }
+
 void ModuleLevel1::CreateFirstLevel()
 {
 	ActualPos.Set(200, 0, 0);//TODO - PONERLOS DESDE 25!!!
@@ -569,7 +609,11 @@ update_status ModuleLevel1::Update(float dt)
 
 	if (SceneIntro)
 	{
-		for (int i = 0; i < 22; i++)
+		if (Map[24]->GetPos().y > -8)
+		{
+			Map[24]->Move(0, -time_down_door, 0);
+		}
+		for (int i = 0; i < 33; i++)
 		{
 			Map[i]->GetTransform(&(Cubes[i].transform));
 			Cubes[i].Render();

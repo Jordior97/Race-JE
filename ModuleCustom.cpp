@@ -212,8 +212,20 @@ update_status ModuleCustom::Update(float dt)
 	{
 		for (int i = 0; i < num_windmill; i++)
 		{
-			windmill[i].Ball->SetAngVel(5, 0, 0);
+			//windmill[i].Ball->SetAngVel(5, 0, 0);
+			float tessst = windmill[i].Ball->GetRigidBody()->getAngularVelocity().getX();
+			if (tessst < 5)
+			{
+				windmill[i].Ball->Torque(10, 0, 0);
+			}
+
 			windmill[i].Render();
+			/*if (windmill[i].Ball->GetRigidBody()->getAngularVelocity() < btVector3(10, 0, 0))
+			{
+				
+			}*/
+
+
 		}
 	}
 

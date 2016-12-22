@@ -92,6 +92,7 @@ public:
 
 	bool fadetowhite = false;
 	float x2;*/
+	float time_down_door = 0.05;
 
 	bool SceneIntro;
 	bool Level_1;
