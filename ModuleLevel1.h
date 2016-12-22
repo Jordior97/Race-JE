@@ -9,6 +9,7 @@
 struct PhysBody3D;
 enum Direction;
 struct PhysMotor3D;
+enum Levels { INTRO_SCENE, LVL1, LVL2, LVL3, LVL4 };
 
 struct CanonBall
 {
@@ -45,6 +46,8 @@ public:
 	void CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h);
 	void CreateCanon(CanonBall& canon, float x, float y, float z, float radius, vec3 speed, Color color);
 	void CreateSensor(PhysBody3D** sensor, Cube& shape, float x, float y, float z, float sizeX, float sizeY, float sizeZ);
+
+	void DisableLevels(Levels active_level);
 
 public:
 	Windmill windmill;
@@ -102,6 +105,18 @@ public:
 
 	PhysBody3D* portal_object;
 	Cylinder portal;
+
+	PhysBody3D* portal_sensor;
+	Cylinder portal_s;
+
+	PhysBody3D* SensorLvl1;
+	Cube sensorlvl1_s;
+	PhysBody3D* SensorLvl2;
+	Cube sensorlvl2_s;
+	PhysBody3D* SensorLvl3;
+	Cube sensorlvl3_s;
+	PhysBody3D* SensorLvl4;
+	Cube sensorlvl4_s;
 
 	bool change_moviment;
 
