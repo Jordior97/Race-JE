@@ -77,12 +77,13 @@ bool ModuleLevel1::Start()
 	Level_2 = false;
 	Level_3 = false;
 	Level_4 = false;
+	level_finish = false;
 
 	test = true;
 	time = GetTickCount();
 
 
-	App->audio->PlayFx(App->audio->LoadFx("Music&Fx/Intro_story_new.wav"));
+	App->audio->PlayFx(App->audio->LoadFx("Music&Fx/second/Final_4.wav"));
 
 	return true;
 }
@@ -887,6 +888,18 @@ update_status ModuleLevel1::Update(float dt)
 		}
 	}
 
+
+	if (level_finish)
+	{
+		for (int i = 124; i < objects; i++)
+		{
+			Map[i]->GetTransform(&(Cubes[i].transform));
+			Cubes[i].Render();
+		}
+
+		//Temp and down
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
 	{
 		SceneIntro = !SceneIntro;
@@ -1036,4 +1049,31 @@ void CanonBall::Render()
 {
 	ball->GetTransform(&ballShape.transform);
 	ballShape.Render();
+}
+
+void ModuleLevel1::CreateFinalLevel()
+{
+	ActualPos.Set(900, 2000, 1000);
+	//ActualPos.Set(-900, 900, -900);
+	//leveler
+	Map[124] = App->physics->CreateStraight(Cubes[124], 10, 10, 2, NORTH, false, this);
+	//map
+	ActualPos.Set(910, 2000, 1000);
+	Map[125] = App->physics->CreateStraight(Cubes[125], 30, 10, 2, NORTH, false, this);
+	ActualPos.Set(880, 2000, 1000);
+	Map[126] = App->physics->CreateStraight(Cubes[126], 20, 10, 2, NORTH, false, this);
+	ActualPos.Set(880, 2000, 1020);
+	Map[127] = App->physics->CreateStraight(Cubes[127], 60, 30, 2, NORTH, false, this);
+	ActualPos.Set(880, 2000, 980);
+	Map[128] = App->physics->CreateStraight(Cubes[128], 60, 30, 2, NORTH, false, this);
+
+	ActualPos.Set(910, 1954, 1000);
+	Map[129] = App->physics->CreateStraight(Cubes[129], 2, 10, 100, NORTH, false, this);
+	ActualPos.Set(898, 1954, 1000);
+	Map[130] = App->physics->CreateStraight(Cubes[130], 2, 10, 100, NORTH, false, this);
+	ActualPos.Set(900, 1954, 1006);
+	Map[131] = App->physics->CreateStraight(Cubes[131], 10, 2, 100, NORTH, false, this);
+	ActualPos.Set(900, 1954, 994);
+	Map[132] = App->physics->CreateStraight(Cubes[132], 10, 2, 100, NORTH, false, this);
+
 }

@@ -42,6 +42,7 @@ public:
 	void CreateSecondLevel();
 	void CreateThirdLevel();
 	void CreateFourthLevel();
+	void CreateFinalLevel();
 
 	void CreateWindmill(Windmill& windmill, float x, float y, float z, float w, float h);
 	void CreateCanon(CanonBall& canon, float x, float y, float z, float radius, vec3 speed, Color color);
@@ -102,6 +103,7 @@ public:
 	bool Level_2;
 	bool Level_3;
 	bool Level_4;
+	bool level_finish;
 
 	PhysBody3D* portal_object;
 	Cylinder portal;
