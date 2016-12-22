@@ -62,6 +62,7 @@ To create and test your own map (with ramps, obstacles...).
 - 5: create a Windmill (only if the direction is North or South).
 - 6: create a Mobile Platform (only if the direction is  East or West).
 - ENTER (while editing): put the car on the start of the circuit.
+  You have two options depending on whether you have created an open or closed circuit:
 	*Closed circuit = you have to complete 3 laps on it.
 	*Open Circuit = reach the end of it.
 - ENTER (while riding): return to editing mode.
