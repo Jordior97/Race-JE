@@ -10,7 +10,7 @@
 
 ModuleLevel1::ModuleLevel1(Application* app, bool start_enabled) : ModuleScene(app, start_enabled)
 {
-	objects = 113;
+	objects = 133;
 }
 
 ModuleLevel1::~ModuleLevel1()
@@ -72,6 +72,9 @@ bool ModuleLevel1::Start()
 
 	//TODO - LEVEL 4
 	CreateFourthLevel();
+
+	//TODO - LEVEL Final
+	CreateFinalLevel();
 
 	SceneIntro = true;
 	Level_1 = false;
@@ -303,6 +306,7 @@ void ModuleLevel1::CreateSecondLevel()
 	Map[44] = App->physics->CreateStraight(Cubes[44], 50, 10, 2, EAST, false, this);
 	Map[45] = App->physics->CreateStraight(Cubes[45], 20, 10, 2, EAST, true, this);
 	Map[45]->is_kinematic = true;
+	Cubes[45].color = ElectricRed;
 	Map[45]->one_direction = false;
 	Map[45]->SetKinematic_Transform();
 	
@@ -323,18 +327,22 @@ void ModuleLevel1::CreateSecondLevel()
 
 	Map[55] = App->physics->CreateStraight(Cubes[55], 20, 10, 2, WEST, true, this);
 	Map[55]->is_kinematic = true;
+	Cubes[55].color = ElectricRed;
 	Map[55]->one_direction = false;
 	Map[55]->SetKinematic_Transform();
 	Map[56] = App->physics->CreateStraight(Cubes[56], 20, 10, 2, WEST, true, this);
 	Map[56]->is_kinematic = true;
+	Cubes[56].color = ElectricRed;
 	Map[56]->one_direction = true;
 	Map[56]->SetKinematic_Transform();
 	Map[57] = App->physics->CreateStraight(Cubes[57], 20, 10, 2, WEST, true, this);
 	Map[57]->is_kinematic = true;
+	Cubes[57].color = ElectricRed;
 	Map[57]->one_direction = false;
 	Map[57]->SetKinematic_Transform();
 	Map[58] = App->physics->CreateStraight(Cubes[58], 20, 10, 2, WEST, true, this);
 	Map[58]->is_kinematic = true;
+	Cubes[58].color = ElectricRed;
 	Map[58]->one_direction = true;
 	Map[58]->SetKinematic_Transform();
 
@@ -493,6 +501,7 @@ void ModuleLevel1::CreateFourthLevel()
 	ActualPos.Set(ActualPos.x, ActualPos.y-0.5f, ActualPos.z);
 	Map[105] = App->physics->CreateStraight(Cubes[105], 10, 10, 2, NORTH, true, this);
 	Map[105]->is_kinematic = true;
+	Cubes[105].color = ElectricRed;
 	Map[105]->one_direction = false;
 	Map[105]->SetKinematic_Transform();
 
@@ -534,9 +543,11 @@ void ModuleLevel1::CreateFourthLevel()
 	Map[121] = App->physics->CreateStraight(Cubes[121], 20, 15, 2, NORTH, true, this);
 	Map[121]->is_kinematic = true;
 	Map[121]->one_direction = false;
+	Cubes[121].color = ElectricRed;
 	Map[121]->SetKinematic_Transform();
 	Map[122] = App->physics->CreateStraight(Cubes[122], 20, 15, 2, NORTH, true, this);
 	Map[122]->is_kinematic = true;
+	Cubes[122].color = ElectricRed;
 	Map[122]->one_direction = true;
 	Map[122]->SetKinematic_Transform();
 	Map[123] = App->physics->CreateStraight(Cubes[123], 10, 15, 2, NORTH, false, this);
@@ -587,12 +598,14 @@ void ModuleLevel1::CreateWindmill(Windmill& windmill, float x, float y, float z,
 	
 	windmill.UpShape.height = h;
 	windmill.UpShape.radius = w;
+	windmill.UpShape.color = ElectricRed;
 	windmill.UpShape.SetRotation(90, vec3(0, 0, 1));
 	windmill.UpShape.SetPos(x, y + (w*0.5+ h*0.5), z);
 	windmill.Up = App->physics->AddCylinder(windmill.UpShape, 1);
 
 	windmill.DownShape.height = h;
 	windmill.DownShape.radius = w;
+	windmill.DownShape.color = ElectricRed;
 	windmill.DownShape.SetRotation(90, vec3(0, 0, 1));
 	windmill.DownShape.SetPos(x, y - (w*0.5 + h*0.5), z);
 	windmill.Down = App->physics->AddCylinder(windmill.DownShape, 1);
@@ -860,12 +873,12 @@ update_status ModuleLevel1::Update(float dt)
 			}
 			//true	-> up
 			//false -> down
-			if (Map[105]->GetPos().y >= (Map[position_before_kinetic]->GetPos().y + 40))
+			if (Map[105]->GetPos().y >= (Map[position_before_kinetic]->GetPos().y + 43))
 			{
 				Map[105]->one_direction = true;
 			}
 
-			else if (Map[105]->GetPos().y <= (Map[position_before_kinetic]->GetPos().y - 0.5f))
+			else if (Map[105]->GetPos().y <= (Map[position_before_kinetic]->GetPos().y - 3))
 			{
 				Map[105]->one_direction = false;
 			}
@@ -951,6 +964,10 @@ update_status ModuleLevel1::Update(float dt)
 		}
 	}
 
+	if (App->player->vehicle->GetPos().y < 8 && SceneIntro == false && level_finish == false)
+	{
+		App->player->vehicle->SetPos(App->player->Story_Position.x, App->player->Story_Position.y, App->player->Story_Position.z);
+	}
 
 	if (level_finish)
 	{
@@ -963,12 +980,18 @@ update_status ModuleLevel1::Update(float dt)
 		//Temp and down
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	{
+		App->player->vehicle->SetPos(App->player->vehicle->GetPos().x, App->player->vehicle->GetPos().y + 10, App->player->vehicle->GetPos().z);
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_0) == KEY_DOWN)
 	{
 		SceneIntro = true;
 		App->player->StopVehicle();
 		DisableLevels(INTRO_SCENE);
 		App->player->vehicle->SetPos(0, 5, 5);
+		App->player->Story_Position = { 0, 5, 5 };
 	}
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
@@ -976,6 +999,7 @@ update_status ModuleLevel1::Update(float dt)
 		App->player->StopVehicle();
 		DisableLevels(LVL1);
 		App->player->vehicle->SetPos(200, 53, 5);
+		App->player->Story_Position = { 200, 55, 5 };
 	}
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
@@ -983,6 +1007,7 @@ update_status ModuleLevel1::Update(float dt)
 		App->player->StopVehicle();
 		DisableLevels(LVL2);
 		App->player->vehicle->SetPos(0, 33, 265);
+		App->player->Story_Position = { 0, 33, 265 };
 	}
 	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
 	{
@@ -990,6 +1015,7 @@ update_status ModuleLevel1::Update(float dt)
 		App->player->StopVehicle();
 		DisableLevels(LVL3);
 		App->player->vehicle->SetPos(-300, 33, 505);
+		App->player->Story_Position = { -300, 33, 505 };
 	}
 	if (App->input->GetKey(SDL_SCANCODE_4) == KEY_DOWN)
 	{
@@ -997,13 +1023,15 @@ update_status ModuleLevel1::Update(float dt)
 		App->player->StopVehicle();
 		DisableLevels(LVL4);
 		App->player->vehicle->SetPos(-500, 103, -495);
+		App->player->Story_Position = { -500, 103, -495 };
 	}
 	if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
 	{
 		level_finish = true;
 		App->player->StopVehicle();
 		DisableLevels(FINAL);
-		App->player->vehicle->SetPos(900, 2005, 1000);
+		App->player->vehicle->SetPos(905, 2005, 1000);
+		App->player->Story_Position = { 905, 2005, 1000 };
 	}
 
 	return UPDATE_CONTINUE;
@@ -1093,8 +1121,8 @@ void ModuleLevel1::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			App->audio->PlayFx(final_voice);
 			Level_4 = true;
 			App->player->StopVehicle();
-			App->player->Story_Position = { 0, 5, 5 };
-			App->player->vehicle->SetPos(0, 5, 5);
+			App->player->vehicle->SetPos(905, 2005, 1000);
+			App->player->Story_Position = { 905, 2005, 1000 };
 			DisableLevels(FINAL);
 		}
 	}

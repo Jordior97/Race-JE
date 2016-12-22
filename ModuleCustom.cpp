@@ -310,6 +310,7 @@ update_status ModuleCustom::Update(float dt)
 			if (Save_dir == EAST || Save_dir == WEST)
 			{
 				objects += 1;
+				Cubes[objects - 1].color = ElectricRed;
 				Map[objects - 1] = App->physics->CreateStraight(Cubes[objects - 1], 16, 12, 2, Save_dir, true, this);
 				Map[objects - 1]->SetKinematic_Transform();
 				Map[objects - 1]->is_kinematic = true;
@@ -418,12 +419,14 @@ void ModuleCustom::CreateWindmill(Windmill& windmill, float x, float y, float z,
 
 	windmill.UpShape.height = h;
 	windmill.UpShape.radius = w;
+	windmill.UpShape.color = ElectricRed;
 	windmill.UpShape.SetRotation(90, vec3(0, 0, 1));
 	windmill.UpShape.SetPos(x, y + (w*0.5 + h*0.5), z);
 	windmill.Up = App->physics->AddCylinder(windmill.UpShape, 1);
 
 	windmill.DownShape.height = h;
 	windmill.DownShape.radius = w;
+	windmill.DownShape.color = ElectricRed;
 	windmill.DownShape.SetRotation(90, vec3(0, 0, 1));
 	windmill.DownShape.SetPos(x, y - (w*0.5 + h*0.5), z);
 	windmill.Down = App->physics->AddCylinder(windmill.DownShape, 1);

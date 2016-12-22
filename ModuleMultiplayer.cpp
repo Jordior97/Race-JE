@@ -68,17 +68,16 @@ bool ModuleMultiplayer::Start()
 
 update_status ModuleMultiplayer::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
 	{
 		actualtime = GetTickCount();
-		App->menu->Enable();
 		if (test)
 		{
 			time = actualtime;
 			test = false;
 		}
 
-		if (actualtime >= time + 1000)
+		if (actualtime >= time + 3000)
 		{
 			time = actualtime;
 			App->menu->Enable();
