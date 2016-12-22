@@ -38,20 +38,19 @@ bool ModuleMenu::Start()
 	// DISABLE MODULES
 	if (App->custom->IsEnabled())
 	{
-		for (int i = 0; i < App->custom->objects; i++)
+		if ((App->player->IsEnabled()))
 		{
-			App->physics->world->removeRigidBody(App->custom->Map[i]->GetRigidBody());
+			App->physics->world->removeRigidBody(App->custom->sensor_obj[0]->GetRigidBody());
+			if (App->custom->num_laps > 0)
+			{
+				App->physics->world->removeRigidBody(App->custom->sensor_obj[1]->GetRigidBody());
+			}
 		}
 		App->custom->Disable();
-		App->custom->objects = 1;
 	}
 
 	if (App->level1->IsEnabled())
 	{
-		for (int i = 0; i < App->level1->objects; i++)
-		{
-			App->physics->world->removeRigidBody(App->level1->Map[i]->GetRigidBody());
-		}
 		App->level1->Disable();
 	}
 

@@ -77,14 +77,6 @@ update_status ModuleCustom::Update(float dt)
 		App->camera->LookAt(vec3(900, 100, 1000));
 		test_car = false;
 	}
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
-	{
-		for (int i = 1; i < objects; i++)
-		{
-			App->physics->world->removeRigidBody(Map[i]->GetRigidBody());
-		}
-		objects = 1;
-	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
 	{
@@ -120,22 +112,6 @@ update_status ModuleCustom::Update(float dt)
 		else
 		{
 			test_car = true;
-		}
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT)
-	{
-		actualtime = GetTickCount();
-		if (test)
-		{
-			time = actualtime;
-			test = false;
-		}
-
-		if (actualtime >= time + 3000)
-		{
-			time = actualtime;
-			App->menu->Enable();
 		}
 	}
 
@@ -271,7 +247,7 @@ update_status ModuleCustom::Update(float dt)
 			}
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_5) == KEY_DOWN && num_windmill < MAX_OBJECTS)
 		{
 			if (Save_dir == NORTH)
 			{
@@ -415,6 +391,22 @@ update_status ModuleCustom::Update(float dt)
 		}
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN)
+	{
+		actualtime = GetTickCount();
+		App->menu->Enable();
+		if (test)
+		{
+			time = actualtime;
+			test = false;
+		}
+
+		if (actualtime >= time + 3000)
+		{
+			time = actualtime;
+			App->menu->Enable();
+		}
+	}
 
 	return UPDATE_CONTINUE;
 }

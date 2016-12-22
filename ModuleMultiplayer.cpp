@@ -52,9 +52,9 @@ bool ModuleMultiplayer::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	//Set reference position
-	ActualPos.x = 0;
+	ActualPos.x = 500;
 	ActualPos.y = 0;
-	ActualPos.z = 0;
+	ActualPos.z = 900;
 
 	//Create Multiplayer Map
 	CreateMap(20, 20);

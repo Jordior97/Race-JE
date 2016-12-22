@@ -5,7 +5,7 @@
 #include "Primitive.h"
 #include "p2List.h"
 
-#define MAX_OBJECTS 100
+#define MAX_OBJECTS_wind 100
 struct PhysBody3D;
 enum Direction;
 
@@ -25,7 +25,11 @@ public:
 public:
 
 
-
+	Cube Sensor;
+	PhysBody3D* sensor_obj[2];
+	uint num_laps;
+	Windmill windmill[MAX_OBJECTS_wind];
+	uint num_windmill;
 
 private:
 
@@ -34,18 +38,13 @@ private:
 	int actualtime;
 	bool test;
 	Direction Last_save_dir;
-	Windmill windmill[MAX_OBJECTS];
-	uint num_windmill;
 	float pos_x;
 	float pos_z;
 	vec3 save_pos;
 	bool change_direction = false;
-	uint num_laps;
 	bool one_lap = true;
-
 	bool test_car = false;
-	Cube Sensor;
-	PhysBody3D* sensor_obj[2];
+
 
 
 };
